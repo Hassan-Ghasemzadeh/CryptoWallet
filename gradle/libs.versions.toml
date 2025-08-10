@@ -38,6 +38,7 @@ androidx-kethereum-wallet = { group = "com.github.komputing.kethereum", name = "
 androidx-kethereum-model = { group = "com.github.komputing.kethereum", name = "model", version.ref = "kethereumWallet" }
 androidx-kethereum-bip39Wordlist = { group = "com.github.komputing.kethereum", name = "bip39_wordlist_en", version.ref = "kethereumWallet" }
 androidx-kethereum-bip32 = { group = "com.github.komputing.kethereum", name = "bip32", version.ref = "kethereumWallet" }
+androidx-kethereum-crypto = { group = "com.github.komputing.kethereum", name = "crypto", version.ref = "kethereumWallet" }
 androidx-kethereum-cryptoImplBouncycastle = { group = "com.github.komputing.kethereum", name = "crypto_impl_bouncycastle", version.ref = "kethereumWallet" }
 androidx-coroutine-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutine" }
 androidx-coroutine-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutine" }

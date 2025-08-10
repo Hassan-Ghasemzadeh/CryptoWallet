@@ -7,7 +7,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
-import com.softwarecleandevelopment.cryptowallet.recoveryphrase.presentation.WalletScreen
+import androidx.compose.ui.graphics.Color
+import com.softwarecleandevelopment.cryptowallet.recoveryphrase.presentation.RecoveryPhraseScreen
 import com.softwarecleandevelopment.cryptowallet.ui.theme.CryptoWalletTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -18,8 +19,11 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             CryptoWalletTheme {
-                Scaffold(modifier = Modifier.Companion.fillMaxSize()) { innerPadding ->
-                    WalletScreen(innerPadding)
+                Scaffold(
+                    modifier = Modifier.Companion.fillMaxSize(),
+                    containerColor = Color.White,
+                ) { innerPadding ->
+                    RecoveryPhraseScreen(innerPadding)
                 }
             }
         }

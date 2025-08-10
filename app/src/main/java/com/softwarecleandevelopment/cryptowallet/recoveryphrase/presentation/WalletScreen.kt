@@ -1,52 +1,169 @@
 package com.softwarecleandevelopment.cryptowallet.recoveryphrase.presentation
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.softwarecleandevelopment.cryptowallet.recoveryphrase.presentation.viewmodel.WalletViewModel
 
-
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun WalletScreen(innerPadding: PaddingValues, viewModel: WalletViewModel = hiltViewModel()) {
+fun RecoveryPhraseScreen(
+    innerPadding: PaddingValues, viewModel: WalletViewModel = hiltViewModel()
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(innerPadding)
-            .padding(horizontal = 16.dp, vertical = 24.dp),
+            .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.SpaceAround
+        verticalArrangement = Arrangement.SpaceBetween,
     ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Start
+        ) {
+            IconButton(onClick = { /* Handle back action */ }) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = "Back",
+                    tint = Color.Black
+                )
+            }
+        }
+
+
         Text(
-            "Mnemonic:",
-            fontSize = 18.sp,
+            text = "Your recovery phrase",
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth()
         )
+
+
         Text(
-            viewModel.mnemonic.value,
+            text = "Write down or copy these words in the right order and save them somewhere safe.",
             fontSize = 16.sp,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth()
         )
+
+
+        FlowRow(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center,
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            maxItemsInEachRow = 4 // Adjust as needed to match the image's wrapping
+        ) {
+            viewModel.mnemonic.value.split(" ").forEachIndexed { index, word ->
+                RecoveryWordChip(index = index + 1, word = word)
+            }
+        }
+
+
+        TextButton(onClick = { /* Handle copy action */ }) {
+            Text(
+                text = "Copy",
+                color = MaterialTheme.colorScheme.primary, // Using primary color for consistency
+                fontSize = 18.sp
+            )
+        }
+
+        WarningBox()
+
         Button(
             onClick = {
-                viewModel.generateWallet()
+                viewModel.saveSeed()
+                /* should navigate to dashboard screen*/
             },
             modifier = Modifier
-                .height(50.dp)
-                .fillMaxWidth(0.85f),
+                .fillMaxWidth()
+                .height(56.dp),
+            shape = RoundedCornerShape(8.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
+        ) {
+            Text(text = "Continue", fontSize = 18.sp, color = Color.White)
+        }
+    }
+}
+
+@Composable
+fun RecoveryWordChip(index: Int, word: String) {
+    Surface(
+        shape = RoundedCornerShape(4.dp),
+        border = BorderStroke(1.dp, Color.LightGray),
+        color = Color.White,
+        modifier = Modifier.padding(horizontal = 4.dp, vertical = 4.dp)
+    ) {
+        Row(
+            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                "Generate Wallet",
-                fontSize = 18.sp,
+                text = "$index", fontSize = 14.sp, fontWeight = FontWeight.Bold, color = Color.Gray
+            )
+            Spacer(modifier = Modifier.width(4.dp))
+            Text(
+                text = word, fontSize = 14.sp, fontWeight = FontWeight.Normal, color = Color.Black
+            )
+        }
+    }
+}
+
+@Composable
+fun WarningBox() {
+    Surface(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(8.dp),
+        color = Color(0xFFE0F2F7) // Light blue background
+    ) {
+        Row(
+            modifier = Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                imageVector = Icons.Filled.Info,
+                contentDescription = "Info",
+                tint = Color(0xFF2196F3), // Blue icon color
+                modifier = Modifier.size(24.dp)
+            )
+            Spacer(modifier = Modifier.width(16.dp))
+            Text(
+                text = "Never share recovery phrase with anyone, store it securely!",
+                fontSize = 14.sp,
+                color = Color.Black
             )
         }
     }

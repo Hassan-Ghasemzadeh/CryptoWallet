@@ -27,7 +27,7 @@ class WalletViewModel @Inject constructor(
             val wallet = generateWalletUseCase()
             _mnemonic.value = wallet.mnemonic
             _address.value = wallet.address
-            storage.saveSeed(seed = wallet.address)
+            storage.saveSeed(seed = "${wallet.mnemonic},${wallet.address}")
         }
     }
 }

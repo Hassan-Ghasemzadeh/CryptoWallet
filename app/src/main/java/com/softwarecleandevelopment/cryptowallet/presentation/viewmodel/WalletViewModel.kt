@@ -8,11 +8,13 @@ import androidx.compose.runtime.State
 import androidx.lifecycle.viewModelScope
 import com.softwarecleandevelopment.cryptowallet.data.WalletRepositoryImpl
 import com.softwarecleandevelopment.cryptowallet.domain.GenerateWalletUseCase
+import com.softwarecleandevelopment.cryptowallet.util.SecureSeedStorage
 import kotlinx.coroutines.launch
 
 @HiltViewModel
 class WalletViewModel @Inject constructor(
-    private val walletRepository: WalletRepositoryImpl
+    private val walletRepository: WalletRepositoryImpl,
+    private val storage: SecureSeedStorage,
 ) : ViewModel() {
     private var _mnemonic = mutableStateOf("")
     val mnemonic: State<String> = _mnemonic
@@ -25,6 +27,7 @@ class WalletViewModel @Inject constructor(
             val wallet = generateWalletUseCase()
             _mnemonic.value = wallet.mnemonic
             _address.value = wallet.address
+            storage.saveSeed(seed = wallet.address)
         }
     }
 }

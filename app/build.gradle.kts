@@ -79,6 +79,8 @@ dependencies {
     implementation(libs.androidx.kethereum.cryptoImplBouncycastle)
     //javapoet
     implementation(libs.squareup.javapoet)
-    //security-crypto
-    implementation(libs.androidx.security.crypto)
+    //data store
+    implementation(libs.androidx.datastore)
+    //crypto tink
+    implementation(libs.cryptoTink)
 }

@@ -21,13 +21,22 @@ class WalletViewModel @Inject constructor(
     private var _address = mutableStateOf("")
     val address: State<String> = _address
 
+    init {
+        generateWallet()
+    }
+
     fun generateWallet() {
         viewModelScope.launch {
             val generateWalletUseCase = GenerateWalletUseCase(repository = walletRepository)
             val wallet = generateWalletUseCase()
             _mnemonic.value = wallet.mnemonic
             _address.value = wallet.address
-            storage.saveSeed(seed = "${wallet.mnemonic},${wallet.address}")
+        }
+    }
+
+    fun saveSeed() {
+        viewModelScope.launch {
+            storage.saveSeed(seed = "${mnemonic},${address}")
         }
     }
 }

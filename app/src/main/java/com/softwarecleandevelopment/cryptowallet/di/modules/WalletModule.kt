@@ -1,4 +1,4 @@
-package com.softwarecleandevelopment.cryptowallet.di
+package com.softwarecleandevelopment.cryptowallet.di.modules
 
 import com.softwarecleandevelopment.cryptowallet.data.WalletRepositoryImpl
 import com.softwarecleandevelopment.cryptowallet.domain.WalletRepository

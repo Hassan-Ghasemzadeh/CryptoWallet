@@ -8,7 +8,7 @@ import androidx.compose.runtime.State
 import androidx.lifecycle.viewModelScope
 import com.softwarecleandevelopment.cryptowallet.data.WalletRepositoryImpl
 import com.softwarecleandevelopment.cryptowallet.domain.GenerateWalletUseCase
-import com.softwarecleandevelopment.cryptowallet.util.SecureSeedStorage
+import com.softwarecleandevelopment.cryptowallet.util.storage.SecureSeedStorage
 import kotlinx.coroutines.launch
 
 @HiltViewModel

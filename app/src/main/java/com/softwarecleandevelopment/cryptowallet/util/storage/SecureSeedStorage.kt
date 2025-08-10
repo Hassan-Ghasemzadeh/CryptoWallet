@@ -1,4 +1,4 @@
-package com.softwarecleandevelopment.cryptowallet.util
+package com.softwarecleandevelopment.cryptowallet.util.storage
 
 import android.content.Context
 import androidx.datastore.core.DataStore

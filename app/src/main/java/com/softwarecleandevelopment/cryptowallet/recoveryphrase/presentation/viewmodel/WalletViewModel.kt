@@ -1,4 +1,4 @@
-package com.softwarecleandevelopment.cryptowallet.presentation.viewmodel
+package com.softwarecleandevelopment.cryptowallet.recoveryphrase.presentation.viewmodel
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -6,9 +6,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import androidx.compose.runtime.State
 import androidx.lifecycle.viewModelScope
-import com.softwarecleandevelopment.cryptowallet.data.WalletRepositoryImpl
-import com.softwarecleandevelopment.cryptowallet.domain.GenerateWalletUseCase
-import com.softwarecleandevelopment.cryptowallet.util.storage.SecureSeedStorage
+import com.softwarecleandevelopment.cryptowallet.recoveryphrase.data.WalletRepositoryImpl
+import com.softwarecleandevelopment.cryptowallet.recoveryphrase.domain.GenerateWalletUseCase
+import com.softwarecleandevelopment.cryptowallet.recoveryphrase.util.storage.SecureSeedStorage
 import kotlinx.coroutines.launch
 
 @HiltViewModel

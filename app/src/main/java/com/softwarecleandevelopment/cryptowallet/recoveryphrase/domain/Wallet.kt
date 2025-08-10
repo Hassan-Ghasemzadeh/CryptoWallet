@@ -1,4 +1,4 @@
-package com.softwarecleandevelopment.cryptowallet.domain
+package com.softwarecleandevelopment.cryptowallet.recoveryphrase.domain
 
 data class Wallet(
     val mnemonic: String,

@@ -1,7 +1,7 @@
-package com.softwarecleandevelopment.cryptowallet.di.modules
+package com.softwarecleandevelopment.cryptowallet.recoveryphrase.di.modules
 
-import com.softwarecleandevelopment.cryptowallet.data.WalletRepositoryImpl
-import com.softwarecleandevelopment.cryptowallet.domain.WalletRepository
+import com.softwarecleandevelopment.cryptowallet.recoveryphrase.data.WalletRepositoryImpl
+import com.softwarecleandevelopment.cryptowallet.recoveryphrase.domain.WalletRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

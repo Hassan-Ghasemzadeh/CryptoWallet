@@ -1,8 +1,8 @@
-package com.softwarecleandevelopment.cryptowallet.data
+package com.softwarecleandevelopment.cryptowallet.recoveryphrase.data
 
 import android.util.Log
-import com.softwarecleandevelopment.cryptowallet.domain.Wallet
-import com.softwarecleandevelopment.cryptowallet.domain.WalletRepository
+import com.softwarecleandevelopment.cryptowallet.recoveryphrase.domain.Wallet
+import com.softwarecleandevelopment.cryptowallet.recoveryphrase.domain.WalletRepository
 import org.kethereum.DEFAULT_ETHEREUM_BIP44_PATH
 import org.kethereum.bip32.model.Seed
 import org.kethereum.bip32.toKey
@@ -22,7 +22,7 @@ class WalletRepositoryImpl @Inject constructor() : WalletRepository {
             val mnemonic = generateMnemonic(wordList = WORDLIST_ENGLISH)
             val mnemonicWords = dirtyPhraseToMnemonicWords(mnemonic)
             val seed = mnemonicWords.toSeed()
-            val wallet = getWalletFromSeed(seed = seed)
+            val wallet = generateCoinAddress(seed = seed)
             Wallet(mnemonicWords.words.joinToString(" "), wallet)
         }.getOrElse { exception ->
             Log.d("generateWallet", "Error Message: ${exception.message}", exception)
@@ -30,7 +30,7 @@ class WalletRepositoryImpl @Inject constructor() : WalletRepository {
         }
     }
 
-    private fun getWalletFromSeed(seed: Seed): String {
+    private fun generateCoinAddress(seed: Seed): String {
         return runCatching {
             val masterKey = seed.toKey(DEFAULT_ETHEREUM_BIP44_PATH)
             val keyPair = masterKey.keyPair

@@ -1,4 +1,4 @@
-package com.softwarecleandevelopment.cryptowallet.domain
+package com.softwarecleandevelopment.cryptowallet.recoveryphrase.domain
 
 class GenerateWalletUseCase(private val repository: WalletRepository) {
     suspend operator fun invoke(): Wallet {

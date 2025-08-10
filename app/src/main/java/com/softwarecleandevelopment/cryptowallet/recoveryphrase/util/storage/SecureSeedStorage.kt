@@ -1,4 +1,4 @@
-package com.softwarecleandevelopment.cryptowallet.util.storage
+package com.softwarecleandevelopment.cryptowallet.recoveryphrase.util.storage
 
 import android.content.Context
 import androidx.datastore.core.DataStore

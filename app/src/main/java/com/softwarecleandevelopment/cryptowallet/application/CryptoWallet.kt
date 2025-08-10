@@ -1,4 +1,4 @@
-package com.softwarecleandevelopment.cryptowallet.di.application
+package com.softwarecleandevelopment.cryptowallet.application
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

@@ -1,4 +1,4 @@
-package com.softwarecleandevelopment.cryptowallet.presentation
+package com.softwarecleandevelopment.cryptowallet.recoveryphrase.presentation
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.softwarecleandevelopment.cryptowallet.presentation.viewmodel.WalletViewModel
+import com.softwarecleandevelopment.cryptowallet.recoveryphrase.presentation.viewmodel.WalletViewModel
 
 
 @Composable
@@ -34,14 +34,6 @@ fun WalletScreen(innerPadding: PaddingValues, viewModel: WalletViewModel = hiltV
         )
         Text(
             viewModel.mnemonic.value,
-            fontSize = 16.sp,
-        )
-        Text(
-            "Address:",
-            fontSize = 18.sp,
-        )
-        Text(
-            viewModel.address.value,
             fontSize = 16.sp,
         )
         Button(

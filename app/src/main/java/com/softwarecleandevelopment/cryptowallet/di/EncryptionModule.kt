@@ -4,7 +4,7 @@ import android.content.Context
 import com.google.crypto.tink.Aead
 import com.google.crypto.tink.KeyTemplates
 import com.google.crypto.tink.KeysetHandle
-import com.google.crypto.tink.aead.AeadConfig 
+import com.google.crypto.tink.aead.AeadConfig
 import com.google.crypto.tink.integration.android.AndroidKeysetManager
 import com.softwarecleandevelopment.cryptowallet.util.EncryptedPreferencesSerializer
 import com.softwarecleandevelopment.cryptowallet.util.SecureSeedStorage

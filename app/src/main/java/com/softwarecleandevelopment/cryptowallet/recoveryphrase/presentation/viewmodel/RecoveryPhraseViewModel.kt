@@ -1,5 +1,9 @@
 package com.softwarecleandevelopment.cryptowallet.recoveryphrase.presentation.viewmodel
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,7 +16,7 @@ import com.softwarecleandevelopment.cryptowallet.recoveryphrase.util.storage.Sec
 import kotlinx.coroutines.launch
 
 @HiltViewModel
-class WalletViewModel @Inject constructor(
+class RecoveryPhraseViewModel @Inject constructor(
     private val walletRepository: WalletRepositoryImpl,
     private val storage: SecureSeedStorage,
 ) : ViewModel() {
@@ -34,12 +38,17 @@ class WalletViewModel @Inject constructor(
             _mnemonic.value = wallet.mnemonic
             _address.value = wallet.address
             _phraseList.value = wallet.mnemonic.split(" ")
+            storage.saveSeed(seed = "${wallet.mnemonic},${wallet.address}")
         }
     }
 
-    fun saveSeed() {
-        viewModelScope.launch {
-            storage.saveSeed(seed = "${mnemonic},${address}")
-        }
+    fun copyToClipboard(context: Context, text: String, label: String = "Copied Text") {
+        val clipboardManager =
+            context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clipData = ClipData.newPlainText(label, text)
+        clipboardManager.setPrimaryClip(clipData)
+
+        // Optional: Show a toast message to the user
+        Toast.makeText(context, "Copied to clipboard", Toast.LENGTH_SHORT).show()
     }
 }

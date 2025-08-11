@@ -104,14 +104,6 @@ fun UserAgreementAppBar() {
                     tint = MaterialTheme.colorScheme.onSurface
                 )
             }
-        }, actions = {
-            IconButton(onClick = { /* Handle info action */ }) {
-                Icon(
-                    imageVector = Icons.Default.Info,
-                    contentDescription = "Info",
-                    tint = Color(0xFF2196F3),
-                )
-            }
         }, colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.onPrimary
         )

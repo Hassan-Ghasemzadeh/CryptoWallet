@@ -11,4 +11,7 @@
     <string name="term_three_title">We Can\'t Help You Recover It</string>
     <string name="term_three_desc">If you lose your secret phrase, you lose access to your wallet.</string>
     <string name="recovery_phrase_btn">Continue</string>
+    <string name="confirm_phrase_note">Complete this quick test to confirm you\'ve saved everything correctly.</string>
+    <string name="confirm_phrase_title">Confirm</string>
+
 </resources>

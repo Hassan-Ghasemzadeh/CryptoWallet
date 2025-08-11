@@ -2,6 +2,7 @@ package com.softwarecleandevelopment.cryptowallet.recoveryphrase.presentation
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
@@ -17,15 +18,20 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,79 +50,69 @@ import com.softwarecleandevelopment.cryptowallet.recoveryphrase.presentation.vie
 fun RecoveryPhraseScreen(
     innerPadding: PaddingValues, viewModel: WalletViewModel = hiltViewModel()
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(innerPadding)
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.SpaceBetween,
-    ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Start
+    Scaffold(
+        topBar = { RecoveryPhraseAppBar() },
+        containerColor = MaterialTheme.colorScheme.onPrimary
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceBetween,
         ) {
-            IconButton(onClick = { /* Handle back action */ }) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Back",
-                    tint = Color.Black
+            Text(
+                text = stringResource(R.string.recovery_phrase_title),
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
+            )
+
+
+            Text(
+                text = stringResource(R.string.phrase_note),
+                fontSize = 16.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
+            )
+
+
+            FlowRow(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                maxItemsInEachRow = 4 // Adjust as needed to match the image's wrapping
+            ) {
+                viewModel.phraseList.value.forEachIndexed { index, word ->
+                    RecoveryWordChip(index = index + 1, word = word)
+                }
+            }
+
+
+            TextButton(onClick = { /* Handle copy action */ }) {
+                Text(
+                    text = "Copy",
+                    color = MaterialTheme.colorScheme.primary, // Using primary color for consistency
+                    fontSize = 18.sp
                 )
             }
-        }
 
-        Text(
-            text = stringResource(R.string.recovery_phrase_title),
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth()
-        )
+            WarningBox()
 
-
-        Text(
-            text = stringResource(R.string.phrase_note),
-            fontSize = 16.sp,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth()
-        )
-
-
-        FlowRow(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center,
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            maxItemsInEachRow = 4 // Adjust as needed to match the image's wrapping
-        ) {
-            viewModel.phraseList.value.forEachIndexed { index, word ->
-                RecoveryWordChip(index = index + 1, word = word)
+            Button(
+                onClick = {
+                    viewModel.saveSeed()/* should navigate to dashboard screen*/
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp),
+                shape = RoundedCornerShape(8.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
+            ) {
+                Text(text = "Continue", fontSize = 18.sp, color = Color.White)
             }
-        }
-
-
-        TextButton(onClick = { /* Handle copy action */ }) {
-            Text(
-                text = "Copy",
-                color = MaterialTheme.colorScheme.primary, // Using primary color for consistency
-                fontSize = 18.sp
-            )
-        }
-
-        WarningBox()
-
-        Button(
-            onClick = {
-                viewModel.saveSeed()
-                /* should navigate to dashboard screen*/
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp),
-            shape = RoundedCornerShape(8.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
-        ) {
-            Text(text = "Continue", fontSize = 18.sp, color = Color.White)
         }
     }
 }
@@ -144,6 +140,32 @@ fun RecoveryWordChip(index: Int, word: String) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun RecoveryPhraseAppBar() {
+    TopAppBar(
+        title = {
+            Text(
+                text = "",
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+        },
+        navigationIcon = {
+            IconButton(onClick = { /* Handle back action */ }) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = "Back",
+                    tint = MaterialTheme.colorScheme.onSurface
+                )
+            }
+        },
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.onPrimary  // App bar background color
+        )
+    )
+}
+
 @Composable
 fun WarningBox() {
     Surface(
@@ -162,9 +184,7 @@ fun WarningBox() {
             )
             Spacer(modifier = Modifier.width(16.dp))
             Text(
-                text = stringResource(R.string.phrase_alert),
-                fontSize = 14.sp,
-                color = Color.Black
+                text = stringResource(R.string.phrase_alert), fontSize = 14.sp, color = Color.Black
             )
         }
     }

@@ -1,5 +1,6 @@
 package com.softwarecleandevelopment.cryptowallet.navigation
 
+import com.softwarecleandevelopment.cryptowallet.confirmphrase.presentation.ConfirmPhraseScreen
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -23,6 +24,16 @@ fun CryptoWalletNavGraph() {
         }
         composable(route = AppScreens.RecoveryPhraseScreen.route) {
             RecoveryPhraseScreen(
+                onNavigateBack = {
+                    navController.popBackStack()
+                },
+                onContinueClicked = { mnemonic ->
+                    navController.navigate(AppScreens.ConfirmPhraseScreen.route)
+                }
+            )
+        }
+        composable(route = AppScreens.ConfirmPhraseScreen.route) {
+            ConfirmPhraseScreen(
                 onNavigateBack = {
                     navController.popBackStack()
                 }

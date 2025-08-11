@@ -40,7 +40,7 @@ fun UserAgreementScreen(
                         .background(MaterialTheme.colorScheme.onPrimary)
                         .padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    ContinueButton(onClick = { /* Handle continue action */ })
+                    ContinueButton(onClick = onContinueClicked)
                 }
             },
             containerColor = MaterialTheme.colorScheme.onPrimary

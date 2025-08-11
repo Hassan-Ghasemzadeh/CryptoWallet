@@ -84,4 +84,6 @@ dependencies {
     implementation(libs.androidx.datastore)
     //crypto tink
     implementation(libs.cryptoTink)
+    //compose navigation
+    implementation(libs.androidx.navigation.compose)
 }

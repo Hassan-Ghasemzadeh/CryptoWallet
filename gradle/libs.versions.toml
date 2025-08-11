@@ -17,6 +17,7 @@ javapoet = "1.13.0"
 ksp = "2.1.20-1.0.32"
 datastore = "1.0.0"
 cryptoTink = "1.7.0"
+navigation = "2.7.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -51,7 +52,7 @@ androidx-hilt-integration-compiler = { group = "androidx.hilt", name = "hilt-com
 squareup-javapoet = { group = "com.squareup", name = "javapoet", version.ref = "javapoet" }
 androidx-datastore = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
 cryptoTink = { group = "com.google.crypto.tink", name = "tink-android", version.ref = "cryptoTink" }
-
+androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

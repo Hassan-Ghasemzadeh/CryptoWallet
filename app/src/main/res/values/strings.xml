@@ -3,5 +3,12 @@
     <string name="recovery_phrase_title">Your recovery phrase</string>
     <string name="phrase_note">Write down or copy these words in the right order and save them somewhere safe.</string>
     <string name="phrase_alert">Never share recovery phrase with anyone, store it securely!</string>
-
+    <string name="terms_note"> You will get a Secret Phrase — it\'s the only way to access your wallet.</string>
+    <string name="term_one_title">Store It Somewhere Safe</string>
+    <string name="term_one_desc">The secret phrase is only way to access your wallet.</string>
+    <string name="term_two_title">Do not share your Secret Phrase!</string>
+    <string name="term_two_desc">Anyone who gets your secret phrase can take full control of your wallet.</string>
+    <string name="term_three_title">We Can\'t Help You Recover It</string>
+    <string name="term_three_desc">If you lose your secret phrase, you lose access to your wallet.</string>
+    <string name="recovery_phrase_btn">Get Started</string>
 </resources>

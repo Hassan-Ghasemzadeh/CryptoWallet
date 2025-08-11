@@ -32,7 +32,7 @@ fun UserAgreementScreen(
     CryptoWalletTheme {
         Scaffold(
             modifier = Modifier.Companion.fillMaxSize(),
-            topBar = { WalletAppBar() },
+            topBar = { UserAgreementAppBar() },
             bottomBar = {
                 Column(
                     modifier = Modifier
@@ -88,7 +88,7 @@ fun UserAgreementScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun WalletAppBar() {
+fun UserAgreementAppBar() {
     CenterAlignedTopAppBar(
         title = {
             Text(

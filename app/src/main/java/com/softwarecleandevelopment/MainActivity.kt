@@ -18,11 +18,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             CryptoWalletTheme {
-                Scaffold(
-                    modifier = Modifier.Companion.fillMaxSize(),
-                ) { innerPadding ->
-                    UserAgreementScreen(innerPadding)
-                }
+                UserAgreementScreen()
             }
         }
     }

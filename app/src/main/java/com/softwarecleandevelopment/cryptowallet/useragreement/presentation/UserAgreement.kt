@@ -26,7 +26,7 @@ import com.softwarecleandevelopment.cryptowallet.ui.theme.CryptoWalletTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UserAgreementScreen() {
+fun UserAgreementScreen(innerPadding: PaddingValues) {
     CryptoWalletTheme {
         Scaffold(
             topBar = { WalletAppBar() }, bottomBar = {
@@ -189,5 +189,5 @@ fun ContinueButton(onClick: () -> Unit) {
 @Preview(showBackground = true)
 @Composable
 fun PreviewNewWalletScreen() {
-    UserAgreementScreen()
+    UserAgreementScreen(PaddingValues())
 }

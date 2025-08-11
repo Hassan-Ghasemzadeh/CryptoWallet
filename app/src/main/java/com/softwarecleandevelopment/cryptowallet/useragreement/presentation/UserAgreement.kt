@@ -26,7 +26,9 @@ import com.softwarecleandevelopment.cryptowallet.ui.theme.CryptoWalletTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UserAgreementScreen() {
+fun UserAgreementScreen(
+    onContinueClicked: () -> Unit = {},
+) {
     CryptoWalletTheme {
         Scaffold(
             modifier = Modifier.Companion.fillMaxSize(),

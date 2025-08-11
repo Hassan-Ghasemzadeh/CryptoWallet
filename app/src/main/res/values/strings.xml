@@ -10,5 +10,5 @@
     <string name="term_two_desc">Anyone who gets your secret phrase can take full control of your wallet.</string>
     <string name="term_three_title">We Can\'t Help You Recover It</string>
     <string name="term_three_desc">If you lose your secret phrase, you lose access to your wallet.</string>
-    <string name="recovery_phrase_btn">Get Started</string>
+    <string name="recovery_phrase_btn">Continue</string>
 </resources>

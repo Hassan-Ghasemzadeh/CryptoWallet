@@ -30,11 +30,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.softwarecleandevelopment.cryptowallet.R
 import com.softwarecleandevelopment.cryptowallet.recoveryphrase.presentation.viewmodel.WalletViewModel
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -64,9 +66,8 @@ fun RecoveryPhraseScreen(
             }
         }
 
-
         Text(
-            text = "Your recovery phrase",
+            text = stringResource(R.string.recovery_phrase_title),
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center,
@@ -75,7 +76,7 @@ fun RecoveryPhraseScreen(
 
 
         Text(
-            text = "Write down or copy these words in the right order and save them somewhere safe.",
+            text = stringResource(R.string.phrase_note),
             fontSize = 16.sp,
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth()
@@ -88,7 +89,7 @@ fun RecoveryPhraseScreen(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             maxItemsInEachRow = 4 // Adjust as needed to match the image's wrapping
         ) {
-            viewModel.mnemonic.value.split(" ").forEachIndexed { index, word ->
+            viewModel.phraseList.value.forEachIndexed { index, word ->
                 RecoveryWordChip(index = index + 1, word = word)
             }
         }
@@ -161,7 +162,7 @@ fun WarningBox() {
             )
             Spacer(modifier = Modifier.width(16.dp))
             Text(
-                text = "Never share recovery phrase with anyone, store it securely!",
+                text = stringResource(R.string.phrase_alert),
                 fontSize = 14.sp,
                 color = Color.Black
             )

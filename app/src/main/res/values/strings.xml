@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">CryptoWallet</string>
+    <string name="recovery_phrase_title">Your recovery phrase</string>
+    <string name="phrase_note">Write down or copy these words in the right order and save them somewhere safe.</string>
+    <string name="phrase_alert">Never share recovery phrase with anyone, store it securely!</string>
+
 </resources>

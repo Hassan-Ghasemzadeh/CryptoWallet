@@ -22,7 +22,11 @@ fun CryptoWalletNavGraph() {
             )
         }
         composable(route = AppScreens.RecoveryPhraseScreen.route) {
-            RecoveryPhraseScreen()
+            RecoveryPhraseScreen(
+                onNavigateBack = {
+                    navController.popBackStack()
+                }
+            )
         }
     }
 }

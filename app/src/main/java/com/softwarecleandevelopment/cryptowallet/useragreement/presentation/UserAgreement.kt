@@ -26,20 +26,22 @@ import com.softwarecleandevelopment.cryptowallet.ui.theme.CryptoWalletTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UserAgreementScreen(innerPadding: PaddingValues) {
+fun UserAgreementScreen() {
     CryptoWalletTheme {
         Scaffold(
-            topBar = { WalletAppBar() }, bottomBar = {
-
+            modifier = Modifier.Companion.fillMaxSize(),
+            topBar = { WalletAppBar() },
+            bottomBar = {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(MaterialTheme.colorScheme.surface)
+                        .background(MaterialTheme.colorScheme.onPrimary)
                         .padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     ContinueButton(onClick = { /* Handle continue action */ })
                 }
-            }, containerColor = MaterialTheme.colorScheme.onPrimary
+            },
+            containerColor = MaterialTheme.colorScheme.onPrimary
         ) { paddingValues ->
             Column(
                 modifier = Modifier
@@ -189,5 +191,5 @@ fun ContinueButton(onClick: () -> Unit) {
 @Preview(showBackground = true)
 @Composable
 fun PreviewNewWalletScreen() {
-    UserAgreementScreen(PaddingValues())
+    UserAgreementScreen()
 }

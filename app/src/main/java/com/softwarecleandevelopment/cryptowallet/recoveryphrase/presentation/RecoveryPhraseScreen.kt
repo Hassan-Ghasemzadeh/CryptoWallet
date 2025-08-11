@@ -48,9 +48,10 @@ import com.softwarecleandevelopment.cryptowallet.recoveryphrase.presentation.vie
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun RecoveryPhraseScreen(
-    innerPadding: PaddingValues, viewModel: WalletViewModel = hiltViewModel()
+    viewModel: WalletViewModel = hiltViewModel()
 ) {
     Scaffold(
+        modifier = Modifier.Companion.fillMaxSize(),
         topBar = { RecoveryPhraseAppBar() },
         containerColor = MaterialTheme.colorScheme.onPrimary
     ) { innerPadding ->
@@ -145,24 +146,20 @@ fun RecoveryWordChip(index: Int, word: String) {
 fun RecoveryPhraseAppBar() {
     TopAppBar(
         title = {
-            Text(
-                text = "",
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurface
-            )
-        },
-        navigationIcon = {
-            IconButton(onClick = { /* Handle back action */ }) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Back",
-                    tint = MaterialTheme.colorScheme.onSurface
-                )
-            }
-        },
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.onPrimary  // App bar background color
+        Text(
+            text = "", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface
         )
+    }, navigationIcon = {
+        IconButton(onClick = { /* Handle back action */ }) {
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                contentDescription = "Back",
+                tint = MaterialTheme.colorScheme.onSurface
+            )
+        }
+    }, colors = TopAppBarDefaults.topAppBarColors(
+        containerColor = MaterialTheme.colorScheme.onPrimary  // App bar background color
+    )
     )
 }
 

@@ -33,6 +33,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -40,14 +41,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.softwarecleandevelopment.cryptowallet.R
-import com.softwarecleandevelopment.cryptowallet.recoveryphrase.presentation.viewmodel.WalletViewModel
+import com.softwarecleandevelopment.cryptowallet.recoveryphrase.presentation.viewmodel.RecoveryPhraseViewModel
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun RecoveryPhraseScreen(
-    viewModel: WalletViewModel = hiltViewModel(),
-    onNavigateBack: () -> Unit = {}
+    viewModel: RecoveryPhraseViewModel = hiltViewModel(),
+    onNavigateBack: () -> Unit = {},
+    onContinueClicked: (mnemonic: String) -> Unit = {},
 ) {
+    val context = LocalContext.current
     Scaffold(
         modifier = Modifier.Companion.fillMaxSize(),
         topBar = { RecoveryPhraseAppBar(onNavigateBack) },
@@ -90,7 +93,12 @@ fun RecoveryPhraseScreen(
             }
 
 
-            TextButton(onClick = { /* Handle copy action */ }) {
+            TextButton(onClick = {
+                viewModel.copyToClipboard(
+                    context = context,
+                    text = viewModel.mnemonic.value
+                )
+            }) {
                 Text(
                     text = "Copy",
                     color = MaterialTheme.colorScheme.primary, // Using primary color for consistency
@@ -102,7 +110,7 @@ fun RecoveryPhraseScreen(
 
             Button(
                 onClick = {
-                    viewModel.saveSeed()/* should navigate to dashboard screen*/
+                    onContinueClicked(viewModel.mnemonic.value)
                 },
                 modifier = Modifier
                     .fillMaxWidth()

@@ -20,6 +20,8 @@ class WalletViewModel @Inject constructor(
     val mnemonic: State<String> = _mnemonic
     private var _address = mutableStateOf("")
     val address: State<String> = _address
+    private var _phraseList = mutableStateOf(listOf<String>())
+    val phraseList: State<List<String>> = _phraseList
 
     init {
         generateWallet()
@@ -31,6 +33,7 @@ class WalletViewModel @Inject constructor(
             val wallet = generateWalletUseCase()
             _mnemonic.value = wallet.mnemonic
             _address.value = wallet.address
+            _phraseList.value = wallet.mnemonic.split(" ")
         }
     }
 

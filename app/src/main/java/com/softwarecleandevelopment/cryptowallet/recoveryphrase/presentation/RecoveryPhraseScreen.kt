@@ -45,11 +45,12 @@ import com.softwarecleandevelopment.cryptowallet.recoveryphrase.presentation.vie
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun RecoveryPhraseScreen(
-    viewModel: WalletViewModel = hiltViewModel()
+    viewModel: WalletViewModel = hiltViewModel(),
+    onNavigateBack: () -> Unit = {}
 ) {
     Scaffold(
         modifier = Modifier.Companion.fillMaxSize(),
-        topBar = { RecoveryPhraseAppBar() },
+        topBar = { RecoveryPhraseAppBar(onNavigateBack) },
         containerColor = MaterialTheme.colorScheme.onPrimary
     ) { innerPadding ->
         Column(
@@ -140,23 +141,25 @@ fun RecoveryWordChip(index: Int, word: String) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RecoveryPhraseAppBar() {
+fun RecoveryPhraseAppBar(
+    onNavigateBack: () -> Unit = {}
+) {
     TopAppBar(
         title = {
-        Text(
-            text = "", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface
-        )
-    }, navigationIcon = {
-        IconButton(onClick = { /* Handle back action */ }) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = "Back",
-                tint = MaterialTheme.colorScheme.onSurface
+            Text(
+                text = "", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface
             )
-        }
-    }, colors = TopAppBarDefaults.topAppBarColors(
-        containerColor = MaterialTheme.colorScheme.onPrimary  // App bar background color
-    )
+        }, navigationIcon = {
+            IconButton(onClick = onNavigateBack) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = "Back",
+                    tint = MaterialTheme.colorScheme.onSurface
+                )
+            }
+        }, colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.onPrimary  // App bar background color
+        )
     )
 }
 

@@ -1,7 +1,7 @@
 package com.softwarecleandevelopment.cryptowallet.recoveryphrase.data
 
 import android.util.Log
-import com.softwarecleandevelopment.core.database.SecureWalletStorage
+import com.softwarecleandevelopment.core.database.WalletSecureStorage
 import com.softwarecleandevelopment.cryptowallet.recoveryphrase.domain.Wallet
 import com.softwarecleandevelopment.cryptowallet.recoveryphrase.domain.WalletRepository
 import org.kethereum.DEFAULT_ETHEREUM_BIP44_PATH
@@ -20,7 +20,7 @@ import javax.inject.Singleton
 @OptIn(ExperimentalStdlibApi::class)
 @Singleton
 class WalletRepositoryImpl @Inject constructor(
-    private val storage: SecureWalletStorage,
+    private val storage: WalletSecureStorage,
 ) : WalletRepository {
     override suspend fun generateWallet(): Wallet {
         return runCatching {

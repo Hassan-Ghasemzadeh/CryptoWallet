@@ -36,7 +36,7 @@ class EncryptedPreferencesSerializer @Inject constructor(private val aead: Aead)
 }
 
 @Singleton
-class SecureWalletStorage @Inject constructor(
+class WalletSecureStorage @Inject constructor(
     private val context: Context,
     private val serializer: EncryptedPreferencesSerializer
 ) {

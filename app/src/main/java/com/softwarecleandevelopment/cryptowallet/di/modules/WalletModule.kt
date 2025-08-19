@@ -1,4 +1,4 @@
-package com.softwarecleandevelopment.cryptowallet.recoveryphrase.di.modules
+package com.softwarecleandevelopment.cryptowallet.di.modules
 
 import com.softwarecleandevelopment.cryptowallet.recoveryphrase.data.WalletRepositoryImpl
 import com.softwarecleandevelopment.cryptowallet.recoveryphrase.domain.WalletRepository

@@ -23,3 +23,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "CryptoWallet"
 include(":app")
+include(":core")
+include(":feature")
+include(":crypto-chains")

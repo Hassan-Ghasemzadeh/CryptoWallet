@@ -5,7 +5,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.softwarecleandevelopment.cryptowallet.recoveryphrase.util.storage.SecureSeedStorage
+import com.softwarecleandevelopment.core.database.SecureSeedStorage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

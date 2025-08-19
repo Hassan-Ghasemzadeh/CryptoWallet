@@ -1,4 +1,4 @@
-package com.softwarecleandevelopment.cryptowallet.recoveryphrase.di.modules
+package com.softwarecleandevelopment.core.di.modules
 
 import android.content.Context
 import com.google.crypto.tink.Aead
@@ -6,8 +6,8 @@ import com.google.crypto.tink.KeyTemplates
 import com.google.crypto.tink.KeysetHandle
 import com.google.crypto.tink.aead.AeadConfig
 import com.google.crypto.tink.integration.android.AndroidKeysetManager
-import com.softwarecleandevelopment.cryptowallet.recoveryphrase.util.storage.EncryptedPreferencesSerializer
-import com.softwarecleandevelopment.cryptowallet.recoveryphrase.util.storage.SecureSeedStorage
+import com.softwarecleandevelopment.core.database.EncryptedPreferencesSerializer
+import com.softwarecleandevelopment.core.database.SecureSeedStorage
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

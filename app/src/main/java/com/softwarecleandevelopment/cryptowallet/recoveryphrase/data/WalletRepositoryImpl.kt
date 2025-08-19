@@ -22,8 +22,8 @@ class WalletRepositoryImpl @Inject constructor() : WalletRepository {
             val mnemonic = generateMnemonic(wordList = WORDLIST_ENGLISH)
             val mnemonicWords = dirtyPhraseToMnemonicWords(mnemonic)
             val seed = mnemonicWords.toSeed()
-            val wallet = generateCoinAddress(seed = seed)
-            Wallet(mnemonicWords.words.joinToString(" "), wallet)
+            val masterKey = seed.toKey(DEFAULT_ETHEREUM_BIP44_PATH)
+            Wallet(mnemonicWords.words.joinToString(" "), masterKey.keyPair.privateKey.toString())
         }.getOrElse { exception ->
             Log.d("generateWallet", "Error Message: ${exception.message}", exception)
             Wallet("", "")

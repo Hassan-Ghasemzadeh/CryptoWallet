@@ -10,9 +10,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import androidx.compose.runtime.State
 import androidx.lifecycle.viewModelScope
+import com.softwarecleandevelopment.core.database.SecureSeedStorage
 import com.softwarecleandevelopment.cryptowallet.recoveryphrase.data.WalletRepositoryImpl
 import com.softwarecleandevelopment.cryptowallet.recoveryphrase.domain.GenerateWalletUseCase
-import com.softwarecleandevelopment.cryptowallet.recoveryphrase.util.storage.SecureSeedStorage
 import kotlinx.coroutines.launch
 
 @HiltViewModel
@@ -20,10 +20,6 @@ class RecoveryPhraseViewModel @Inject constructor(
     private val walletRepository: WalletRepositoryImpl,
     private val storage: SecureSeedStorage,
 ) : ViewModel() {
-    private var _mnemonic = mutableStateOf("")
-    val mnemonic: State<String> = _mnemonic
-    private var _address = mutableStateOf("")
-    val address: State<String> = _address
     private var _phraseList = mutableStateOf(listOf<String>())
     val phraseList: State<List<String>> = _phraseList
 
@@ -35,10 +31,8 @@ class RecoveryPhraseViewModel @Inject constructor(
         viewModelScope.launch {
             val generateWalletUseCase = GenerateWalletUseCase(repository = walletRepository)
             val wallet = generateWalletUseCase()
-            _mnemonic.value = wallet.mnemonic
-            _address.value = wallet.address
             _phraseList.value = wallet.mnemonic.split(" ")
-            storage.saveSeed(seed = "${wallet.mnemonic},${wallet.address}")
+            storage.saveSeed(seed = "${wallet.mnemonic},${wallet.privateKey}")
         }
     }
 

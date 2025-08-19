@@ -1,23 +1,19 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.android.dagger.hilt)
     alias(libs.plugins.android.ksp)
 }
 
 android {
-    namespace = "com.softwarecleandevelopment.cryptowallet"
+    namespace = "com.softwarecleandevelopment.core"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.softwarecleandevelopment.cryptowallet"
         minSdk = 24
-        targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -36,42 +32,23 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
-    buildFeatures {
-        compose = true
-    }
 }
 hilt {
     enableAggregatingTask = false
 }
 dependencies {
 
-    implementation(project(":core"))
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
-
     //coroutine
     implementation(libs.androidx.coroutine.android)
     implementation(libs.androidx.coroutine.core)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.runtime.compose)
-    //dagger-hilt
-    implementation(libs.androidx.hilt.android)
-    ksp(libs.androidx.hilt.compiler)
-    implementation(libs.androidx.hilt.navigation.compose)
-    ksp(libs.androidx.hilt.integration.compiler)
     //kethereum
     implementation(libs.androidx.kethereum.bip39)
     implementation(libs.androidx.kethereum.bip32)
@@ -80,13 +57,15 @@ dependencies {
     implementation(libs.androidx.kethereum.model)
     implementation(libs.androidx.kethereum.bip39Wordlist)
     implementation(libs.androidx.kethereum.cryptoImplBouncycastle)
+    //dagger-hilt
+    implementation(libs.androidx.hilt.android)
+    ksp(libs.androidx.hilt.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
+    ksp(libs.androidx.hilt.integration.compiler)
     //javapoet
     implementation(libs.squareup.javapoet)
     //data store
     implementation(libs.androidx.datastore)
     //crypto tink
     implementation(libs.cryptoTink)
-    //compose navigation
-    implementation(libs.androidx.navigation.compose)
-
 }

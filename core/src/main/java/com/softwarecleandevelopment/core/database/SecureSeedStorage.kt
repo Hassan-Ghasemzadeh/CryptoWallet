@@ -1,4 +1,4 @@
-package com.softwarecleandevelopment.cryptowallet.recoveryphrase.util.storage
+package com.softwarecleandevelopment.core.database
 
 import android.content.Context
 import androidx.datastore.core.DataStore
@@ -13,7 +13,8 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 // A custom serializer to handle encryption and decryption
-class EncryptedPreferencesSerializer(private val aead: Aead) : Serializer<String> {
+class EncryptedPreferencesSerializer @Inject constructor(private val aead: Aead) :
+    Serializer<String> {
     override val defaultValue: String = ""
 
     override suspend fun readFrom(input: InputStream): String {

@@ -18,6 +18,8 @@ ksp = "2.1.20-1.0.32"
 datastore = "1.0.0"
 cryptoTink = "1.7.0"
 navigation = "2.7.0"
+appcompat = "1.7.1"
+material = "1.10.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -53,6 +55,8 @@ squareup-javapoet = { group = "com.squareup", name = "javapoet", version.ref = "
 androidx-datastore = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
 cryptoTink = { group = "com.google.crypto.tink", name = "tink-android", version.ref = "cryptoTink" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -60,3 +64,4 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 android-dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "daggerHilt" }
 android-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+android-library = { id = "com.android.library", version.ref = "agp" }

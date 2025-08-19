@@ -48,12 +48,10 @@ class WalletRepositoryImpl @Inject constructor(
         return masterKey
     }
 
-    private fun generateCoinAddress(seed: Seed): String {
+    private fun generateCoinAddress(mnemonicWords: MnemonicWords): String {
         return runCatching {
-            val masterKey = seed.toKey(DEFAULT_ETHEREUM_BIP44_PATH)
-            val keyPair = masterKey.keyPair
-            val wallet = keyPair.toAddress().toString()
-            wallet
+            val masterKey = generateMasterKey(mnemonicWords)
+            masterKey.keyPair.toAddress().toString()
         }.getOrElse {
             Log.d("getWalletFromSeed", "Error Message: ${it.message}", it)
             ""

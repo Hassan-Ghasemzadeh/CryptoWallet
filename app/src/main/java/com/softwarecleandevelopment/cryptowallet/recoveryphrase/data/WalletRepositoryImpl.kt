@@ -6,7 +6,6 @@ import com.softwarecleandevelopment.cryptowallet.recoveryphrase.domain.Wallet
 import com.softwarecleandevelopment.cryptowallet.recoveryphrase.domain.WalletRepository
 import org.kethereum.DEFAULT_ETHEREUM_BIP44_PATH
 import org.kethereum.bip32.model.ExtendedKey
-import org.kethereum.bip32.model.Seed
 import org.kethereum.bip32.toKey
 import org.kethereum.bip39.dirtyPhraseToMnemonicWords
 import org.kethereum.bip39.generateMnemonic

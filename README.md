@@ -71,8 +71,6 @@ All private keys are encrypted and stored locally only.
 
 Never commit secrets, mnemonics, or API keys to Git.
 
-For production, enable biometric authentication & secure storage.
-
 
 
 ---

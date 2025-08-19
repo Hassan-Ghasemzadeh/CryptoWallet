@@ -78,7 +78,8 @@ For production, enable biometric authentication & secure storage.
 ---
 
 📸 Screenshots
-![Description of screenshot](docs/screenshots/IMG_20250811_191120_813.png)
+<img src="screenshots/IMG_20250811_191120_813.png" width="32%">
+
 
 ---
 

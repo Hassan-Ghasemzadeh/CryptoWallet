@@ -1,0 +1,14 @@
+Custom License for [Your Crypto Wallet Name]
+
+Copyright (C) 2025 [Hassan-Ghasemzadeh / software-cleandevelopment]
+
+Permission is hereby granted to use this software for personal and commercial purposes, 
+subject to the following conditions:
+
+1. Redistribution of the source code, modified or unmodified, is prohibited 
+   without explicit written permission from the copyright holder.
+2. This software may not be sold, relicensed, or rebranded under a different 
+   name without permission.
+3. You are free to use, modify, and distribute compiled binaries of this 
+   software, provided proper credit is given to the original author.
+4. The software is provided "as-is" without warranty of any kind, express or implied.

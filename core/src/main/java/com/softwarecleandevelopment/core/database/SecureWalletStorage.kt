@@ -36,28 +36,28 @@ class EncryptedPreferencesSerializer @Inject constructor(private val aead: Aead)
 }
 
 @Singleton
-class SecureSeedStorage @Inject constructor(
+class SecureWalletStorage @Inject constructor(
     private val context: Context,
     private val serializer: EncryptedPreferencesSerializer
 ) {
-    private val prefFileName = "user_seed.encrypted"
+    private val prefFileName = "user_wallet.encrypted"
     private val Context.encryptedDataStore: DataStore<String> by dataStore(
         fileName = prefFileName,
         serializer = serializer,
     )
 
-    suspend fun saveSeed(seed: String) {
+    suspend fun saveWallet(wallet: String) {
         context.encryptedDataStore.updateData {
-            seed
+            wallet
         }
     }
 
-    suspend fun getSeed(): String? {
-        val seed = context.encryptedDataStore.data.first()
-        return seed.ifEmpty { null }
+    suspend fun getWallet(): String? {
+        val wallet = context.encryptedDataStore.data.first()
+        return wallet.ifEmpty { null }
     }
 
-    suspend fun clearSeed() {
+    suspend fun clearWallet() {
         context.encryptedDataStore.updateData {
             ""
         }

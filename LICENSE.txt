@@ -1,4 +1,4 @@
-Custom License for [Your Crypto Wallet Name]
+Custom License for [Crypto Wallet app]
 
 Copyright (C) 2025 [Hassan-Ghasemzadeh / software-cleandevelopment]
 

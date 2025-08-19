@@ -5,7 +5,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.softwarecleandevelopment.core.database.SecureSeedStorage
+import com.softwarecleandevelopment.core.database.SecureWalletStorage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -13,7 +13,7 @@ import kotlin.random.Random
 
 @HiltViewModel
 class ConfirmPhraseViewModel @Inject constructor(
-    private val storage: SecureSeedStorage,
+    private val storage: SecureWalletStorage,
 ) : ViewModel() {
     private val originalWords: MutableList<String> = mutableListOf()
 
@@ -37,7 +37,7 @@ class ConfirmPhraseViewModel @Inject constructor(
     fun getOriginalWords() {
         try {
             viewModelScope.launch {
-                val words = storage.getSeed()?.split(",")[0]?.split(" ")
+                val words = storage.getWallet()?.split(",")[0]?.split(" ")
                 if (!words.isNullOrEmpty()) {
                     originalWords.addAll(words.toMutableList())
                 }

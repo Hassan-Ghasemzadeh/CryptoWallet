@@ -30,7 +30,7 @@ Easily manage your digital assets, generate wallet addresses, and send/receive t
 
 1. Clone the repo:
 
-git clone [https://github.com/Hassan-Ghasemzadeh/crypto-wallet.git](https://github.com/Hassan-Ghasemzadeh/CryptoWallet.git)
+git clone https://github.com/Hassan-Ghasemzadeh/CryptoWallet.git
 cd crypto-wallet
 
 

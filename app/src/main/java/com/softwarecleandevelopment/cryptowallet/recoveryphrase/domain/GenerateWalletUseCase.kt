@@ -1,7 +1,10 @@
 package com.softwarecleandevelopment.cryptowallet.recoveryphrase.domain
 
-class GenerateWalletUseCase(private val repository: WalletRepository) {
-    suspend operator fun invoke(): Wallet {
+import com.softwarecleandevelopment.core.common.UseCase
+
+class GenerateWalletUseCase(private val repository: WalletRepository) : UseCase<Wallet, Unit> {
+    override suspend fun invoke(params: Unit): Wallet {
         return repository.generateWallet()
     }
+
 }

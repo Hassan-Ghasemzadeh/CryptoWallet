@@ -31,7 +31,7 @@ class RecoveryPhraseViewModel @Inject constructor(
     fun generateWallet() {
         viewModelScope.launch {
             val generateWalletUseCase = GenerateWalletUseCase(repository = walletRepository)
-            val wallet = generateWalletUseCase()
+            val wallet = generateWalletUseCase(Unit)
             _mnemonic.value = wallet.mnemonic
             _phraseList.value = wallet.mnemonic.split(" ")
         }

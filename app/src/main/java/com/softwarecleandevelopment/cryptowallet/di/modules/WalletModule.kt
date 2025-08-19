@@ -1,5 +1,6 @@
 package com.softwarecleandevelopment.cryptowallet.di.modules
 
+import com.softwarecleandevelopment.core.database.WalletSecureStorage
 import com.softwarecleandevelopment.cryptowallet.recoveryphrase.data.WalletRepositoryImpl
 import com.softwarecleandevelopment.cryptowallet.recoveryphrase.domain.WalletRepository
 import dagger.Module
@@ -11,9 +12,10 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object WalletModule {
+
     @Provides
     @Singleton
-    fun provideUserRepository(): WalletRepository {
-        return WalletRepositoryImpl()
+    fun provideUserRepository(storage: WalletSecureStorage): WalletRepository {
+        return WalletRepositoryImpl(storage)
     }
 }

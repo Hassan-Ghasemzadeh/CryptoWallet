@@ -5,7 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.softwarecleandevelopment.cryptowallet.navigation.CryptoWalletNavGraph
-import com.softwarecleandevelopment.cryptowallet.ui.theme.CryptoWalletTheme
+import com.softwarecleandevelopment.core.common.ui.theme.CryptoWalletTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

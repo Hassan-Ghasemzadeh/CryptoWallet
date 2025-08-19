@@ -1,4 +1,4 @@
-package com.softwarecleandevelopment.cryptowallet.ui.theme
+package com.softwarecleandevelopment.core.common.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

@@ -23,14 +23,14 @@ class WalletRepositoryImpl @Inject constructor(
     private val storage: WalletSecureStorage,
 ) : WalletRepository {
     override suspend fun generateWallet(): Wallet {
-        return runCatching {
+        return try {
             val mnemonicWords = generateMnemonicWords()
             val masterKey = generateMasterKey(mnemonicWords = mnemonicWords)
             val words = mnemonicWords.words.joinToString(" ")
             val privateKey = masterKey.keyPair.privateKey.toString()
             storage.saveWallet(wallet = "$words,$privateKey")
             Wallet(words, privateKey)
-        }.getOrElse { exception ->
+        } catch (exception: Exception) {
             Log.d("generateWallet", "Error Message: ${exception.message}", exception)
             Wallet("", "")
         }
@@ -38,22 +38,20 @@ class WalletRepositoryImpl @Inject constructor(
 
     private fun generateMnemonicWords(): MnemonicWords {
         val mnemonic = generateMnemonic(wordList = WORDLIST_ENGLISH)
-        val mnemonicWords = dirtyPhraseToMnemonicWords(mnemonic)
-        return mnemonicWords
+        return dirtyPhraseToMnemonicWords(mnemonic)
     }
 
     private fun generateMasterKey(mnemonicWords: MnemonicWords): ExtendedKey {
         val seed = mnemonicWords.toSeed()
-        val masterKey = seed.toKey(DEFAULT_ETHEREUM_BIP44_PATH)
-        return masterKey
+        return seed.toKey(DEFAULT_ETHEREUM_BIP44_PATH)
     }
 
     private fun generateCoinAddress(mnemonicWords: MnemonicWords): String {
-        return runCatching {
+        return try {
             val masterKey = generateMasterKey(mnemonicWords)
             masterKey.keyPair.toAddress().toString()
-        }.getOrElse {
-            Log.d("getWalletFromSeed", "Error Message: ${it.message}", it)
+        } catch (exception: Exception) {
+            Log.d("getWalletFromSeed", "Error Message: ${exception.message}", exception)
             ""
         }
     }

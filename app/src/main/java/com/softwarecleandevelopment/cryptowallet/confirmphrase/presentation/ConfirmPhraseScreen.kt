@@ -1,5 +1,7 @@
 package com.softwarecleandevelopment.cryptowallet.confirmphrase.presentation
 
+import android.app.Activity
+import android.view.WindowManager
 import com.softwarecleandevelopment.cryptowallet.confirmphrase.presentation.viewmodel.ConfirmPhraseViewModel
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -14,19 +16,28 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.softwarecleandevelopment.cryptowallet.R
-
 @Composable
 fun ConfirmPhraseScreen(
     viewModel: ConfirmPhraseViewModel = hiltViewModel(),
     onSuccess: () -> Unit = {},
     onNavigateBack: () -> Unit = {},
 ) {
+    val context = LocalContext.current
+    val window = (context as? Activity)?.window
+
+    DisposableEffect(Unit) {
+        window?.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
+        onDispose {
+            window?.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
+        }
+    }
     Scaffold(
         containerColor = MaterialTheme.colorScheme.onPrimary,
         topBar = { ConfirmPhraseAppBar(onNavigateBack) },
@@ -39,8 +50,7 @@ fun ConfirmPhraseScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = stringResource(R.string.confirm_phrase_note),
-                fontSize = 14.sp
+                text = stringResource(R.string.confirm_phrase_note), fontSize = 14.sp
             )
             Spacer(modifier = Modifier.height(20.dp))
             Row(
@@ -85,8 +95,7 @@ fun ConfirmPhraseScreen(
                                     RoundedCornerShape(6.dp)
                                 )
                                 .clickable {
-                                    if (!isWrong)
-                                        viewModel.onWordClick(word, shuffledIndex)
+                                    if (!isWrong) viewModel.onWordClick(word, shuffledIndex)
                                 }
                                 .padding(vertical = 8.dp, horizontal = 6.dp),
                             contentAlignment = Alignment.Center) {

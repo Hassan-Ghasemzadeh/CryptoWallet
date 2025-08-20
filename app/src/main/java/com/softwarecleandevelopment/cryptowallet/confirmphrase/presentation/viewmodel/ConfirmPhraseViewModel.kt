@@ -28,7 +28,7 @@ class ConfirmPhraseViewModel @Inject constructor(
     private val _selectedWords = mutableStateOf(List(originalWords.size) { "" })
     val selectedWords: State<List<String>> = _selectedWords
 
-    private val _wrongItems = mutableStateOf(MutableList(originalWords.size) { false })
+    private val _wrongItems = mutableStateOf(List(originalWords.size) { false })
     val wrongItems: State<List<Boolean>> = _wrongItems
 
     val isAllCorrect: Boolean
@@ -46,26 +46,31 @@ class ConfirmPhraseViewModel @Inject constructor(
             Log.d("Tag", "Error: ${e.message}")
         }
     }
-
     fun onWordClick(word: String, shuffledIndex: Int) {
+        // Check the correct position of the word
         val correctIndex = originalWords.indexOf(word)
 
-        if (_wrongItems.value[shuffledIndex]) {
+        // Get the word currently at the correct position in the user's selection
+        val selectedWord = _selectedWords.value[correctIndex]
+
+        // Check if the user is clicking on the correct word
+        if (selectedWord.isEmpty() && shuffledWords.value[shuffledIndex] == originalWords[correctIndex]) {
+            // If the slot is empty and the clicked word is correct
+            // Move the word from the shuffled list to the selected list
+            _selectedWords.value = _selectedWords.value.toMutableList().also {
+                it[correctIndex] = word
+            }
+            _shuffledWords.value = _shuffledWords.value.toMutableList().also {
+                it[shuffledIndex] = ""
+            }
+            // Also, make sure the wrong item at this index is cleared if it was previously set
             _wrongItems.value = _wrongItems.value.toMutableList().also {
                 it[shuffledIndex] = false
             }
         } else {
-            if (_selectedWords.value[correctIndex].isEmpty()) {
-                _selectedWords.value = _selectedWords.value.toMutableList().also {
-                    it[correctIndex] = word
-                }
-                _shuffledWords.value = _shuffledWords.value.toMutableList().also {
-                    it[shuffledIndex] = ""
-                }
-            } else {
-                _wrongItems.value = _wrongItems.value.toMutableList().also {
-                    it[shuffledIndex] = true
-                }
+            // If the user clicks on the wrong word or the slot is already filled
+            _wrongItems.value = _wrongItems.value.toMutableList().also {
+                it[shuffledIndex] = true
             }
         }
     }

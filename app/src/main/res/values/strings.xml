@@ -13,5 +13,7 @@
     <string name="recovery_phrase_btn">Continue</string>
     <string name="confirm_phrase_note">Complete this quick test to confirm you\'ve saved everything correctly.</string>
     <string name="confirm_phrase_title">Confirm</string>
-
+    <string name="welcome_title">Welcome to Crypto Wallet</string>
+    <string name="welcome_create_wallet_btn">Create a New Wallet</string>
+    <string name="welcome_import_wallet_btn">Import an Existing Wallet</string>
 </resources>

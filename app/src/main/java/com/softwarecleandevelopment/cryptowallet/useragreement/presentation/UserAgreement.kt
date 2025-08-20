@@ -1,6 +1,5 @@
 package com.softwarecleandevelopment.cryptowallet.useragreement.presentation
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -26,19 +25,19 @@ import com.softwarecleandevelopment.core.common.ui.theme.CryptoWalletTheme
 @Composable
 fun UserAgreementScreen(
     onContinueClicked: () -> Unit = {},
+    onNavigateBack: () -> Unit = {},
 ) {
     CryptoWalletTheme {
         Scaffold(
             modifier = Modifier.Companion.fillMaxSize(),
-            topBar = { UserAgreementAppBar() },
+            topBar = { UserAgreementAppBar(onNavigateBack) },
             containerColor = MaterialTheme.colorScheme.onPrimary
         ) { paddingValues ->
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
-                    .padding(horizontal = 16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                    .padding(horizontal = 16.dp), horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
                     text = stringResource(R.string.terms_note),
@@ -77,7 +76,7 @@ fun UserAgreementScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UserAgreementAppBar() {
+fun UserAgreementAppBar(onNavigateBack: () -> Unit = {}) {
     CenterAlignedTopAppBar(
         title = {
             Text(
@@ -86,7 +85,7 @@ fun UserAgreementAppBar() {
                 color = MaterialTheme.colorScheme.onSurface
             )
         }, navigationIcon = {
-            IconButton(onClick = { /* Handle back action */ }) {
+            IconButton(onClick = onNavigateBack) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = "Back",

@@ -2,6 +2,9 @@ package com.softwarecleandevelopment.cryptowallet.confirmphrase.presentation
 
 import android.app.Activity
 import android.view.WindowManager
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
 import com.softwarecleandevelopment.cryptowallet.confirmphrase.presentation.viewmodel.ConfirmPhraseViewModel
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -88,10 +91,13 @@ fun ConfirmPhraseScreen(
                 items(viewModel.shuffledWords.value.size) { shuffledIndex ->
                     val word = viewModel.shuffledWords.value[shuffledIndex]
                     if (word.isNotEmpty()) {
+                        val isWrong = viewModel.wrongItems.value[shuffledIndex]
+                        val shakeOffset = shake(enabled = isWrong)
                         Box(
                             modifier = Modifier
+                                .offset(x = shakeOffset.value.dp * 2) // Apply the animated offset
                                 .background(
-                                    if (viewModel.wrongItems.value[shuffledIndex]) Color.Red else Color(
+                                    if (isWrong) Color.Red else Color(
                                         0xFF1976D2
                                     ),
                                     RoundedCornerShape(6.dp)
@@ -168,4 +174,22 @@ fun WordBox(index: Int, word: String, isWrong: Boolean, onClick: (Int) -> Unit) 
             text = word.ifEmpty { "${index + 1}." }, modifier = Modifier.padding(start = 10.dp)
         )
     }
+}
+
+@Composable
+fun shake(enabled: Boolean, onAnimationEnd: () -> Unit = {}): State<Float> {
+    val shake = remember { Animatable(0f) }
+    LaunchedEffect(enabled) {
+        if (enabled) {
+            for (i in 0..10) {
+                shake.animateTo(
+                    targetValue = if (i % 2 == 0) 1f else -1f,
+                    animationSpec = tween(durationMillis = 50, easing = LinearEasing)
+                )
+            }
+            shake.animateTo(0f)
+            onAnimationEnd()
+        }
+    }
+    return shake.asState()
 }

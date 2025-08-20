@@ -31,26 +31,15 @@ fun UserAgreementScreen(
         Scaffold(
             modifier = Modifier.Companion.fillMaxSize(),
             topBar = { UserAgreementAppBar() },
-            bottomBar = {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(MaterialTheme.colorScheme.onPrimary)
-                        .padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    ContinueButton(onClick = onContinueClicked)
-                }
-            },
             containerColor = MaterialTheme.colorScheme.onPrimary
         ) { paddingValues ->
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                    .padding(horizontal = 16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Spacer(modifier = Modifier.height(16.dp))
                 Text(
                     text = stringResource(R.string.terms_note),
                     style = MaterialTheme.typography.bodyLarge.copy(
@@ -79,6 +68,8 @@ fun UserAgreementScreen(
                     description = stringResource(R.string.term_three_desc),
                 )
                 Spacer(modifier = Modifier.weight(1f))
+
+                ContinueButton(onClick = onContinueClicked)
             }
         }
     }
@@ -166,6 +157,7 @@ fun ContinueButton(onClick: () -> Unit) {
         onClick = onClick,
         modifier = Modifier
             .fillMaxWidth()
+            .padding(8.dp)
             .height(56.dp),
         shape = MaterialTheme.shapes.small,
         colors = ButtonDefaults.buttonColors(

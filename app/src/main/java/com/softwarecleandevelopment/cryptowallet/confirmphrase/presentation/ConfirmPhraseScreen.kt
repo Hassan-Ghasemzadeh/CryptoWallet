@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.softwarecleandevelopment.cryptowallet.R
+
 @Composable
 fun ConfirmPhraseScreen(
     viewModel: ConfirmPhraseViewModel = hiltViewModel(),
@@ -87,15 +88,19 @@ fun ConfirmPhraseScreen(
                 items(viewModel.shuffledWords.value.size) { shuffledIndex ->
                     val word = viewModel.shuffledWords.value[shuffledIndex]
                     if (word.isNotEmpty()) {
-                        val isWrong = viewModel.wrongItems.value[shuffledIndex]
                         Box(
                             modifier = Modifier
                                 .background(
-                                    if (isWrong) Color.Red else Color(0xFF1976D2),
+                                    if (viewModel.wrongItems.value[shuffledIndex]) Color.Red else Color(
+                                        0xFF1976D2
+                                    ),
                                     RoundedCornerShape(6.dp)
                                 )
                                 .clickable {
-                                    if (!isWrong) viewModel.onWordClick(word, shuffledIndex)
+                                    viewModel.onWordClick(
+                                        word,
+                                        shuffledIndex
+                                    )
                                 }
                                 .padding(vertical = 8.dp, horizontal = 6.dp),
                             contentAlignment = Alignment.Center) {

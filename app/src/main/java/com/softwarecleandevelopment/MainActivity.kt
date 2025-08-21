@@ -14,7 +14,6 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Initialize the observer
         enableEdgeToEdge()
         setContent {
             CryptoWalletTheme {

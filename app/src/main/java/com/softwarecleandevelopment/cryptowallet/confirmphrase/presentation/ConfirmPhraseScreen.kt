@@ -1,6 +1,7 @@
 package com.softwarecleandevelopment.cryptowallet.confirmphrase.presentation
 
 import android.app.Activity
+import android.content.res.Configuration
 import android.view.WindowManager
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
@@ -22,6 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -43,7 +45,6 @@ fun ConfirmPhraseScreen(
         }
     }
     Scaffold(
-        containerColor = MaterialTheme.colorScheme.onPrimary,
         topBar = { ConfirmPhraseAppBar(onNavigateBack) },
     ) { innerPadding ->
         Column(
@@ -147,7 +148,8 @@ fun ConfirmPhraseAppBar(
                 fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.onSurface
             )
-        }, navigationIcon = {
+        },
+        navigationIcon = {
             IconButton(onClick = onNavigateBack) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -155,9 +157,7 @@ fun ConfirmPhraseAppBar(
                     tint = MaterialTheme.colorScheme.onSurface
                 )
             }
-        }, colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.onPrimary  // App bar background color
-        )
+        },
     )
 }
 
@@ -167,11 +167,13 @@ fun WordBox(index: Int, word: String, isWrong: Boolean, onClick: (Int) -> Unit) 
         modifier = Modifier
             .width(140.dp)
             .height(40.dp)
-            .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(6.dp))
+            .background(MaterialTheme.colorScheme.surfaceContainer, RoundedCornerShape(6.dp))
             .clickable { onClick(index) }, contentAlignment = Alignment.CenterStart
     ) {
         Text(
-            text = word.ifEmpty { "${index + 1}." }, modifier = Modifier.padding(start = 10.dp)
+            text = "${index + 1}.$word",
+            modifier = Modifier.padding(start = 10.dp),
+            color = MaterialTheme.colorScheme.onSurface,
         )
     }
 }
@@ -192,4 +194,10 @@ fun shake(enabled: Boolean, onAnimationEnd: () -> Unit = {}): State<Float> {
         }
     }
     return shake.asState()
+}
+
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+fun PreviewConfirm() {
+    ConfirmPhraseScreen()
 }

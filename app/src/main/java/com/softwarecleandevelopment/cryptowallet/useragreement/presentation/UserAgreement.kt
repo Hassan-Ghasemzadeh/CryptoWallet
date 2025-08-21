@@ -1,5 +1,6 @@
 package com.softwarecleandevelopment.cryptowallet.useragreement.presentation
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -10,6 +11,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -31,7 +33,6 @@ fun UserAgreementScreen(
         Scaffold(
             modifier = Modifier.Companion.fillMaxSize(),
             topBar = { UserAgreementAppBar(onNavigateBack) },
-            containerColor = MaterialTheme.colorScheme.onPrimary
         ) { paddingValues ->
             Column(
                 modifier = Modifier
@@ -84,7 +85,8 @@ fun UserAgreementAppBar(onNavigateBack: () -> Unit = {}) {
                 fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.onSurface
             )
-        }, navigationIcon = {
+        },
+        navigationIcon = {
             IconButton(onClick = onNavigateBack) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -92,9 +94,7 @@ fun UserAgreementAppBar(onNavigateBack: () -> Unit = {}) {
                     tint = MaterialTheme.colorScheme.onSurface
                 )
             }
-        }, colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.onPrimary
-        )
+        },
     )
 }
 
@@ -112,7 +112,7 @@ fun InfoCard(icon: ImageVector, title: String, description: String) {
             .wrapContentHeight(),
         shape = MaterialTheme.shapes.small,
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
+            containerColor = MaterialTheme.colorScheme.inversePrimary
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
@@ -166,12 +166,13 @@ fun ContinueButton(onClick: () -> Unit) {
     ) {
         Text(
             text = stringResource(R.string.recovery_phrase_btn),
-            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold)
+            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold),
+            color = Color.White,
         )
     }
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
 fun PreviewNewWalletScreen() {
     UserAgreementScreen()

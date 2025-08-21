@@ -7,7 +7,7 @@ import com.softwarecleandevelopment.core.common.navigation.AppGraph
 import com.softwarecleandevelopment.cryptowallet.navigation.NavHostExtension.createWalletGraph
 
 @Composable
-fun CryptoWalletNavGraph() {
+fun AppNavGraph() {
     val navController = rememberNavController()
 
     NavHost(

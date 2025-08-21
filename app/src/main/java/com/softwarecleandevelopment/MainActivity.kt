@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.softwarecleandevelopment.cryptowallet.navigation.CryptoWalletNavGraph
+import com.softwarecleandevelopment.cryptowallet.navigation.AppNavGraph
 import com.softwarecleandevelopment.core.common.ui.theme.CryptoWalletTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -17,7 +17,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             CryptoWalletTheme {
-                CryptoWalletNavGraph()
+                AppNavGraph()
             }
         }
     }

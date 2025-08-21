@@ -37,13 +37,10 @@ class RecoveryPhraseViewModel @Inject constructor(
         }
     }
 
-    fun copyToClipboard(context: Context, text: String, label: String = "Copied Text") {
+    fun copyToClipboard(context: Context) {
         val clipboardManager =
             context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        val clipData = ClipData.newPlainText(label, text)
+        val clipData = ClipData.newPlainText("Copied Text", mnemonic.value)
         clipboardManager.setPrimaryClip(clipData)
-
-        // Optional: Show a toast message to the user
-        Toast.makeText(context, "Copied to clipboard", Toast.LENGTH_SHORT).show()
     }
 }

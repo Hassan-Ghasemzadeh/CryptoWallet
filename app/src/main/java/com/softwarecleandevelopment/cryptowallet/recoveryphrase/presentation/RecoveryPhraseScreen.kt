@@ -96,7 +96,6 @@ fun RecoveryPhraseScreen(
             TextButton(onClick = {
                 viewModel.copyToClipboard(
                     context = context,
-                    text = viewModel.mnemonic.value
                 )
             }) {
                 Text(

@@ -37,6 +37,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -54,7 +55,6 @@ fun RecoveryPhraseScreen(
     Scaffold(
         modifier = Modifier.Companion.fillMaxSize(),
         topBar = { RecoveryPhraseAppBar(onNavigateBack) },
-        containerColor = MaterialTheme.colorScheme.onPrimary
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -128,7 +128,7 @@ fun RecoveryWordChip(index: Int, word: String) {
     Surface(
         shape = RoundedCornerShape(4.dp),
         border = BorderStroke(1.dp, Color.LightGray),
-        color = Color.White,
+        color = MaterialTheme.colorScheme.surface,
         modifier = Modifier.padding(horizontal = 4.dp, vertical = 4.dp)
     ) {
         Row(
@@ -136,11 +136,17 @@ fun RecoveryWordChip(index: Int, word: String) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "$index", fontSize = 14.sp, fontWeight = FontWeight.Bold, color = Color.Gray
+                text = "$index",
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface
             )
             Spacer(modifier = Modifier.width(4.dp))
             Text(
-                text = word, fontSize = 14.sp, fontWeight = FontWeight.Normal, color = Color.Black
+                text = word,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Normal,
+                color = MaterialTheme.colorScheme.onSurface
             )
         }
     }
@@ -156,7 +162,8 @@ fun RecoveryPhraseAppBar(
             Text(
                 text = "", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface
             )
-        }, navigationIcon = {
+        },
+        navigationIcon = {
             IconButton(onClick = onNavigateBack) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -164,9 +171,7 @@ fun RecoveryPhraseAppBar(
                     tint = MaterialTheme.colorScheme.onSurface
                 )
             }
-        }, colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.onPrimary  // App bar background color
-        )
+        },
     )
 }
 
@@ -188,7 +193,9 @@ fun WarningBox() {
             )
             Spacer(modifier = Modifier.width(16.dp))
             Text(
-                text = stringResource(R.string.phrase_alert), fontSize = 14.sp, color = Color.Black
+                text = stringResource(R.string.phrase_alert),
+                fontSize = 14.sp,
+                color = Color.Black
             )
         }
     }

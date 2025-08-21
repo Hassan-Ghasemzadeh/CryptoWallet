@@ -66,7 +66,6 @@ fun ConfirmPhraseScreen(
                         WordBox(
                             index = i,
                             word = viewModel.selectedWords.value[i],
-                            isWrong = false,
                             onClick = { })
                     }
                 }
@@ -75,7 +74,6 @@ fun ConfirmPhraseScreen(
                         WordBox(
                             index = i,
                             word = viewModel.selectedWords.value[i],
-                            isWrong = false,
                             onClick = { })
                     }
                 }
@@ -162,7 +160,7 @@ fun ConfirmPhraseAppBar(
 }
 
 @Composable
-fun WordBox(index: Int, word: String, isWrong: Boolean, onClick: (Int) -> Unit) {
+fun WordBox(index: Int, word: String, onClick: (Int) -> Unit) {
     Box(
         modifier = Modifier
             .width(140.dp)

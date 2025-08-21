@@ -4,6 +4,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import com.softwarecleandevelopment.core.common.navigation.AppGraph
 import com.softwarecleandevelopment.cryptowallet.confirmphrase.presentation.ConfirmPhraseScreen
 import com.softwarecleandevelopment.cryptowallet.landing.LandingScreen
 import com.softwarecleandevelopment.cryptowallet.recoveryphrase.presentation.RecoveryPhraseScreen

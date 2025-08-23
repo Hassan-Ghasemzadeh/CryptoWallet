@@ -38,6 +38,7 @@ fun ConfirmPhraseScreen(
     confirmPhraseViewModel: ConfirmPhraseViewModel = hiltViewModel(),
     createWalletViewModel: CreateWalletViewModel = hiltViewModel(),
     onNavigateBack: () -> Unit = {},
+    onSuccess: () -> Unit = {},
     derived: Derived?,
 ) {
     val context = LocalContext.current
@@ -128,6 +129,7 @@ fun ConfirmPhraseScreen(
                 onClick = {
                     if (derived != null) {
                         createWalletViewModel.createWallet(derived = derived)
+                        onSuccess()
                     }
                 },
                 enabled = confirmPhraseViewModel.isAllCorrect,

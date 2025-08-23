@@ -10,6 +10,7 @@ import com.softwarecleandevelopment.cryptowallet.confirmphrase.presentation.Conf
 import com.softwarecleandevelopment.cryptowallet.landing.LandingScreen
 import com.softwarecleandevelopment.cryptowallet.recoveryphrase.presentation.RecoveryPhraseScreen
 import com.softwarecleandevelopment.cryptowallet.useragreement.presentation.UserAgreementScreen
+import com.softwarecleandevelopment.feature.dashboard.navigation.HomeScreens
 
 object NavHostExtension {
     fun NavGraphBuilder.createWalletGraph(navController: NavController) {
@@ -53,9 +54,15 @@ object NavHostExtension {
             composable(route = CreateWalletScreens.ConfirmPhraseScreen.route) {
                 val derived =
                     navController.previousBackStackEntry?.savedStateHandle?.get<Derived>("derived")
+
                 ConfirmPhraseScreen(
                     onNavigateBack = {
                         navController.popBackStack()
+                    },
+                    onSuccess = {
+                        navController.navigate(
+                            HomeScreens.DashboardScreen.route,
+                        )
                     },
                     derived = derived,
                 )

@@ -5,6 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.softwarecleandevelopment.core.common.navigation.AppGraph
+import com.softwarecleandevelopment.cryptowallet.confirmphrase.data.models.Derived
 import com.softwarecleandevelopment.cryptowallet.confirmphrase.presentation.ConfirmPhraseScreen
 import com.softwarecleandevelopment.cryptowallet.landing.LandingScreen
 import com.softwarecleandevelopment.cryptowallet.recoveryphrase.presentation.RecoveryPhraseScreen
@@ -39,16 +40,24 @@ object NavHostExtension {
                     onNavigateBack = {
                         navController.popBackStack()
                     },
-                    onContinueClicked = { mnemonic ->
+                    onContinueClicked = { derived ->
+
+                        navController.currentBackStackEntry?.savedStateHandle?.set(
+                            "derived",
+                            derived
+                        )
                         navController.navigate(CreateWalletScreens.ConfirmPhraseScreen.route)
                     }
                 )
             }
             composable(route = CreateWalletScreens.ConfirmPhraseScreen.route) {
+                val derived =
+                    navController.previousBackStackEntry?.savedStateHandle?.get<Derived>("derived")
                 ConfirmPhraseScreen(
                     onNavigateBack = {
                         navController.popBackStack()
-                    }
+                    },
+                    derived = derived,
                 )
             }
         }

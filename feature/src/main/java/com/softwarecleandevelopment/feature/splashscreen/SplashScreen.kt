@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.softwarecleandevelopment.core.common.navigation.AppGraph
+import com.softwarecleandevelopment.feature.dashboard.navigation.HomeScreens
 
 @Composable
 fun SplashScreen(
@@ -32,7 +33,7 @@ fun SplashScreen(
         }
         navController.navigate(destination) {
             // Pop the back stack to remove the splash screen
-            popUpTo("splash_screen_route") {
+            popUpTo(HomeScreens.SplashScreens.route) {
                 inclusive = true
             }
         }

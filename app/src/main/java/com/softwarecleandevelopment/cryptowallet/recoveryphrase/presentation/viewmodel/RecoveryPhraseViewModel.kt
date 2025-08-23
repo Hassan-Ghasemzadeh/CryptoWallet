@@ -10,13 +10,14 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import androidx.compose.runtime.State
 import androidx.lifecycle.viewModelScope
-import com.softwarecleandevelopment.cryptowallet.recoveryphrase.data.WalletRepositoryImpl
-import com.softwarecleandevelopment.cryptowallet.recoveryphrase.domain.GenerateWalletUseCase
+import com.softwarecleandevelopment.cryptowallet.confirmphrase.data.models.Derived
+import com.softwarecleandevelopment.cryptowallet.recoveryphrase.data.PhraseRepositoryImpl
+import com.softwarecleandevelopment.cryptowallet.recoveryphrase.domain.GeneratePhraseUseCase
 import kotlinx.coroutines.launch
 
 @HiltViewModel
 class RecoveryPhraseViewModel @Inject constructor(
-    private val walletRepository: WalletRepositoryImpl,
+    private val walletRepository: PhraseRepositoryImpl,
 ) : ViewModel() {
     private var _mnemonic = mutableStateOf("")
     val mnemonic: State<String> = _mnemonic
@@ -24,16 +25,20 @@ class RecoveryPhraseViewModel @Inject constructor(
     private var _phraseList = mutableStateOf(listOf<String>())
     val phraseList: State<List<String>> = _phraseList
 
+    private var _derived = mutableStateOf(Derived())
+    val derived: State<Derived> = _derived
+
     init {
         generateWallet()
     }
 
     fun generateWallet() {
         viewModelScope.launch {
-            val generateWalletUseCase = GenerateWalletUseCase(repository = walletRepository)
-            val wallet = generateWalletUseCase(Unit)
-            _mnemonic.value = wallet.mnemonic
-            _phraseList.value = wallet.mnemonic.split(" ")
+            val generateWalletUseCase = GeneratePhraseUseCase(repository = walletRepository)
+            val derived = generateWalletUseCase(Unit)
+            _mnemonic.value = derived.mnemonic
+            _phraseList.value = derived.mnemonic.split(" ")
+            _derived.value = derived
         }
     }
 

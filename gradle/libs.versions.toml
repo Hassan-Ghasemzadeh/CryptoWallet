@@ -24,8 +24,6 @@ bcprov = "1.70"
 web3j = "5.0.0"
 bitcoinj = "0.18.2"
 room = "2.6.0"
-serialization = "1.6.3"
-serialization_plugin = "1.9.23"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }

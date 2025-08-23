@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.android.dagger.hilt)
     alias(libs.plugins.android.ksp)
+    alias(libs.plugins.kotlin.parcelable)
 }
 
 android {
@@ -88,5 +89,10 @@ dependencies {
     implementation(libs.cryptoTink)
     //compose navigation
     implementation(libs.androidx.navigation.compose)
+    //room
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
+
 
 }

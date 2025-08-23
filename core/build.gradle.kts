@@ -75,4 +75,6 @@ dependencies {
     implementation(libs.androidx.datastore)
     //crypto tink
     implementation(libs.cryptoTink)
+    //bouncyCastle
+    implementation(libs.bouncyCastle.bcprov)
 }

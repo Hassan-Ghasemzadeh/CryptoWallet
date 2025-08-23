@@ -2,8 +2,8 @@ package com.softwarecleandevelopment.cryptowallet.recoveryphrase.data
 
 import android.util.Log
 import com.softwarecleandevelopment.core.database.WalletSecureStorage
-import com.softwarecleandevelopment.cryptowallet.recoveryphrase.domain.Wallet
-import com.softwarecleandevelopment.cryptowallet.recoveryphrase.domain.WalletRepository
+import com.softwarecleandevelopment.cryptowallet.confirmphrase.data.models.Derived
+import com.softwarecleandevelopment.cryptowallet.recoveryphrase.domain.PhraseRepository
 import org.kethereum.DEFAULT_ETHEREUM_BIP44_PATH
 import org.kethereum.bip32.model.ExtendedKey
 import org.kethereum.bip32.toKey
@@ -18,20 +18,32 @@ import javax.inject.Singleton
 
 @OptIn(ExperimentalStdlibApi::class)
 @Singleton
-class WalletRepositoryImpl @Inject constructor(
+class PhraseRepositoryImpl @Inject constructor(
     private val storage: WalletSecureStorage,
-) : WalletRepository {
-    override suspend fun generateWallet(): Wallet {
+) : PhraseRepository {
+    override suspend fun generateWallet(): Derived {
         return try {
             val mnemonicWords = generateMnemonicWords()
             val masterKey = generateMasterKey(mnemonicWords = mnemonicWords)
             val words = mnemonicWords.words.joinToString(" ")
             val privateKey = masterKey.keyPair.privateKey.toString()
             storage.saveWallet(wallet = "$words,$privateKey")
-            Wallet(words, privateKey)
+            Derived(
+                mnemonic = words,
+                address = masterKey.keyPair.toAddress().hex,
+                publicKeyHex = masterKey.keyPair.publicKey.toString(),
+                privateKeyHex = masterKey.keyPair.privateKey.key.toString(),
+                derivationPath = ""
+            )
         } catch (exception: Exception) {
             Log.d("generateWallet", "Error Message: ${exception.message}", exception)
-            Wallet("", "")
+            Derived(
+                mnemonic = "",
+                address = "",
+                publicKeyHex = "",
+                privateKeyHex = "",
+                derivationPath = ""
+            )
         }
     }
 

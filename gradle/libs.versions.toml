@@ -67,6 +67,7 @@ bitcoinj_core = { group = "org.bitcoinj", name = "bitcoinj-core", version.ref = 
 androidx_room_runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 androidx_room_compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 androidx_room_ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+material_icons_extended = { group = "androidx.compose.material", name = "material-icons-extended" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -75,4 +76,4 @@ kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "ko
 android-dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "daggerHilt" }
 android-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
-kotlin_parcelable = {id = "kotlin-parcelize"}
+kotlin_parcelable = { id = "kotlin-parcelize" }

@@ -20,6 +20,12 @@ cryptoTink = "1.7.0"
 navigation = "2.7.0"
 appcompat = "1.7.1"
 material = "1.10.0"
+bcprov = "1.70"
+web3j = "5.0.0"
+bitcoinj = "0.18.2"
+room = "2.6.0"
+serialization = "1.6.3"
+serialization_plugin = "1.9.23"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -57,6 +63,12 @@ cryptoTink = { group = "com.google.crypto.tink", name = "tink-android", version.
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+bouncyCastle_bcprov = { group = "org.bouncycastle", name = "bcprov-jdk15to18", version.ref = "bcprov" }
+web3j_core = { group = "org.web3j", name = "core", version.ref = "web3j" }
+bitcoinj_core = { group = "org.bitcoinj", name = "bitcoinj-core", version.ref = "bitcoinj" }
+androidx_room_runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+androidx_room_compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+androidx_room_ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -65,3 +77,4 @@ kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "ko
 android-dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "daggerHilt" }
 android-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
+kotlin_parcelable = {id = "kotlin-parcelize"}

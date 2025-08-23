@@ -2,7 +2,9 @@ package com.softwarecleandevelopment.cryptowallet.confirmphrase.presentation
 
 import android.app.Activity
 import android.content.res.Configuration
+import android.util.Log
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
@@ -28,16 +30,23 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.softwarecleandevelopment.cryptowallet.R
+import com.softwarecleandevelopment.cryptowallet.confirmphrase.data.models.Derived
+import com.softwarecleandevelopment.cryptowallet.confirmphrase.presentation.viewmodel.CreateWalletViewModel
 
 @Composable
 fun ConfirmPhraseScreen(
-    viewModel: ConfirmPhraseViewModel = hiltViewModel(),
-    onSuccess: () -> Unit = {},
+    confirmPhraseViewModel: ConfirmPhraseViewModel = hiltViewModel(),
+    createWalletViewModel: CreateWalletViewModel = hiltViewModel(),
     onNavigateBack: () -> Unit = {},
+    derived: Derived?,
 ) {
     val context = LocalContext.current
     val window = (context as? Activity)?.window
-
+    LaunchedEffect(key1 = Unit) {
+        createWalletViewModel.toastMessage.collect { message ->
+            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+        }
+    }
     DisposableEffect(Unit) {
         window?.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
         onDispose {
@@ -65,7 +74,7 @@ fun ConfirmPhraseScreen(
                     for (i in 0 until 6) {
                         WordBox(
                             index = i,
-                            word = viewModel.selectedWords.value[i],
+                            word = confirmPhraseViewModel.selectedWords.value[i],
                             onClick = { })
                     }
                 }
@@ -73,7 +82,7 @@ fun ConfirmPhraseScreen(
                     for (i in 6 until 12) {
                         WordBox(
                             index = i,
-                            word = viewModel.selectedWords.value[i],
+                            word = confirmPhraseViewModel.selectedWords.value[i],
                             onClick = { })
                     }
                 }
@@ -87,10 +96,10 @@ fun ConfirmPhraseScreen(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(viewModel.shuffledWords.value.size) { shuffledIndex ->
-                    val word = viewModel.shuffledWords.value[shuffledIndex]
+                items(confirmPhraseViewModel.shuffledWords.value.size) { shuffledIndex ->
+                    val word = confirmPhraseViewModel.shuffledWords.value[shuffledIndex]
                     if (word.isNotEmpty()) {
-                        val isWrong = viewModel.wrongItems.value[shuffledIndex]
+                        val isWrong = confirmPhraseViewModel.wrongItems.value[shuffledIndex]
                         val shakeOffset = shake(enabled = isWrong)
                         Box(
                             modifier = Modifier
@@ -98,13 +107,11 @@ fun ConfirmPhraseScreen(
                                 .background(
                                     if (isWrong) Color.Red else Color(
                                         0xFF1976D2
-                                    ),
-                                    RoundedCornerShape(6.dp)
+                                    ), RoundedCornerShape(6.dp)
                                 )
                                 .clickable {
-                                    viewModel.onWordClick(
-                                        word,
-                                        shuffledIndex
+                                    confirmPhraseViewModel.onWordClick(
+                                        word, shuffledIndex
                                     )
                                 }
                                 .padding(vertical = 8.dp, horizontal = 6.dp),
@@ -118,10 +125,14 @@ fun ConfirmPhraseScreen(
             }
             Spacer(modifier = Modifier.height(16.dp))
             Button(
-                onClick = { onSuccess() },
-                enabled = viewModel.isAllCorrect,
+                onClick = {
+                    if (derived != null) {
+                        createWalletViewModel.createWallet(derived = derived)
+                    }
+                },
+                enabled = confirmPhraseViewModel.isAllCorrect,
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = if (viewModel.isAllCorrect) MaterialTheme.colorScheme.primary else Color.DarkGray
+                    containerColor = if (confirmPhraseViewModel.isAllCorrect) MaterialTheme.colorScheme.primary else Color.DarkGray
                 ),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -192,10 +203,4 @@ fun shake(enabled: Boolean, onAnimationEnd: () -> Unit = {}): State<Float> {
         }
     }
     return shake.asState()
-}
-
-@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Composable
-fun PreviewConfirm() {
-    ConfirmPhraseScreen()
 }

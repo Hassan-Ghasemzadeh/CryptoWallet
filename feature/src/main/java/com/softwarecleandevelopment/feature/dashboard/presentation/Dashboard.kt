@@ -40,7 +40,7 @@ fun DashboardScreen() {
     Scaffold(
         topBar = {
             if (selected == 0) WalletTopBar()
-            else TopAppBar(title = { Text(items[selected].label) })
+            else CenterAlignedTopAppBar(title = { Text(items[selected].label) })
         },
         bottomBar = {
             NavigationBar {
@@ -80,10 +80,9 @@ fun DashboardScreen() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun WalletTopBar() {
-    TopAppBar(
+    CenterAlignedTopAppBar(
         title = {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                // الماس/آیکون کوچک کناری عنوان
                 Box(
                     modifier = Modifier
                         .size(20.dp)
@@ -94,16 +93,12 @@ private fun WalletTopBar() {
                 )
                 Spacer(Modifier.width(8.dp))
                 Text("Wallet #1")
-            }
-        },
-        actions = {
-            IconButton(onClick = { /* open sort/filter */ }) {
                 Icon(
-                    imageVector = Icons.Outlined.Settings, // شبیه دکمه تنظیمات کوچک بالا سمت راست
-                    contentDescription = "Options"
+                    Icons.Outlined.KeyboardArrowDown,
+                    contentDescription = "Right Arrow",
                 )
             }
-        }
+        },
     )
 }
 
@@ -111,7 +106,8 @@ private fun WalletTopBar() {
 private fun WalletHome(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = 16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Spacer(Modifier.height(4.dp))
         Text(
@@ -194,7 +190,6 @@ private fun CoinRow(coin: Coin, onClick: () -> Unit) {
             }
         },
         leadingContent = {
-            // به جای آیکون‌های اختصاصی کوین‌ها، فعلاً دایره رنگی (می‌تونی بعدها با painterResource عوضش کنی)
             Box(
                 modifier = Modifier
                     .size(40.dp)

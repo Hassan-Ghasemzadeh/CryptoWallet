@@ -28,7 +28,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,11 +36,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.softwarecleandevelopment.cryptowallet.R
+import com.softwarecleandevelopment.cryptowallet.confirmphrase.data.models.Derived
 import com.softwarecleandevelopment.cryptowallet.recoveryphrase.presentation.viewmodel.RecoveryPhraseViewModel
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -49,7 +48,7 @@ import com.softwarecleandevelopment.cryptowallet.recoveryphrase.presentation.vie
 fun RecoveryPhraseScreen(
     viewModel: RecoveryPhraseViewModel = hiltViewModel(),
     onNavigateBack: () -> Unit = {},
-    onContinueClicked: (mnemonic: String) -> Unit = {},
+    onContinueClicked: (derived: Derived) -> Unit = {},
 ) {
     val context = LocalContext.current
     Scaffold(
@@ -109,7 +108,7 @@ fun RecoveryPhraseScreen(
 
             Button(
                 onClick = {
-                    onContinueClicked(viewModel.mnemonic.value)
+                    onContinueClicked(viewModel.derived.value)
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -193,9 +192,7 @@ fun WarningBox() {
             )
             Spacer(modifier = Modifier.width(16.dp))
             Text(
-                text = stringResource(R.string.phrase_alert),
-                fontSize = 14.sp,
-                color = Color.Black
+                text = stringResource(R.string.phrase_alert), fontSize = 14.sp, color = Color.Black
             )
         }
     }

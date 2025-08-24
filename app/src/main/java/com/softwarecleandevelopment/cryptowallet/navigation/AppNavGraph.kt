@@ -7,7 +7,7 @@ import androidx.navigation.compose.rememberNavController
 import com.softwarecleandevelopment.cryptowallet.navigation.NavHostExtension.createWalletGraph
 import com.softwarecleandevelopment.feature.dashboard.navigation.DashboardNavHostExtension.createDashboardGraph
 import com.softwarecleandevelopment.feature.dashboard.navigation.HomeScreens
-import com.softwarecleandevelopment.feature.splashscreen.SplashScreen
+import com.softwarecleandevelopment.feature.splash_screen.presentation.SplashScreen
 
 @Composable
 fun AppNavGraph() {

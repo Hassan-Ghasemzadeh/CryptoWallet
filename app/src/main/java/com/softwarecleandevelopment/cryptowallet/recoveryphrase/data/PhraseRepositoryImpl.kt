@@ -3,7 +3,7 @@ package com.softwarecleandevelopment.cryptowallet.recoveryphrase.data
 import android.util.Log
 import com.softwarecleandevelopment.core.database.datastore.WalletSecureStorage
 import com.softwarecleandevelopment.cryptowallet.confirmphrase.domain.models.Derived
-import com.softwarecleandevelopment.cryptowallet.recoveryphrase.domain.PhraseRepository
+import com.softwarecleandevelopment.cryptowallet.recoveryphrase.domain.repository.PhraseRepository
 import org.kethereum.DEFAULT_ETHEREUM_BIP44_PATH
 import org.kethereum.bip32.model.ExtendedKey
 import org.kethereum.bip32.toKey

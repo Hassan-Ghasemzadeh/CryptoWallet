@@ -1,4 +1,4 @@
-package com.softwarecleandevelopment.feature.splashscreen
+package com.softwarecleandevelopment.feature.splash_screen.presentation.viewmodels
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences

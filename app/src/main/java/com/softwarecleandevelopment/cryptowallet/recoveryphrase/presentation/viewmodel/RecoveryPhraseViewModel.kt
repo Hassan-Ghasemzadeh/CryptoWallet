@@ -12,7 +12,7 @@ import androidx.compose.runtime.State
 import androidx.lifecycle.viewModelScope
 import com.softwarecleandevelopment.cryptowallet.confirmphrase.domain.models.Derived
 import com.softwarecleandevelopment.cryptowallet.recoveryphrase.data.PhraseRepositoryImpl
-import com.softwarecleandevelopment.cryptowallet.recoveryphrase.domain.GeneratePhraseUseCase
+import com.softwarecleandevelopment.cryptowallet.recoveryphrase.domain.usecases.GeneratePhraseUseCase
 import kotlinx.coroutines.launch
 
 @HiltViewModel

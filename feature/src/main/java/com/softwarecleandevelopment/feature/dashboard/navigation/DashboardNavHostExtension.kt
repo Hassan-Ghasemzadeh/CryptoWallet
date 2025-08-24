@@ -6,7 +6,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.softwarecleandevelopment.core.common.navigation.AppGraph
 import com.softwarecleandevelopment.feature.dashboard.presentation.DashboardScreen
-import com.softwarecleandevelopment.feature.splashscreen.SplashScreen
 
 
 object DashboardNavHostExtension {

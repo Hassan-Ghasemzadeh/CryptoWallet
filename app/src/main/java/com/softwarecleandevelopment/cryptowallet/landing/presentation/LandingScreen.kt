@@ -1,4 +1,4 @@
-package com.softwarecleandevelopment.cryptowallet.landing
+package com.softwarecleandevelopment.cryptowallet.landing.presentation
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*

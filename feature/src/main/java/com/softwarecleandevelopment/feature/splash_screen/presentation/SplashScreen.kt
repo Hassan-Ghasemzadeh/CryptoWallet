@@ -1,4 +1,4 @@
-package com.softwarecleandevelopment.feature.splashscreen
+package com.softwarecleandevelopment.feature.splash_screen.presentation
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,6 +15,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.softwarecleandevelopment.core.common.navigation.AppGraph
 import com.softwarecleandevelopment.feature.dashboard.navigation.HomeScreens
+import com.softwarecleandevelopment.feature.splash_screen.presentation.viewmodels.HandleWalletNavigationViewModel
 
 @Composable
 fun SplashScreen(

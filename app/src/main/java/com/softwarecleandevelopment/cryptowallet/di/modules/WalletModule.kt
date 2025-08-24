@@ -6,7 +6,7 @@ import com.softwarecleandevelopment.cryptowallet.confirmphrase.data.source.Walle
 import com.softwarecleandevelopment.core.database.room.models.WalletDao
 import com.softwarecleandevelopment.cryptowallet.confirmphrase.domain.repository.WalletRepository
 import com.softwarecleandevelopment.cryptowallet.recoveryphrase.data.PhraseRepositoryImpl
-import com.softwarecleandevelopment.cryptowallet.recoveryphrase.domain.PhraseRepository
+import com.softwarecleandevelopment.cryptowallet.recoveryphrase.domain.repository.PhraseRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

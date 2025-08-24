@@ -7,7 +7,7 @@ import androidx.navigation.navigation
 import com.softwarecleandevelopment.core.common.navigation.AppGraph
 import com.softwarecleandevelopment.cryptowallet.confirmphrase.domain.models.Derived
 import com.softwarecleandevelopment.cryptowallet.confirmphrase.presentation.ConfirmPhraseScreen
-import com.softwarecleandevelopment.cryptowallet.landing.LandingScreen
+import com.softwarecleandevelopment.cryptowallet.landing.presentation.LandingScreen
 import com.softwarecleandevelopment.cryptowallet.recoveryphrase.presentation.RecoveryPhraseScreen
 import com.softwarecleandevelopment.cryptowallet.useragreement.presentation.UserAgreementScreen
 import com.softwarecleandevelopment.feature.dashboard.navigation.HomeScreens

@@ -1,4 +1,4 @@
-package com.softwarecleandevelopment.cryptowallet.recoveryphrase.domain
+package com.softwarecleandevelopment.cryptowallet.recoveryphrase.domain.repository
 
 import com.softwarecleandevelopment.cryptowallet.confirmphrase.domain.models.Derived
 

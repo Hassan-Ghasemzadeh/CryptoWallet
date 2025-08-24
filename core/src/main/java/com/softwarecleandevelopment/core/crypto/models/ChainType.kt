@@ -1,4 +1,4 @@
-package com.softwarecleandevelopment.core.crypto
+package com.softwarecleandevelopment.core.crypto.models
 
 enum class ChainType(val displayName: String) {
     MULTI_COIN("Multi-coin"),

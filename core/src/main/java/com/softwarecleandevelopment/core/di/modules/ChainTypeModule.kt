@@ -1,6 +1,6 @@
 package com.softwarecleandevelopment.core.di.modules
 
-import com.softwarecleandevelopment.core.crypto.ChainType
+import com.softwarecleandevelopment.core.crypto.models.ChainType
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

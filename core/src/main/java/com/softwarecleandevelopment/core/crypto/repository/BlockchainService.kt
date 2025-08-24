@@ -1,4 +1,4 @@
-package com.softwarecleandevelopment.core.crypto
+package com.softwarecleandevelopment.core.crypto.repository
 
 import java.math.BigDecimal
 

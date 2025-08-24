@@ -1,4 +1,4 @@
-package com.softwarecleandevelopment.core.crypto
+package com.softwarecleandevelopment.core.crypto.security
 
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties

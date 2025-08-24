@@ -41,6 +41,9 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.softwarecleandevelopment.cryptowallet.R
 import com.softwarecleandevelopment.cryptowallet.confirmphrase.domain.models.Derived
+import com.softwarecleandevelopment.cryptowallet.recoveryphrase.presentation.components.RecoveryPhraseAppBar
+import com.softwarecleandevelopment.cryptowallet.recoveryphrase.presentation.components.RecoveryWordChip
+import com.softwarecleandevelopment.cryptowallet.recoveryphrase.presentation.components.WarningBox
 import com.softwarecleandevelopment.cryptowallet.recoveryphrase.presentation.viewmodel.RecoveryPhraseViewModel
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -118,82 +121,6 @@ fun RecoveryPhraseScreen(
             ) {
                 Text(text = "Continue", fontSize = 18.sp, color = Color.White)
             }
-        }
-    }
-}
-
-@Composable
-fun RecoveryWordChip(index: Int, word: String) {
-    Surface(
-        shape = RoundedCornerShape(4.dp),
-        border = BorderStroke(1.dp, Color.LightGray),
-        color = MaterialTheme.colorScheme.surface,
-        modifier = Modifier.padding(horizontal = 4.dp, vertical = 4.dp)
-    ) {
-        Row(
-            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "$index",
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurface
-            )
-            Spacer(modifier = Modifier.width(4.dp))
-            Text(
-                text = word,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Normal,
-                color = MaterialTheme.colorScheme.onSurface
-            )
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun RecoveryPhraseAppBar(
-    onNavigateBack: () -> Unit = {}
-) {
-    TopAppBar(
-        title = {
-            Text(
-                text = "", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface
-            )
-        },
-        navigationIcon = {
-            IconButton(onClick = onNavigateBack) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Back",
-                    tint = MaterialTheme.colorScheme.onSurface
-                )
-            }
-        },
-    )
-}
-
-@Composable
-fun WarningBox() {
-    Surface(
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(8.dp),
-        color = Color(0xFFE0F2F7) // Light blue background
-    ) {
-        Row(
-            modifier = Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically
-        ) {
-            Icon(
-                imageVector = Icons.Filled.Info,
-                contentDescription = "Info",
-                tint = Color(0xFF2196F3), // Blue icon color
-                modifier = Modifier.size(24.dp)
-            )
-            Spacer(modifier = Modifier.width(16.dp))
-            Text(
-                text = stringResource(R.string.phrase_alert), fontSize = 14.sp, color = Color.Black
-            )
         }
     }
 }

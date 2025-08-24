@@ -56,14 +56,7 @@ dependencies {
     implementation(libs.androidx.coroutine.core)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.runtime.compose)
-    //kethereum
-    implementation(libs.androidx.kethereum.bip39)
-    implementation(libs.androidx.kethereum.bip32)
-    implementation(libs.androidx.kethereum.crypto)
-    implementation(libs.androidx.kethereum.wallet)
-    implementation(libs.androidx.kethereum.model)
-    implementation(libs.androidx.kethereum.bip39Wordlist)
-    implementation(libs.androidx.kethereum.cryptoImplBouncycastle)
+
     //dagger-hilt
     implementation(libs.androidx.hilt.android)
     ksp(libs.androidx.hilt.compiler)
@@ -77,4 +70,9 @@ dependencies {
     implementation(libs.cryptoTink)
     //bouncyCastle
     implementation(libs.bouncyCastle.bcprov)
+
+    //room
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
 }

@@ -78,22 +78,15 @@ dependencies {
     implementation(libs.androidx.kethereum.bip39)
     implementation(libs.androidx.kethereum.bip32)
     implementation(libs.androidx.kethereum.crypto)
-    implementation(libs.androidx.kethereum.wallet)
     implementation(libs.androidx.kethereum.model)
-    implementation(libs.androidx.kethereum.bip39Wordlist)
-    implementation(libs.androidx.kethereum.cryptoImplBouncycastle)
-    //javapoet
-    implementation(libs.squareup.javapoet)
+    implementation(libs.androidx.kethereum.bip39Wordlist) 
     //data store
     implementation(libs.androidx.datastore)
-    //crypto tink
-    implementation(libs.cryptoTink)
     //compose navigation
     implementation(libs.androidx.navigation.compose)
-    //room
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.room.ktx)
-    ksp(libs.androidx.room.compiler)
 
-
+    //javapoet
+    implementation(libs.squareup.javapoet)
+    //crypto tink
+    implementation(libs.cryptoTink)
 }

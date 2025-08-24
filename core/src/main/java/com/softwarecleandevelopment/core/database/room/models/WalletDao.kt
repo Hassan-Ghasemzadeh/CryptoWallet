@@ -1,4 +1,4 @@
-package com.softwarecleandevelopment.cryptowallet.confirmphrase.data.models
+package com.softwarecleandevelopment.core.database.room.models
 
 import androidx.room.Dao
 import androidx.room.Insert

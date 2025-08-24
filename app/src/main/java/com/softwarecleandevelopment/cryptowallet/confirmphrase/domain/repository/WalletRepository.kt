@@ -1,9 +1,9 @@
 package com.softwarecleandevelopment.cryptowallet.confirmphrase.domain.repository
 
-import com.softwarecleandevelopment.core.crypto.ChainType
+import com.softwarecleandevelopment.core.crypto.models.ChainType
 import com.softwarecleandevelopment.cryptowallet.confirmphrase.domain.models.Derived
 import com.softwarecleandevelopment.cryptowallet.confirmphrase.domain.models.Result
-import com.softwarecleandevelopment.cryptowallet.confirmphrase.data.models.WalletEntity
+import com.softwarecleandevelopment.core.database.room.models.WalletEntity
 import kotlinx.coroutines.flow.Flow
 
 interface WalletRepository {

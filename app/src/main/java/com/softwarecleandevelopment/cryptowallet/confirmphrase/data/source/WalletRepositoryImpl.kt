@@ -1,11 +1,11 @@
 package com.softwarecleandevelopment.cryptowallet.confirmphrase.data.source
 
-import com.softwarecleandevelopment.core.crypto.ChainType
-import com.softwarecleandevelopment.core.crypto.CryptoStore
+import com.softwarecleandevelopment.core.crypto.models.ChainType
+import com.softwarecleandevelopment.core.crypto.security.CryptoStore
 import com.softwarecleandevelopment.cryptowallet.confirmphrase.domain.models.Derived
 import com.softwarecleandevelopment.cryptowallet.confirmphrase.domain.models.Result
-import com.softwarecleandevelopment.cryptowallet.confirmphrase.data.models.WalletDao
-import com.softwarecleandevelopment.cryptowallet.confirmphrase.data.models.WalletEntity
+import com.softwarecleandevelopment.core.database.room.models.WalletDao
+import com.softwarecleandevelopment.core.database.room.models.WalletEntity
 import com.softwarecleandevelopment.cryptowallet.confirmphrase.domain.repository.WalletRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

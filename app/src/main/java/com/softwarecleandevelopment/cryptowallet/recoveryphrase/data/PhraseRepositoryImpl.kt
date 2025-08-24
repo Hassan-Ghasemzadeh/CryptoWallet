@@ -56,16 +56,4 @@ class PhraseRepositoryImpl @Inject constructor(
         val seed = mnemonicWords.toSeed()
         return seed.toKey(DEFAULT_ETHEREUM_BIP44_PATH)
     }
-
-    private fun generateCoinAddress(mnemonicWords: MnemonicWords): String {
-        return try {
-            val masterKey = generateMasterKey(mnemonicWords)
-            masterKey.keyPair.toAddress().toString()
-        } catch (exception: Exception) {
-            Log.d("getWalletFromSeed", "Error Message: ${exception.message}", exception)
-            ""
-        }
-    }
-
-
 }

@@ -1,8 +1,8 @@
 package com.softwarecleandevelopment.cryptowallet.confirmphrase.domain.repository
 
+import com.softwarecleandevelopment.core.common.utils.Resource
 import com.softwarecleandevelopment.core.crypto.models.ChainType
 import com.softwarecleandevelopment.cryptowallet.confirmphrase.domain.models.Derived
-import com.softwarecleandevelopment.cryptowallet.confirmphrase.domain.models.Result
 import com.softwarecleandevelopment.core.database.room.models.WalletEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -11,7 +11,7 @@ interface WalletRepository {
 
     suspend fun createNewWallet(
         derived: Derived,
-    ): Result<Unit>
+    ): Resource<Unit>
 
     suspend fun importFromMnemonic(
         name: String, chain: ChainType, mnemonic: String

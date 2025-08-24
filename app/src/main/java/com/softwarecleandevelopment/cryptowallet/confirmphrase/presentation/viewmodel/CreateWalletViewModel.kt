@@ -3,11 +3,10 @@ package com.softwarecleandevelopment.cryptowallet.confirmphrase.presentation.vie
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
-import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.softwarecleandevelopment.core.common.utils.Resource
 import com.softwarecleandevelopment.cryptowallet.confirmphrase.domain.models.Derived
-import com.softwarecleandevelopment.cryptowallet.confirmphrase.domain.models.Result
 import com.softwarecleandevelopment.cryptowallet.confirmphrase.data.source.WalletRepositoryImpl
 import com.softwarecleandevelopment.cryptowallet.confirmphrase.domain.usecases.CreateWalletUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -31,11 +30,11 @@ class CreateWalletViewModel @Inject constructor(
             val useCase = CreateWalletUseCase(repositoryImpl)
             val result = useCase.invoke(derived)
             when (result) {
-                is Result.Error -> {
-                    _toastMessage.emit("Error creating wallet: ${result.exception.message}")
+                is Resource.Error -> {
+                    _toastMessage.emit("Error creating wallet: ${result.message}")
                 }
 
-                is Result.Success<*> -> {
+                is Resource.Success<*> -> {
                     dataStore.updateData {
                         it.toMutablePreferences().apply {
                             this[walletCreatedKey] = true

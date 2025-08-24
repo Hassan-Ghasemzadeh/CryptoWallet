@@ -1,4 +1,4 @@
-package com.softwarecleandevelopment.cryptowallet.confirmphrase.data.models
+package com.softwarecleandevelopment.cryptowallet.confirmphrase.domain.models
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

@@ -1,4 +1,4 @@
-package com.softwarecleandevelopment.cryptowallet.confirmphrase.data.models
+package com.softwarecleandevelopment.cryptowallet.confirmphrase.domain.models
 
 sealed class Result<out T> {
     data class Success<out T>(val data: T) : Result<T>()

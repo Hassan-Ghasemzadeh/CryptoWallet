@@ -10,7 +10,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import androidx.compose.runtime.State
 import androidx.lifecycle.viewModelScope
-import com.softwarecleandevelopment.cryptowallet.confirmphrase.data.models.Derived
+import com.softwarecleandevelopment.cryptowallet.confirmphrase.domain.models.Derived
 import com.softwarecleandevelopment.cryptowallet.recoveryphrase.data.PhraseRepositoryImpl
 import com.softwarecleandevelopment.cryptowallet.recoveryphrase.domain.GeneratePhraseUseCase
 import kotlinx.coroutines.launch

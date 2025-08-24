@@ -6,8 +6,8 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.softwarecleandevelopment.cryptowallet.confirmphrase.data.models.Derived
-import com.softwarecleandevelopment.cryptowallet.confirmphrase.data.models.Result
+import com.softwarecleandevelopment.cryptowallet.confirmphrase.domain.models.Derived
+import com.softwarecleandevelopment.cryptowallet.confirmphrase.domain.models.Result
 import com.softwarecleandevelopment.cryptowallet.confirmphrase.data.source.WalletRepositoryImpl
 import com.softwarecleandevelopment.cryptowallet.confirmphrase.domain.usecases.CreateWalletUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel

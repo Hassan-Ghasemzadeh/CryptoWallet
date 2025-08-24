@@ -40,7 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.softwarecleandevelopment.cryptowallet.R
-import com.softwarecleandevelopment.cryptowallet.confirmphrase.data.models.Derived
+import com.softwarecleandevelopment.cryptowallet.confirmphrase.domain.models.Derived
 import com.softwarecleandevelopment.cryptowallet.recoveryphrase.presentation.viewmodel.RecoveryPhraseViewModel
 
 @OptIn(ExperimentalLayoutApi::class)

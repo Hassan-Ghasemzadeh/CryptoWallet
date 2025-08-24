@@ -1,4 +1,4 @@
-package com.softwarecleandevelopment.core.database
+package com.softwarecleandevelopment.core.database.datastore
 
 import android.content.Context
 import androidx.datastore.core.DataStore

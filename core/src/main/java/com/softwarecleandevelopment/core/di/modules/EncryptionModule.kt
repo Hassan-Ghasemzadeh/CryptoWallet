@@ -6,8 +6,8 @@ import com.google.crypto.tink.KeyTemplates
 import com.google.crypto.tink.KeysetHandle
 import com.google.crypto.tink.aead.AeadConfig
 import com.google.crypto.tink.integration.android.AndroidKeysetManager
-import com.softwarecleandevelopment.core.database.EncryptedPreferencesSerializer
-import com.softwarecleandevelopment.core.database.WalletSecureStorage
+import com.softwarecleandevelopment.core.database.datastore.EncryptedPreferencesSerializer
+import com.softwarecleandevelopment.core.database.datastore.WalletSecureStorage
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

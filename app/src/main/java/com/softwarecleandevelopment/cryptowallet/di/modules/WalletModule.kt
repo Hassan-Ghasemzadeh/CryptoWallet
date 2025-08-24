@@ -3,7 +3,7 @@ package com.softwarecleandevelopment.cryptowallet.di.modules
 import android.content.Context
 import androidx.room.Room
 import com.softwarecleandevelopment.core.crypto.CryptoStore
-import com.softwarecleandevelopment.core.database.WalletSecureStorage
+import com.softwarecleandevelopment.core.database.datastore.WalletSecureStorage
 import com.softwarecleandevelopment.cryptowallet.confirmphrase.data.database.WalletDatabase
 import com.softwarecleandevelopment.cryptowallet.confirmphrase.data.source.WalletRepositoryImpl
 import com.softwarecleandevelopment.cryptowallet.confirmphrase.data.models.WalletDao

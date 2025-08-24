@@ -1,6 +1,6 @@
 package com.softwarecleandevelopment.cryptowallet.confirmphrase.domain.usecases
 
-import com.softwarecleandevelopment.core.common.UseCase
+import com.softwarecleandevelopment.core.common.utils.UseCase
 import com.softwarecleandevelopment.cryptowallet.confirmphrase.domain.models.Derived
 import com.softwarecleandevelopment.cryptowallet.confirmphrase.domain.models.Result
 import com.softwarecleandevelopment.cryptowallet.confirmphrase.domain.repository.WalletRepository

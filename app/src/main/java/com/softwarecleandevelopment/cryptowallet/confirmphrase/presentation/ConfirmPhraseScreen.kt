@@ -31,6 +31,9 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.softwarecleandevelopment.cryptowallet.R
 import com.softwarecleandevelopment.cryptowallet.confirmphrase.domain.models.Derived
+import com.softwarecleandevelopment.cryptowallet.confirmphrase.presentation.components.ConfirmPhraseAppBar
+import com.softwarecleandevelopment.cryptowallet.confirmphrase.presentation.components.WordBox
+import com.softwarecleandevelopment.cryptowallet.confirmphrase.presentation.components.shake
 import com.softwarecleandevelopment.cryptowallet.confirmphrase.presentation.viewmodel.CreateWalletViewModel
 
 @Composable
@@ -147,62 +150,4 @@ fun ConfirmPhraseScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun ConfirmPhraseAppBar(
-    onNavigateBack: () -> Unit = {}
-) {
-    CenterAlignedTopAppBar(
-        title = {
-            Text(
-                text = stringResource(R.string.confirm_phrase_title),
-                fontWeight = FontWeight.SemiBold,
-                color = MaterialTheme.colorScheme.onSurface
-            )
-        },
-        navigationIcon = {
-            IconButton(onClick = onNavigateBack) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Back",
-                    tint = MaterialTheme.colorScheme.onSurface
-                )
-            }
-        },
-    )
-}
 
-@Composable
-fun WordBox(index: Int, word: String, onClick: (Int) -> Unit) {
-    Box(
-        modifier = Modifier
-            .width(140.dp)
-            .height(40.dp)
-            .background(MaterialTheme.colorScheme.surfaceContainer, RoundedCornerShape(6.dp))
-            .clickable { onClick(index) }, contentAlignment = Alignment.CenterStart
-    ) {
-        Text(
-            text = "${index + 1}.$word",
-            modifier = Modifier.padding(start = 10.dp),
-            color = MaterialTheme.colorScheme.onSurface,
-        )
-    }
-}
-
-@Composable
-fun shake(enabled: Boolean, onAnimationEnd: () -> Unit = {}): State<Float> {
-    val shake = remember { Animatable(0f) }
-    LaunchedEffect(enabled) {
-        if (enabled) {
-            for (i in 0..10) {
-                shake.animateTo(
-                    targetValue = if (i % 2 == 0) 1f else -1f,
-                    animationSpec = tween(durationMillis = 50, easing = LinearEasing)
-                )
-            }
-            shake.animateTo(0f)
-            onAnimationEnd()
-        }
-    }
-    return shake.asState()
-}

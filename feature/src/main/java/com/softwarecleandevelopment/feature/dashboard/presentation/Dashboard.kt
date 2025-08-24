@@ -45,23 +45,23 @@ fun DashboardScreen() {
                 }
             }
         }
-    ) { inner ->
+    ) { innerPadding ->
         when (selected) {
             0 -> WalletHome(
                 modifier = Modifier
-                    .padding(inner)
+                    .padding(innerPadding)
                     .fillMaxSize()
             )
 
             1 -> TransactionsScreen(
                 modifier = Modifier
-                    .padding(inner)
+                    .padding(innerPadding)
                     .fillMaxSize()
             )
 
             2 -> SettingsScreen(
                 modifier = Modifier
-                    .padding(inner)
+                    .padding(innerPadding)
                     .fillMaxSize()
             )
         }

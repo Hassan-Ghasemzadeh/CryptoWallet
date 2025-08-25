@@ -1,7 +1,7 @@
 package com.softwarecleandevelopment.cryptowallet.di.modules
 
 import com.softwarecleandevelopment.core.crypto.security.CryptoStore
-import com.softwarecleandevelopment.core.database.datastore.WalletSecureStorage
+import com.softwarecleandevelopment.core.database.seed_datastore.SecureSeedStorage
 import com.softwarecleandevelopment.cryptowallet.confirmphrase.data.source.WalletRepositoryImpl
 import com.softwarecleandevelopment.core.database.room.models.WalletDao
 import com.softwarecleandevelopment.cryptowallet.confirmphrase.domain.repository.WalletRepository
@@ -19,7 +19,7 @@ object WalletModule {
 
     @Provides
     @Singleton
-    fun provideUserRepository(storage: WalletSecureStorage): PhraseRepository {
+    fun provideUserRepository(storage: SecureSeedStorage): PhraseRepository {
         return PhraseRepositoryImpl(storage)
     }
     @Provides

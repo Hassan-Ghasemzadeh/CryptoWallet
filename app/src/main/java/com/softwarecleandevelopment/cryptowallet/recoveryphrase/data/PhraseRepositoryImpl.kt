@@ -1,7 +1,7 @@
 package com.softwarecleandevelopment.cryptowallet.recoveryphrase.data
 
 import android.util.Log
-import com.softwarecleandevelopment.core.database.datastore.WalletSecureStorage
+import com.softwarecleandevelopment.core.database.seed_datastore.SecureSeedStorage
 import com.softwarecleandevelopment.cryptowallet.confirmphrase.domain.models.Derived
 import com.softwarecleandevelopment.cryptowallet.recoveryphrase.domain.repository.PhraseRepository
 import org.kethereum.DEFAULT_ETHEREUM_BIP44_PATH
@@ -19,7 +19,7 @@ import javax.inject.Singleton
 @OptIn(ExperimentalStdlibApi::class)
 @Singleton
 class PhraseRepositoryImpl @Inject constructor(
-    private val storage: WalletSecureStorage,
+    private val storage: SecureSeedStorage,
 ) : PhraseRepository {
     override suspend fun generateWallet(): Derived {
         return try {
@@ -27,7 +27,7 @@ class PhraseRepositoryImpl @Inject constructor(
             val masterKey = generateMasterKey(mnemonicWords = mnemonicWords)
             val words = mnemonicWords.words.joinToString(" ")
             val privateKey = masterKey.keyPair.privateKey.toString()
-            storage.saveWallet(wallet = "$words,$privateKey")
+            storage.saveSeed(wallet = "$words,$privateKey")
             Derived(
                 mnemonic = words,
                 address = masterKey.keyPair.toAddress().hex,

@@ -6,8 +6,8 @@ import com.google.crypto.tink.KeyTemplates
 import com.google.crypto.tink.KeysetHandle
 import com.google.crypto.tink.aead.AeadConfig
 import com.google.crypto.tink.integration.android.AndroidKeysetManager
-import com.softwarecleandevelopment.core.database.datastore.EncryptedPreferencesSerializer
-import com.softwarecleandevelopment.core.database.datastore.WalletSecureStorage
+import com.softwarecleandevelopment.core.database.seed_datastore.EncryptedPreferencesSerializer
+import com.softwarecleandevelopment.core.database.seed_datastore.SecureSeedStorage
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -40,7 +40,7 @@ object EncryptionModule {
     fun provideSecureSeedStorage(
         @ApplicationContext context: Context,
         serializer: EncryptedPreferencesSerializer
-    ): WalletSecureStorage {
-        return WalletSecureStorage(context = context, serializer = serializer)
+    ): SecureSeedStorage {
+        return SecureSeedStorage(context = context, serializer = serializer)
     }
 }

@@ -1,4 +1,4 @@
-package com.softwarecleandevelopment.core.database.datastore
+package com.softwarecleandevelopment.core.database.seed_datastore
 
 import android.content.Context
 import androidx.datastore.core.DataStore
@@ -36,9 +36,8 @@ class EncryptedPreferencesSerializer @Inject constructor(private val aead: Aead)
 }
 
 @Singleton
-class WalletSecureStorage @Inject constructor(
-    private val context: Context,
-    private val serializer: EncryptedPreferencesSerializer
+class SecureSeedStorage @Inject constructor(
+    private val context: Context, private val serializer: EncryptedPreferencesSerializer
 ) {
     private val prefFileName = "user_wallet.encrypted"
     private val Context.encryptedDataStore: DataStore<String> by dataStore(
@@ -46,18 +45,18 @@ class WalletSecureStorage @Inject constructor(
         serializer = serializer,
     )
 
-    suspend fun saveWallet(wallet: String) {
+    suspend fun saveSeed(wallet: String) {
         context.encryptedDataStore.updateData {
             wallet
         }
     }
 
-    suspend fun getWallet(): String? {
+    suspend fun getSeed(): String? {
         val wallet = context.encryptedDataStore.data.first()
         return wallet.ifEmpty { null }
     }
 
-    suspend fun clearWallet() {
+    suspend fun clearSeed() {
         context.encryptedDataStore.updateData {
             ""
         }

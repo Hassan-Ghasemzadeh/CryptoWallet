@@ -3,7 +3,7 @@ package com.softwarecleandevelopment.core.di.modules
 import android.content.Context
 import androidx.room.Room
 import com.softwarecleandevelopment.core.database.room.database.WalletDatabase
-import com.softwarecleandevelopment.core.database.room.models.WalletDao
+import com.softwarecleandevelopment.core.database.room.dao.WalletDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

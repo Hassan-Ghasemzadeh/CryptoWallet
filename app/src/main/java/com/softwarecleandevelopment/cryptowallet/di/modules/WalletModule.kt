@@ -3,7 +3,7 @@ package com.softwarecleandevelopment.cryptowallet.di.modules
 import com.softwarecleandevelopment.core.crypto.security.CryptoStore
 import com.softwarecleandevelopment.core.database.seed_datastore.SecureSeedStorage
 import com.softwarecleandevelopment.cryptowallet.confirmphrase.data.source.WalletRepositoryImpl
-import com.softwarecleandevelopment.core.database.room.models.WalletDao
+import com.softwarecleandevelopment.core.database.room.dao.WalletDao
 import com.softwarecleandevelopment.cryptowallet.confirmphrase.domain.repository.WalletRepository
 import com.softwarecleandevelopment.cryptowallet.recoveryphrase.data.PhraseRepositoryImpl
 import com.softwarecleandevelopment.cryptowallet.recoveryphrase.domain.repository.PhraseRepository

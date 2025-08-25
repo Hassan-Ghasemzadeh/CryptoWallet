@@ -5,7 +5,7 @@ import com.softwarecleandevelopment.core.crypto.models.ChainType
 import com.softwarecleandevelopment.core.crypto.security.CryptoStore
 import com.softwarecleandevelopment.cryptowallet.confirmphrase.domain.models.Derived
 import com.softwarecleandevelopment.core.common.utils.safeCall
-import com.softwarecleandevelopment.core.database.room.models.WalletDao
+import com.softwarecleandevelopment.core.database.room.dao.WalletDao
 import com.softwarecleandevelopment.core.database.room.models.WalletEntity
 import com.softwarecleandevelopment.cryptowallet.confirmphrase.domain.repository.WalletRepository
 import kotlinx.coroutines.flow.Flow

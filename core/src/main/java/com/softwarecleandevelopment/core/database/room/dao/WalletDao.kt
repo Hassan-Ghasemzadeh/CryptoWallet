@@ -1,9 +1,10 @@
-package com.softwarecleandevelopment.core.database.room.models
+package com.softwarecleandevelopment.core.database.room.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.softwarecleandevelopment.core.database.room.models.WalletEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao

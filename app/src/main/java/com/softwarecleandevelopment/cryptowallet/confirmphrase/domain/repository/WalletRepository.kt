@@ -7,7 +7,6 @@ import com.softwarecleandevelopment.core.database.room.models.WalletEntity
 import kotlinx.coroutines.flow.Flow
 
 interface WalletRepository {
-    fun wallets(): Flow<List<WalletEntity>>
 
     suspend fun createNewWallet(
         derived: Derived,

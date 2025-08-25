@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.softwarecleandevelopment.core.common.utils.Resource
 import com.softwarecleandevelopment.cryptowallet.confirmphrase.domain.models.Derived
-import com.softwarecleandevelopment.cryptowallet.confirmphrase.data.source.WalletRepositoryImpl
+import com.softwarecleandevelopment.cryptowallet.confirmphrase.data.repository.WalletRepositoryImpl
 import com.softwarecleandevelopment.cryptowallet.confirmphrase.domain.usecases.CreateWalletUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow

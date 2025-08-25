@@ -10,8 +10,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import androidx.compose.runtime.State
 import androidx.lifecycle.viewModelScope
+import com.softwarecleandevelopment.core.common.utils.Resource
 import com.softwarecleandevelopment.cryptowallet.confirmphrase.domain.models.Derived
-import com.softwarecleandevelopment.cryptowallet.recoveryphrase.data.PhraseRepositoryImpl
+import com.softwarecleandevelopment.cryptowallet.recoveryphrase.data.repository.PhraseRepositoryImpl
 import com.softwarecleandevelopment.cryptowallet.recoveryphrase.domain.usecases.GeneratePhraseUseCase
 import kotlinx.coroutines.launch
 
@@ -36,9 +37,17 @@ class RecoveryPhraseViewModel @Inject constructor(
         viewModelScope.launch {
             val generateWalletUseCase = GeneratePhraseUseCase(repository = walletRepository)
             val derived = generateWalletUseCase(Unit)
-            _mnemonic.value = derived.mnemonic
-            _phraseList.value = derived.mnemonic.split(" ")
-            _derived.value = derived
+            when (derived) {
+                is Resource.Error -> {
+                    _mnemonic.value = derived.message
+                }
+
+                is Resource.Success<Derived> -> {
+                    _mnemonic.value = derived.data.mnemonic
+                    _phraseList.value = derived.data.mnemonic.split(" ")
+                    _derived.value = derived.data
+                }
+            }
         }
     }
 

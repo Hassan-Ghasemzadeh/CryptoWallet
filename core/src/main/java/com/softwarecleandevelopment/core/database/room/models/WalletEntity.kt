@@ -15,5 +15,6 @@ data class WalletEntity(
     val publicKeyHex: String?,
     val privateKey: String,
     val mnemonic: String,
-    val createdAt: Long = System.currentTimeMillis()
+    val createdAt: Long = System.currentTimeMillis(),
+    val isActive: Boolean = false,
 )

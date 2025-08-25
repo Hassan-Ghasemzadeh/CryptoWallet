@@ -22,5 +22,5 @@ interface WalletDao {
     suspend fun deactivateAll()
 
     @Query("UPDATE wallets SET isActive = 1 WHERE id = :walletId")
-    suspend fun activateWallet(walletId: Int)
+    suspend fun activateWallet(walletId: Long)
 }

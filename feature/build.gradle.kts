@@ -53,7 +53,9 @@ dependencies {
     implementation(libs.material.icons.extended)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.navigation.compose)
-
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.ui.graphics)
+    implementation(libs.androidx.ui.tooling.preview)
     //data store
     implementation(libs.androidx.datastore)
     //dagger-hilt

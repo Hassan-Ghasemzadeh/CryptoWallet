@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey
 )
 data class WalletEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
-    val name: String = "Wallet #$id",
+    val name: String = "Wallet #${id + 1}",
     val chain: String,
     val address: String,
     val publicKeyHex: String?,

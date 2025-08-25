@@ -15,31 +15,27 @@ import com.softwarecleandevelopment.feature.wallet_home.presentation.components.
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DashboardScreen() {
+fun DashboardScreen(onTitleClicked: () -> Unit = {}) {
     val viewModel: BottomNavigationViewModel = hiltViewModel()
-
     val selectedIndex = viewModel.selectedIndex.value
 
-    Scaffold(
-        topBar = {
-            if (selectedIndex == BottomNavigation.HOME.index)
-                WalletTopBar()
-            else
-                CenterAlignedTopAppBar(title = { Text(items[selectedIndex].label) })
-        },
-        bottomBar = {
-            NavigationBar {
-                items.forEachIndexed { index, item ->
-                    NavigationBarItem(
-                        selected = viewModel.isSelected(index),
-                        onClick = { viewModel.navigate(index) },
-                        icon = { Icon(item.icon, contentDescription = item.label) },
-                        label = { Text(item.label) }
-                    )
-                }
+    Scaffold(topBar = {
+        if (selectedIndex == BottomNavigation.HOME.index) WalletTopBar({
+            onTitleClicked()
+        })
+        else CenterAlignedTopAppBar(
+            title = { Text(items[selectedIndex].label) })
+    }, bottomBar = {
+        NavigationBar {
+            items.forEachIndexed { index, item ->
+                NavigationBarItem(
+                    selected = viewModel.isSelected(index),
+                    onClick = { viewModel.navigate(index) },
+                    icon = { Icon(item.icon, contentDescription = item.label) },
+                    label = { Text(item.label) })
             }
         }
-    ) { innerPadding ->
+    }) { innerPadding ->
         when (selectedIndex) {
             BottomNavigation.HOME.ordinal -> WalletHome(
                 modifier = Modifier

@@ -16,7 +16,7 @@ class WalletRepositoryImpl @Inject constructor(
     private val cryptoStore: CryptoStore
 ) : WalletRepository {
 
-    override fun wallets(): Flow<List<WalletEntity>> = walletDao.observeAll()
+    override fun wallets(): Flow<List<WalletEntity>> = walletDao.getAllWallets()
 
     override suspend fun createNewWallet(derived: Derived): Resource<Unit> {
         val encryptedMnemonic = cryptoStore.encrypt(derived.mnemonic.toByteArray())

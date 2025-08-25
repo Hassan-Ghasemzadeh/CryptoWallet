@@ -100,6 +100,7 @@ fun WalletsScreen(
                             viewModel.selectWallet(
                                 wallet.id
                             )
+                            onNavigateBack()
                         })
                     Spacer(modifier = Modifier.height(12.dp))
                 }

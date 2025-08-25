@@ -13,7 +13,7 @@ class WalletRepositoryImpl @Inject constructor(
     private val walletDataSourceImpl: WalletDataSourceImpl,
 ) : WalletRepository {
 
-    override suspend fun createNewWallet(derived: Derived): Resource<Unit> {
+    override suspend fun createNewWallet(derived: Derived): Resource<Long> {
         return safeCall { walletDataSourceImpl.createNewWallet(derived) }
     }
 

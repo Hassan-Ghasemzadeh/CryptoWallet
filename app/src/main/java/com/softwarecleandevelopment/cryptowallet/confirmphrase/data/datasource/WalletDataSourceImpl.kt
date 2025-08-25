@@ -10,9 +10,11 @@ import javax.inject.Inject
 class WalletDataSourceImpl @Inject constructor(
     private val walletDao: WalletDao, private val cryptoStore: CryptoStore
 ) : WalletDataSource {
-    override suspend fun createNewWallet(derived: Derived) {
+    override suspend fun createNewWallet(derived: Derived): Long {
         val encryptedMnemonic = cryptoStore.encrypt(derived.mnemonic.toByteArray())
         val encryptedPrivateKey = cryptoStore.encrypt(derived.privateKeyHex!!.toByteArray())
+        val count = walletDao.getWalletCount()
+        val name = "Wallet #${count + 1}"
         val entity = WalletEntity(
             chain = ChainType.MULTI_COIN.displayName,
             address = derived.address,
@@ -20,9 +22,11 @@ class WalletDataSourceImpl @Inject constructor(
             privateKey = encryptedPrivateKey.toString(),
             mnemonic = encryptedMnemonic.toString(),
             isActive = true,
+            name = name
         )
         walletDao.deactivateAll()
-        walletDao.insert(entity)
+        val id = walletDao.insert(entity)
+        return id
     }
 
     override suspend fun importFromMnemonic(

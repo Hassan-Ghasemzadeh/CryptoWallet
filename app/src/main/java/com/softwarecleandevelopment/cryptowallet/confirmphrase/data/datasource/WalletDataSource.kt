@@ -8,7 +8,7 @@ interface WalletDataSource {
 
     suspend fun createNewWallet(
         derived: Derived,
-    )
+    ): Long
 
     suspend fun importFromMnemonic(
         name: String, chain: ChainType, mnemonic: String

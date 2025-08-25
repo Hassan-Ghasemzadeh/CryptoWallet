@@ -7,8 +7,8 @@ import com.softwarecleandevelopment.cryptowallet.confirmphrase.domain.repository
 import javax.inject.Inject
 
 class CreateWalletUseCase @Inject constructor(val repository: WalletRepository) :
-    UseCase<Resource<Unit>, Derived>() {
-    override suspend fun invoke(params: Derived): Resource<Unit> {
+    UseCase<Resource<Long>, Derived>() {
+    override suspend fun invoke(params: Derived): Resource<Long> {
         return repository.createNewWallet(derived = params)
     }
 }

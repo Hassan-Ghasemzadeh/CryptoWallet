@@ -10,7 +10,7 @@ interface WalletRepository {
 
     suspend fun createNewWallet(
         derived: Derived,
-    ): Resource<Unit>
+    ): Resource<Long>
 
     suspend fun importFromMnemonic(
         name: String, chain: ChainType, mnemonic: String

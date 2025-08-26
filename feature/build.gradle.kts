@@ -56,6 +56,7 @@ dependencies {
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
+    debugImplementation(libs.androidx.ui.tooling)
     //data store
     implementation(libs.androidx.datastore)
     //dagger-hilt

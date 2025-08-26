@@ -21,4 +21,8 @@ class WalletsDataSourceImpl @Inject constructor(
         return dao.getActiveWallet()
     }
 
+    override suspend fun updateWalletName(name: String, walletId: Long) {
+        return dao.updateWalletName(name, walletId)
+    }
+
 }

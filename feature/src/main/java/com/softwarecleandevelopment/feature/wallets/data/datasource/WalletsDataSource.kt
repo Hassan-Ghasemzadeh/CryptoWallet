@@ -9,4 +9,6 @@ interface WalletsDataSource {
     fun getWallets(): Flow<List<WalletEntity>>
 
     fun getActiveWallet(): Flow<WalletEntity?>
+
+    suspend fun updateWalletName(name: String, walletId: Long)
 }

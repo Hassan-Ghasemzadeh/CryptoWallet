@@ -30,10 +30,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.softwarecleandevelopment.core.database.room.models.WalletEntity
 import com.softwarecleandevelopment.feature.R
+import com.softwarecleandevelopment.feature.wallets.domain.models.UpdateWalletEvent
 
 
 @Composable
-fun WalletItem(wallet: WalletEntity, onClick: () -> Unit) {
+fun WalletItem(
+    wallet: WalletEntity,
+    onClick: () -> Unit,
+    onSettingClick: (UpdateWalletEvent) -> Unit
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -77,7 +82,19 @@ fun WalletItem(wallet: WalletEntity, onClick: () -> Unit) {
         // Settings Icon
         Spacer(modifier = Modifier.width(8.dp))
         Icon(
-            Icons.Default.Settings,
+            modifier = Modifier.clickable(
+                enabled = true,
+                onClick = {
+                    onSettingClick(
+                        UpdateWalletEvent(
+                            wallet.name,
+                            wallet.id,
+                            mnemonic = wallet.mnemonic,
+                        )
+                    )
+                },
+            ),
+            imageVector = Icons.Default.Settings,
             contentDescription = "Settings",
             tint = Color.Gray
         )

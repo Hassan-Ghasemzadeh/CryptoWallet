@@ -8,4 +8,5 @@ interface WalletsRepository {
     fun getWallets(): Resource<Flow<List<WalletEntity>>>
     suspend fun selectWallets(walletId: Long): Resource<Unit>
     fun getActiveWallet(): Resource<Flow<WalletEntity?>>
+    suspend fun updateWalletName(name: String, walletId: Long): Resource<Unit>
 }

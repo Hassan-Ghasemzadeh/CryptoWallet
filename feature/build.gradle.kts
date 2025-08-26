@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.android.dagger.hilt)
     alias(libs.plugins.android.ksp)
+    alias(libs.plugins.kotlin.parcelable)
 }
 
 android {

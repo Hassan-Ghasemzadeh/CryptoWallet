@@ -27,4 +27,7 @@ interface WalletDao {
 
     @Query("SELECT COUNT(*) FROM wallets")
     suspend fun getWalletCount(): Int
+
+    @Query("Update wallets SET name = :name WHERE id = :walletId")
+    suspend fun updateWalletName(name: String, walletId: Long)
 }

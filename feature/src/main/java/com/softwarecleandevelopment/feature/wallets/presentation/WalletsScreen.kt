@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.softwarecleandevelopment.feature.wallets.domain.models.UpdateWalletEvent
 import com.softwarecleandevelopment.feature.wallets.presentation.viewmodels.WalletsViewModel
 import com.softwarecleandevelopment.feature.wallets.presentation.components.WalletItem
 import kotlinx.coroutines.FlowPreview
@@ -26,6 +27,7 @@ import kotlinx.coroutines.flow.debounce
 @Composable
 fun WalletsScreen(
     viewModel: WalletsViewModel = hiltViewModel(),
+    onSettingClicked: (event: UpdateWalletEvent) -> Unit = {},
     onNavigateBack: () -> Unit = {},
     onCreateWallet: () -> Unit = {},
     onImportWallet: () -> Unit = {},
@@ -97,7 +99,11 @@ fun WalletsScreen(
                             viewModel.selectWallet(
                                 wallet.id
                             )
-                        })
+                        },
+                        onSettingClick = {
+                            onSettingClicked(it)
+                        },
+                    )
                     Spacer(modifier = Modifier.height(12.dp))
                 }
             }

@@ -23,4 +23,8 @@ class WalletsRepositoryImpl @Inject constructor(
     override fun getActiveWallet(): Resource<Flow<WalletEntity?>> {
         return safeFlowCall { walletsDataSourceImpl.getActiveWallet() }
     }
+
+    override suspend fun updateWalletName(name: String, walletId: Long): Resource<Unit> {
+        return safeCall { walletsDataSourceImpl.updateWalletName(name, walletId) }
+    }
 }

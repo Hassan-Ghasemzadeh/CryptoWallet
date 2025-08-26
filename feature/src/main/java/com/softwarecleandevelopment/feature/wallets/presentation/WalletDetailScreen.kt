@@ -1,6 +1,5 @@
 package com.softwarecleandevelopment.feature.wallets.presentation
 
-import android.content.res.Configuration
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -28,19 +27,35 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.softwarecleandevelopment.feature.wallets.domain.models.UpdateWalletEvent
+import com.softwarecleandevelopment.feature.wallets.presentation.viewmodels.WalletDetailViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WalletDetailScreen(
+    event: UpdateWalletEvent?,
     onNavigateBack: () -> Unit = {},
     onShowScreenPhrase: (phraseList: List<String>) -> Unit = {},
+    viewModel: WalletDetailViewModel = hiltViewModel()
 ) {
     val focus = LocalFocusManager.current
+    LaunchedEffect(Unit) {
+        if (event != null) {
+            viewModel.updateWalletName(
+                UpdateWalletEvent(
+                    name = event.name,
+                    walletId = event.walletId,
+                    mnemonic = event.mnemonic,
+                )
+            )
+        }
+    }
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -64,9 +79,17 @@ fun WalletDetailScreen(
         ) {
             Spacer(Modifier.height(8.dp))
             OutlinedTextField(
-                value = "",
-                onValueChange = {
-
+                value = viewModel.name.value,
+                onValueChange = { name ->
+                    if (event != null) {
+                        viewModel.updateWalletName(
+                            UpdateWalletEvent(
+                                name = name,
+                                walletId = event.walletId,
+                                mnemonic = event.mnemonic,
+                            )
+                        )
+                    }
                 },
                 label = {
                     Text("Name")
@@ -131,10 +154,4 @@ fun WalletDetailScreen(
         }
 
     }
-}
-
-@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_NO, apiLevel = 35)
-@Composable
-fun PreviewWalletScreen() {
-    WalletDetailScreen()
 }

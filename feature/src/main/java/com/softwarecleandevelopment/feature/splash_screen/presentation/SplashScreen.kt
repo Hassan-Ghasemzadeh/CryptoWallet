@@ -13,7 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.softwarecleandevelopment.core.common.navigation.AppGraph
+import com.softwarecleandevelopment.core.common.navigation.app_graph.AppGraph
 import com.softwarecleandevelopment.feature.dashboard.navigation.HomeScreens
 import com.softwarecleandevelopment.feature.splash_screen.presentation.viewmodels.HandleWalletNavigationViewModel
 

@@ -39,6 +39,11 @@ fun WalletsScreen(
     onImportWallet: () -> Unit = {},
 ) {
     val wallets = viewModel.wallets.value
+    LaunchedEffect(Unit) {
+        viewModel.navigation.collect {
+            onNavigateBack()
+        }
+    }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -100,7 +105,6 @@ fun WalletsScreen(
                             viewModel.selectWallet(
                                 wallet.id
                             )
-                            onNavigateBack()
                         })
                     Spacer(modifier = Modifier.height(12.dp))
                 }

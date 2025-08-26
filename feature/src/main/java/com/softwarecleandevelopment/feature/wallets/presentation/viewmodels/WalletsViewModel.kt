@@ -10,6 +10,8 @@ import com.softwarecleandevelopment.feature.wallets.domain.usecase.SelectWalletU
 import com.softwarecleandevelopment.feature.wallets.domain.repository.WalletsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,6 +22,9 @@ class WalletsViewModel @Inject constructor(val walletsRepository: WalletsReposit
     private val _wallets = mutableStateOf<List<WalletEntity>>(listOf())
     val wallets: State<List<WalletEntity>> = _wallets
 
+    private val _navigation = MutableSharedFlow<Unit>()
+    val navigation = _navigation.asSharedFlow()
+
     init {
         getWallets()
     }
@@ -28,6 +33,7 @@ class WalletsViewModel @Inject constructor(val walletsRepository: WalletsReposit
         viewModelScope.launch {
             val result = SelectWalletUseCase(walletsRepository)
             result.invoke(walletId)
+            _navigation.emit(Unit)
         }
     }
 

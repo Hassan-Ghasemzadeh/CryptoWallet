@@ -19,16 +19,18 @@ class WalletsAppbarViewModel @Inject constructor(
 ) : ViewModel() {
     private val _name = mutableStateOf("")
     val name: State<String> = _name
+
     init {
         getActiveWallet()
     }
+
     fun getActiveWallet() {
         viewModelScope.launch {
             val useCase = GetActiveWalletUseCase(walletsRepository)
             val result = useCase.invoke(Unit)
             when (result) {
                 is Resource.Error -> {
-
+                    _name.value = result.message
                 }
 
                 is Resource.Success<Flow<WalletEntity?>> -> {

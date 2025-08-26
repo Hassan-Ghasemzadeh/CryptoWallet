@@ -134,9 +134,7 @@ fun WalletDetailScreen(
             Spacer(modifier = Modifier.height(25.dp))
             Button(
                 onClick = {
-                    if (event != null) {
-                        viewModel.deleteWallet(event.walletId)
-                    }
+                    viewModel.deleteWallet(event!!.walletId)
                 },
                 modifier = Modifier
                     .fillMaxWidth()

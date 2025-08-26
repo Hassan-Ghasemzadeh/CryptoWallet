@@ -63,7 +63,11 @@ object NavHostExtension {
                     onSuccess = {
                         navController.navigate(
                             HomeScreens.DashboardScreen.route,
-                        )
+                        ) {
+                            popUpTo(CreateWalletScreens.LandingScreen.route) {
+                                inclusive = true
+                            }
+                        }
                     },
                     derived = derived,
                 )

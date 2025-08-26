@@ -22,7 +22,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.softwarecleandevelopment.feature.R
-import com.softwarecleandevelopment.feature.wallet_home.presentation.WalletsAppbarViewModel
+import com.softwarecleandevelopment.feature.wallet_home.presentation.viewmodels.WalletsAppbarViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)

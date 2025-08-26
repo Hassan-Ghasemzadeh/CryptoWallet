@@ -1,4 +1,4 @@
-package com.softwarecleandevelopment.feature.wallet_home.presentation
+package com.softwarecleandevelopment.feature.wallet_home.presentation.viewmodels
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf

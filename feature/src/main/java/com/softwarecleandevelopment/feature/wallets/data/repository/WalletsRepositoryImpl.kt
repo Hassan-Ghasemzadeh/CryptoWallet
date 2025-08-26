@@ -19,4 +19,8 @@ class WalletsRepositoryImpl @Inject constructor(
     override suspend fun selectWallets(walletId: Long): Resource<Unit> {
         return safeCall { walletsDataSourceImpl.selectWallets(walletId) }
     }
+
+    override fun getActiveWallet(): Resource<Flow<WalletEntity?>> {
+        return safeFlowCall { walletsDataSourceImpl.getActiveWallet() }
+    }
 }

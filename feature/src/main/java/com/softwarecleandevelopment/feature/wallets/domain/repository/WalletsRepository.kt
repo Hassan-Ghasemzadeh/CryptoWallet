@@ -7,4 +7,5 @@ import kotlinx.coroutines.flow.Flow
 interface WalletsRepository {
     fun getWallets(): Resource<Flow<List<WalletEntity>>>
     suspend fun selectWallets(walletId: Long): Resource<Unit>
+    fun getActiveWallet(): Resource<Flow<WalletEntity?>>
 }

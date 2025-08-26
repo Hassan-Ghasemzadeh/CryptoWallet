@@ -13,7 +13,6 @@ import androidx.compose.material.icons.outlined.KeyboardArrowDown
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -21,12 +20,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.softwarecleandevelopment.feature.R
+import com.softwarecleandevelopment.feature.wallet_home.presentation.WalletsAppbarViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun WalletTopBar(onClick: () -> Unit) {
+fun WalletTopBar(
+    onClick: () -> Unit,
+    walletsAppbarViewModel: WalletsAppbarViewModel = hiltViewModel()
+) {
     CenterAlignedTopAppBar(
         title = {
             Row(
@@ -47,7 +51,7 @@ fun WalletTopBar(onClick: () -> Unit) {
                     )
                 }
                 Spacer(Modifier.width(8.dp))
-                Text("Wallet #1")
+                Text(walletsAppbarViewModel.name.value)
                 Icon(
                     Icons.Outlined.KeyboardArrowDown,
                     contentDescription = "Arrow Down",

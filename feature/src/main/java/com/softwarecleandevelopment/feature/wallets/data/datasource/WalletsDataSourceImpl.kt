@@ -16,4 +16,9 @@ class WalletsDataSourceImpl @Inject constructor(
     override fun getWallets(): Flow<List<WalletEntity>> {
         return dao.getAllWallets()
     }
+
+    override fun getActiveWallet(): Flow<WalletEntity?> {
+        return dao.getActiveWallet()
+    }
+
 }

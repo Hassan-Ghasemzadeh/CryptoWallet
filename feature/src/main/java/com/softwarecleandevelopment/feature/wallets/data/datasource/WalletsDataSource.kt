@@ -7,4 +7,6 @@ interface WalletsDataSource {
     suspend fun selectWallets(walletId: Long)
 
     fun getWallets(): Flow<List<WalletEntity>>
+
+    fun getActiveWallet(): Flow<WalletEntity?>
 }

@@ -1,34 +1,24 @@
 package com.softwarecleandevelopment.feature.wallets.presentation
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowDownward
-import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.res.painterResource
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.softwarecleandevelopment.core.database.room.models.WalletEntity
 import com.softwarecleandevelopment.feature.wallets.presentation.viewmodels.WalletsViewModel
-import com.softwarecleandevelopment.feature.R
+import com.softwarecleandevelopment.feature.wallets.presentation.components.WalletItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -110,57 +100,5 @@ fun WalletsScreen(
                 }
             }
         }
-    }
-}
-
-@Composable
-fun WalletItem(wallet: WalletEntity, onClick: () -> Unit) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(12.dp))
-            .background(MaterialTheme.colorScheme.surfaceContainer)
-            .clickable { onClick() }
-            .padding(16.dp),
-        verticalAlignment = Alignment.CenterVertically) {
-        // Wallet Icon
-        Box(
-            modifier = Modifier
-                .size(40.dp)
-                .clip(CircleShape),
-            contentAlignment = Alignment.Center
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.app_icon),
-                contentDescription = "Wallet Icon",
-            )
-        }
-
-        Spacer(modifier = Modifier.width(12.dp))
-
-        // Wallet Info
-        Column(
-            modifier = Modifier.weight(1f)
-        ) {
-            Text(wallet.name, fontWeight = FontWeight.Bold)
-            Text("Multi-Coin", fontSize = 12.sp)
-        }
-
-        // Selected Mark
-        if (wallet.isActive) {
-            Icon(
-                Icons.Default.CheckCircle,
-                contentDescription = "Selected",
-                tint = Color.Blue
-            )
-        }
-
-        // Settings Icon
-        Spacer(modifier = Modifier.width(8.dp))
-        Icon(
-            Icons.Default.Settings,
-            contentDescription = "Settings",
-            tint = Color.Gray
-        )
     }
 }

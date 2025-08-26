@@ -22,7 +22,7 @@ class WalletsViewModel @Inject constructor(val walletsRepository: WalletsReposit
     private val _wallets = mutableStateOf<List<WalletEntity>>(listOf())
     val wallets: State<List<WalletEntity>> = _wallets
 
-    private val _navigation = MutableSharedFlow<Unit>()
+    private val _navigation = MutableSharedFlow<Unit>(replay = 0, extraBufferCapacity = 1)
     val navigation = _navigation.asSharedFlow()
 
     init {

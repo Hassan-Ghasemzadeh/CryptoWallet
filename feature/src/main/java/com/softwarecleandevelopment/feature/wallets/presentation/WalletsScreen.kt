@@ -19,8 +19,10 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.softwarecleandevelopment.feature.wallets.presentation.viewmodels.WalletsViewModel
 import com.softwarecleandevelopment.feature.wallets.presentation.components.WalletItem
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.debounce
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, FlowPreview::class)
 @Composable
 fun WalletsScreen(
     viewModel: WalletsViewModel = hiltViewModel(),
@@ -30,7 +32,7 @@ fun WalletsScreen(
 ) {
     val wallets = viewModel.wallets.value
     LaunchedEffect(Unit) {
-        viewModel.navigation.collect {
+        viewModel.navigation.debounce(500).collect {
             onNavigateBack()
         }
     }

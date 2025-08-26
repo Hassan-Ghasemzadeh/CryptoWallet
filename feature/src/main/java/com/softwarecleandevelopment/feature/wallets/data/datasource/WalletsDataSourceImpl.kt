@@ -25,4 +25,9 @@ class WalletsDataSourceImpl @Inject constructor(
         return dao.updateWalletName(name, walletId)
     }
 
+    override suspend fun deleteWallet(walletId: Long) {
+        return dao.deleteWallet(walletId)
+    }
+
+
 }

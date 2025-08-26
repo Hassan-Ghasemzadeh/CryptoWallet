@@ -27,4 +27,8 @@ class WalletsRepositoryImpl @Inject constructor(
     override suspend fun updateWalletName(name: String, walletId: Long): Resource<Unit> {
         return safeCall { walletsDataSourceImpl.updateWalletName(name, walletId) }
     }
+
+    override suspend fun deleteWallet(walletId: Long): Resource<Unit> {
+        return safeCall { walletsDataSourceImpl.deleteWallet(walletId) }
+    }
 }

@@ -11,4 +11,6 @@ interface WalletsDataSource {
     fun getActiveWallet(): Flow<WalletEntity?>
 
     suspend fun updateWalletName(name: String, walletId: Long)
+
+    suspend fun deleteWallet(walletId: Long)
 }

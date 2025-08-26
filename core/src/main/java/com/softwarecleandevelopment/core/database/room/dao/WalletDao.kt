@@ -30,4 +30,7 @@ interface WalletDao {
 
     @Query("Update wallets SET name = :name WHERE id = :walletId")
     suspend fun updateWalletName(name: String, walletId: Long)
+
+    @Query("DELETE from wallets WHERE id = :walletId")
+    suspend fun deleteWallet(walletId: Long)
 }

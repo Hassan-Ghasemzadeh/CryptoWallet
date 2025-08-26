@@ -60,6 +60,13 @@ object DashboardNavHostExtension {
                     event = event,
                     onNavigateBack = {
                         navController.navigateUp()
+                    },
+                    onNavigateToCreateWallet = {
+                        navController.navigate(CreateWalletScreens.LandingScreen.route) {
+                            popUpTo(CreateWalletScreens.LandingScreen.route) {
+                                inclusive = true
+                            }
+                        }
                     }
                 )
             }

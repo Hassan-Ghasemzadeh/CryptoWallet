@@ -9,4 +9,5 @@ interface WalletsRepository {
     suspend fun selectWallets(walletId: Long): Resource<Unit>
     fun getActiveWallet(): Resource<Flow<WalletEntity?>>
     suspend fun updateWalletName(name: String, walletId: Long): Resource<Unit>
+    suspend fun deleteWallet(walletId: Long): Resource<Unit>
 }

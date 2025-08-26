@@ -33,16 +33,20 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.softwarecleandevelopment.feature.wallets.domain.models.DeleteWalletEvent
 import com.softwarecleandevelopment.feature.wallets.domain.models.UpdateWalletEvent
 import com.softwarecleandevelopment.feature.wallets.presentation.viewmodels.WalletDetailViewModel
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.debounce
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, FlowPreview::class)
 @Composable
 fun WalletDetailScreen(
     event: UpdateWalletEvent?,
     onNavigateBack: () -> Unit = {},
     onShowScreenPhrase: (phraseList: List<String>) -> Unit = {},
-    viewModel: WalletDetailViewModel = hiltViewModel()
+    viewModel: WalletDetailViewModel = hiltViewModel(),
+    onNavigateToCreateWallet: () -> Unit = {}
 ) {
     val focus = LocalFocusManager.current
     LaunchedEffect(Unit) {
@@ -54,23 +58,25 @@ fun WalletDetailScreen(
                     mnemonic = event.mnemonic,
                 )
             )
+            viewModel.navigation.debounce(500).collect {
+                when (it) {
+                    DeleteWalletEvent.NavigateToCreateWallet -> {
+                        onNavigateToCreateWallet()
+                    }
+                }
+            }
         }
     }
     Scaffold(
         topBar = {
-            CenterAlignedTopAppBar(
-                title = { Text("Wallet") },
-                navigationIcon = {
-                    IconButton(onClick = onNavigateBack) {
-                        Icon(
-                            Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Arrow back"
-                        )
-                    }
+            CenterAlignedTopAppBar(title = { Text("Wallet") }, navigationIcon = {
+                IconButton(onClick = onNavigateBack) {
+                    Icon(
+                        Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Arrow back"
+                    )
                 }
-            )
-        }
-    ) { innerPadding ->
+            })
+        }) { innerPadding ->
         Column(
             modifier = Modifier
                 .padding(innerPadding)
@@ -102,43 +108,35 @@ fun WalletDetailScreen(
                 keyboardActions = KeyboardActions(
                     onDone = {
                         focus.clearFocus()
-                    }
-                ),
+                    }),
                 shape = RoundedCornerShape(12.dp),
             )
             Spacer(Modifier.height(12.dp))
             HorizontalDivider(
-                Modifier
-                    .fillMaxWidth(),
-                DividerDefaults.Thickness,
-                DividerDefaults.color
+                Modifier.fillMaxWidth(), DividerDefaults.Thickness, DividerDefaults.color
             )
             ListItem(
                 headlineContent = {
                     Text("Show Secret Phrase", style = MaterialTheme.typography.labelLarge)
-                },
-                trailingContent = {
+                }, trailingContent = {
                     Icon(
                         Icons.Default.ChevronRight,
                         contentDescription = null,
                     )
-                },
-                modifier = Modifier
+                }, modifier = Modifier
                     .clickable {
                         onShowScreenPhrase(listOf())
                     }
-                    .padding(horizontal = 4.dp)
-            )
+                    .padding(horizontal = 4.dp))
             HorizontalDivider(
-                Modifier
-                    .fillMaxWidth(),
-                DividerDefaults.Thickness,
-                DividerDefaults.color
+                Modifier.fillMaxWidth(), DividerDefaults.Thickness, DividerDefaults.color
             )
             Spacer(modifier = Modifier.height(25.dp))
             Button(
                 onClick = {
-
+                    if (event != null) {
+                        viewModel.deleteWallet(event.walletId)
+                    }
                 },
                 modifier = Modifier
                     .fillMaxWidth()

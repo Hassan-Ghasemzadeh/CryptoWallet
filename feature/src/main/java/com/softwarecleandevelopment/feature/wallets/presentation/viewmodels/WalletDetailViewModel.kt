@@ -36,9 +36,6 @@ class WalletDetailViewModel @Inject constructor(
     private val wallets: State<List<WalletEntity>> = _wallets
     private val walletCreatedKey = booleanPreferencesKey("wallet_created")
 
-    init {
-        getWallets()
-    }
 
     fun deleteWallet(walletId: Long) {
         viewModelScope.launch {
@@ -47,11 +44,24 @@ class WalletDetailViewModel @Inject constructor(
             when (result) {
                 is Resource.Error -> {}
                 is Resource.Success<*> -> {
-                    if (wallets.value.isEmpty()) {
-                        _navigation.emit(DeleteWalletEvent.NavigateToCreateWallet)
-                        dataStore.updateData {
-                            it.toMutablePreferences().apply {
-                                this[walletCreatedKey] = false
+                    val result = walletsRepository.getWallets()
+                    when (result) {
+                        is Resource.Error -> {
+                            _wallets.value = listOf()
+                        }
+
+                        is Resource.Success<Flow<List<WalletEntity>>> -> {
+                            result.data.collectLatest { response ->
+                                if (response.isEmpty()) {
+                                    _navigation.emit(DeleteWalletEvent.NavigateToCreateWallet)
+                                    dataStore.updateData {
+                                        it.toMutablePreferences().apply {
+                                            this[walletCreatedKey] = false
+                                        }
+                                    }
+                                } else {
+                                    _navigation.emit(DeleteWalletEvent.NavigateBack)
+                                }
                             }
                         }
                     }
@@ -61,22 +71,6 @@ class WalletDetailViewModel @Inject constructor(
         }
     }
 
-    private fun getWallets() {
-        viewModelScope.launch {
-            val result = walletsRepository.getWallets()
-            when (result) {
-                is Resource.Error -> {
-                    _wallets.value = listOf()
-                }
-
-                is Resource.Success<Flow<List<WalletEntity>>> -> {
-                    result.data.collectLatest { response ->
-                        _wallets.value = response
-                    }
-                }
-            }
-        }
-    }
 
     fun updateWalletName(event: UpdateWalletEvent) {
         _name.value = event.name

@@ -63,6 +63,10 @@ fun WalletDetailScreen(
                     DeleteWalletEvent.NavigateToCreateWallet -> {
                         onNavigateToCreateWallet()
                     }
+
+                    DeleteWalletEvent.NavigateBack -> {
+                        onNavigateBack()
+                    }
                 }
             }
         }

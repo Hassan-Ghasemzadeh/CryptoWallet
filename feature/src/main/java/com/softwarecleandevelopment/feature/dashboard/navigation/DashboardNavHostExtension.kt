@@ -4,7 +4,8 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.softwarecleandevelopment.core.common.navigation.AppGraph
+import com.softwarecleandevelopment.core.common.navigation.app_graph.AppGraph
+import com.softwarecleandevelopment.core.common.navigation.screens.CreateWalletScreens
 import com.softwarecleandevelopment.feature.dashboard.presentation.DashboardScreen
 import com.softwarecleandevelopment.feature.wallets.presentation.WalletsScreen
 
@@ -29,10 +30,10 @@ object DashboardNavHostExtension {
             ) {
                 WalletsScreen(
                     onNavigateBack = {
-                        navController.popBackStack()
+                        navController.navigateUp()
                     },
                     onCreateWallet = {
-                        navController.navigate("user_agreement_screen")
+                        navController.navigate(CreateWalletScreens.UserAgreementScreen.route)
                     },
                     onImportWallet = {
 

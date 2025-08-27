@@ -56,19 +56,16 @@ object DashboardNavHostExtension {
             ) {
                 val event =
                     navController.previousBackStackEntry?.savedStateHandle?.get<UpdateWalletEvent>("updateWalletEvent")
-                WalletDetailScreen(
-                    event = event,
-                    onNavigateBack = {
-                        navController.navigateUp()
-                    },
-                    onNavigateToCreateWallet = {
-                        navController.navigate(CreateWalletScreens.LandingScreen.route) {
-                            popUpTo(CreateWalletScreens.LandingScreen.route) {
-                                inclusive = true
-                            }
+                WalletDetailScreen(event = event, onNavigateBack = {
+                    navController.navigateUp()
+                    navController.clearBackStack(HomeScreens.WalletDetailScreen.route)
+                }, onNavigateToCreateWallet = {
+                    navController.navigate(CreateWalletScreens.LandingScreen.route) {
+                        popUpTo(CreateWalletScreens.LandingScreen.route) {
+                            inclusive = true
                         }
                     }
-                )
+                })
             }
         }
     }

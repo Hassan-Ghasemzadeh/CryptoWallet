@@ -20,6 +20,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import com.softwarecleandevelopment.feature.wallets.domain.usecase.SelectWalletUseCase
 
 @HiltViewModel
 class WalletDetailViewModel @Inject constructor(
@@ -32,8 +33,6 @@ class WalletDetailViewModel @Inject constructor(
     private val _navigation =
         MutableSharedFlow<DeleteWalletEvent>(replay = 0, extraBufferCapacity = 1)
     val navigation = _navigation.asSharedFlow()
-    private val _wallets = mutableStateOf<List<WalletEntity>>(listOf())
-    private val wallets: State<List<WalletEntity>> = _wallets
     private val walletCreatedKey = booleanPreferencesKey("wallet_created")
 
 
@@ -46,9 +45,7 @@ class WalletDetailViewModel @Inject constructor(
                 is Resource.Success<*> -> {
                     val result = walletsRepository.getWallets()
                     when (result) {
-                        is Resource.Error -> {
-                            _wallets.value = listOf()
-                        }
+                        is Resource.Error -> {}
 
                         is Resource.Success<Flow<List<WalletEntity>>> -> {
                             result.data.collectLatest { response ->

@@ -17,15 +17,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
+import com.softwarecleandevelopment.feature.dashboard.navigation.HomeScreens
 import com.softwarecleandevelopment.feature.wallets.domain.models.UpdateWalletEvent
 import com.softwarecleandevelopment.feature.wallets.presentation.viewmodels.WalletsViewModel
 import com.softwarecleandevelopment.feature.wallets.presentation.components.WalletItem
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.debounce
-
 @OptIn(ExperimentalMaterial3Api::class, FlowPreview::class)
 @Composable
 fun WalletsScreen(
+    navController: NavController,
     viewModel: WalletsViewModel = hiltViewModel(),
     onSettingClicked: (event: UpdateWalletEvent) -> Unit = {},
     onNavigateBack: () -> Unit = {},
@@ -33,9 +35,12 @@ fun WalletsScreen(
     onImportWallet: () -> Unit = {},
 ) {
     val wallets = viewModel.wallets.value
-    LaunchedEffect(Unit) {
-        viewModel.navigation.debounce(500).collect {
-            onNavigateBack()
+    val currentBackStack = navController.currentBackStackEntryAsState()
+
+    LaunchedEffect(currentBackStack.value) {
+        val route = currentBackStack.value?.destination?.route
+        if (route == HomeScreens.WalletsScreen.route) {
+            viewModel.selectDefaultWallet()
         }
     }
     Scaffold(
@@ -97,7 +102,8 @@ fun WalletsScreen(
                         wallet = wallet,
                         onClick = {
                             viewModel.selectWallet(
-                                wallet.id
+                                wallet.id,
+                                navController = navController
                             )
                         },
                         onSettingClick = {

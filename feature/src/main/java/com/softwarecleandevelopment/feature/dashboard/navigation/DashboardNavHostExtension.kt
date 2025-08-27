@@ -31,6 +31,7 @@ object DashboardNavHostExtension {
                 route = HomeScreens.WalletsScreen.route,
             ) {
                 WalletsScreen(
+                    navController,
                     onNavigateBack = {
                         navController.navigateUp()
                     },

@@ -4,14 +4,13 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
 import com.softwarecleandevelopment.core.common.utils.Resource
 import com.softwarecleandevelopment.core.database.room.models.WalletEntity
 import com.softwarecleandevelopment.feature.wallets.domain.usecase.SelectWalletUseCase
 import com.softwarecleandevelopment.feature.wallets.domain.repository.WalletsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -22,22 +21,31 @@ class WalletsViewModel @Inject constructor(val walletsRepository: WalletsReposit
     private val _wallets = mutableStateOf<List<WalletEntity>>(listOf())
     val wallets: State<List<WalletEntity>> = _wallets
 
-    private val _navigation = MutableSharedFlow<Unit>(replay = 0, extraBufferCapacity = 1)
-    val navigation = _navigation.asSharedFlow()
+    private val result = SelectWalletUseCase(walletsRepository)
 
     init {
         getWallets()
     }
 
-    fun selectWallet(walletId: Long) {
+    fun selectWallet(walletId: Long, navController: NavController) {
         viewModelScope.launch {
-            val result = SelectWalletUseCase(walletsRepository)
             result.invoke(walletId)
-            _navigation.emit(Unit)
+            navController.navigateUp()
         }
     }
 
-    fun getWallets() {
+    fun selectDefaultWallet() {
+        // Check if the wallets list is not empty and if a wallet is not already active.
+        viewModelScope.launch {
+            val walletsList = _wallets.value
+            if (walletsList.isNotEmpty() && walletsList.none { it.isActive }) {
+                // If no wallet is active, select the first one in the list.
+                result.invoke(walletsList.first().id)
+            }
+        }
+    }
+
+    private fun getWallets() {
         viewModelScope.launch {
             val result = walletsRepository.getWallets()
             when (result) {

@@ -1,5 +1,6 @@
 package com.softwarecleandevelopment.feature.dashboard.navigation
 
+import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -8,6 +9,7 @@ import com.softwarecleandevelopment.core.common.navigation.app_graph.AppGraph
 import com.softwarecleandevelopment.core.common.navigation.screens.CreateWalletScreens
 import com.softwarecleandevelopment.feature.dashboard.presentation.DashboardScreen
 import com.softwarecleandevelopment.feature.wallets.domain.models.UpdateWalletEvent
+import com.softwarecleandevelopment.feature.wallets.presentation.SecretPhraseScreen
 import com.softwarecleandevelopment.feature.wallets.presentation.WalletDetailScreen
 import com.softwarecleandevelopment.feature.wallets.presentation.WalletsScreen
 
@@ -57,16 +59,39 @@ object DashboardNavHostExtension {
             ) {
                 val event =
                     navController.previousBackStackEntry?.savedStateHandle?.get<UpdateWalletEvent>("updateWalletEvent")
-                WalletDetailScreen(event = event, onNavigateBack = {
-                    navController.navigateUp()
-                    navController.clearBackStack(HomeScreens.WalletDetailScreen.route)
-                }, onNavigateToCreateWallet = {
-                    navController.navigate(CreateWalletScreens.LandingScreen.route) {
-                        popUpTo(CreateWalletScreens.LandingScreen.route) {
-                            inclusive = true
+
+                WalletDetailScreen(
+                    event = event,
+                    onNavigateBack = {
+                        navController.popBackStack()
+                    },
+                    onNavigateToCreateWallet = {
+                        navController.navigate(CreateWalletScreens.LandingScreen.route) {
+                            popUpTo(CreateWalletScreens.LandingScreen.route) {
+                                inclusive = true
+                            }
                         }
+                    },
+                    onShowScreenPhrase = {
+                        navController.currentBackStackEntry?.savedStateHandle?.set(
+                            "secretPhraseEvent",
+                            event?.mnemonic,
+                        )
+                        navController.navigate(HomeScreens.WalletSecretPhraseScreen.route)
                     }
-                })
+                )
+            }
+            composable(
+                route = HomeScreens.WalletSecretPhraseScreen.route,
+            ) {
+                val mnemonic =
+                    navController.previousBackStackEntry?.savedStateHandle?.get<String>("secretPhraseEvent")
+                SecretPhraseScreen(
+                    mnemonic = mnemonic,
+                    onNavigateBack = {
+                        navController.popBackStack()
+                    }
+                )
             }
         }
     }

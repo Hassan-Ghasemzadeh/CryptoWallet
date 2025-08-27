@@ -1,5 +1,6 @@
 package com.softwarecleandevelopment.cryptowallet.confirmphrase.data.datasource
 
+import android.util.Base64
 import com.softwarecleandevelopment.core.crypto.models.ChainType
 import com.softwarecleandevelopment.core.crypto.security.CryptoStore
 import com.softwarecleandevelopment.core.database.room.dao.WalletDao
@@ -11,8 +12,10 @@ class WalletDataSourceImpl @Inject constructor(
     private val walletDao: WalletDao, private val cryptoStore: CryptoStore
 ) : WalletDataSource {
     override suspend fun createNewWallet(derived: Derived): Long {
-        val encryptedMnemonic = cryptoStore.encrypt(derived.mnemonic.toByteArray())
-        val encryptedPrivateKey = cryptoStore.encrypt(derived.privateKeyHex!!.toByteArray())
+        val encryptedMnemonic = cryptoStore.encrypt(derived.mnemonic.toByteArray(Charsets.UTF_8))
+        val encryptedPrivateKey = cryptoStore.encrypt(derived.privateKeyHex!!.toByteArray(Charsets.UTF_8))
+        val mnemonic = Base64.encodeToString(encryptedMnemonic, Base64.DEFAULT)
+
         val count = walletDao.getWalletCount()
         val name = "Wallet #${count + 1}"
         val entity = WalletEntity(
@@ -20,7 +23,7 @@ class WalletDataSourceImpl @Inject constructor(
             address = derived.address,
             publicKeyHex = derived.publicKeyHex,
             privateKey = encryptedPrivateKey.toString(),
-            mnemonic = encryptedMnemonic.toString(),
+            mnemonic = mnemonic,
             isActive = true,
             name = name
         )

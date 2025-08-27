@@ -44,7 +44,7 @@ import kotlinx.coroutines.flow.debounce
 fun WalletDetailScreen(
     event: UpdateWalletEvent?,
     onNavigateBack: () -> Unit = {},
-    onShowScreenPhrase: (phraseList: List<String>) -> Unit = {},
+    onShowScreenPhrase: () -> Unit = {},
     viewModel: WalletDetailViewModel = hiltViewModel(),
     onNavigateToCreateWallet: () -> Unit = {}
 ) {
@@ -129,7 +129,7 @@ fun WalletDetailScreen(
                     )
                 }, modifier = Modifier
                     .clickable {
-                        onShowScreenPhrase(listOf())
+                        onShowScreenPhrase()
                     }
                     .padding(horizontal = 4.dp))
             HorizontalDivider(

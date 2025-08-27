@@ -34,16 +34,6 @@ class WalletsViewModel @Inject constructor(val walletsRepository: WalletsReposit
         }
     }
 
-    fun selectDefaultWallet() {
-        // Check if the wallets list is not empty and if a wallet is not already active.
-        viewModelScope.launch {
-            val walletsList = _wallets.value
-            if (walletsList.isNotEmpty() && walletsList.none { it.isActive }) {
-                // If no wallet is active, select the first one in the list.
-                result.invoke(walletsList.first().id)
-            }
-        }
-    }
 
     private fun getWallets() {
         viewModelScope.launch {

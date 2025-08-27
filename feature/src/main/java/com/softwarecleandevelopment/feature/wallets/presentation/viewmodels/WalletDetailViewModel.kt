@@ -20,12 +20,17 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.navigation.NavController
+import com.softwarecleandevelopment.feature.wallets.domain.usecase.SelectWalletUseCase
 
 @HiltViewModel
 class WalletDetailViewModel @Inject constructor(
     val walletsRepository: WalletsRepository,
     private val dataStore: DataStore<Preferences>
 ) : ViewModel() {
+
+    private val _wallets = mutableStateOf<List<WalletEntity>>(listOf())
+    val wallets: State<List<WalletEntity>> = _wallets
 
     private val _name = mutableStateOf("")
     val name: State<String> = _name
@@ -34,6 +39,9 @@ class WalletDetailViewModel @Inject constructor(
     val navigation = _navigation.asSharedFlow()
     private val walletCreatedKey = booleanPreferencesKey("wallet_created")
 
+    init {
+        getWallets()
+    }
 
     fun deleteWallet(walletId: Long) {
         viewModelScope.launch {
@@ -42,24 +50,16 @@ class WalletDetailViewModel @Inject constructor(
             when (result) {
                 is Resource.Error -> {}
                 is Resource.Success<*> -> {
-                    val result = walletsRepository.getWallets()
-                    when (result) {
-                        is Resource.Error -> {}
-
-                        is Resource.Success<Flow<List<WalletEntity>>> -> {
-                            result.data.collectLatest { response ->
-                                if (response.isEmpty()) {
-                                    _navigation.emit(DeleteWalletEvent.NavigateToCreateWallet)
-                                    dataStore.updateData {
-                                        it.toMutablePreferences().apply {
-                                            this[walletCreatedKey] = false
-                                        }
-                                    }
-                                } else {
-                                    _navigation.emit(DeleteWalletEvent.NavigateBack)
-                                }
+                    if (_wallets.value.isEmpty()) {
+                        _navigation.emit(DeleteWalletEvent.NavigateToCreateWallet)
+                        dataStore.updateData {
+                            it.toMutablePreferences().apply {
+                                this[walletCreatedKey] = false
                             }
                         }
+                    } else {
+                        selectWallet()
+                        _navigation.emit(DeleteWalletEvent.NavigateBack)
                     }
                 }
             }
@@ -67,6 +67,32 @@ class WalletDetailViewModel @Inject constructor(
         }
     }
 
+
+    fun selectWallet() {
+        val result = SelectWalletUseCase(walletsRepository)
+        val walletId = _wallets.value.first().id
+        viewModelScope.launch {
+            result.invoke(walletId)
+        }
+    }
+
+
+    private fun getWallets() {
+        viewModelScope.launch {
+            val result = walletsRepository.getWallets()
+            when (result) {
+                is Resource.Error -> {
+                    _wallets.value = listOf()
+                }
+
+                is Resource.Success<Flow<List<WalletEntity>>> -> {
+                    result.data.collectLatest { response ->
+                        _wallets.value = response
+                    }
+                }
+            }
+        }
+    }
 
     fun updateWalletName(event: UpdateWalletEvent) {
         _name.value = event.name

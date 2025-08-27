@@ -24,6 +24,7 @@ import com.softwarecleandevelopment.feature.wallets.domain.models.UpdateWalletEv
 import com.softwarecleandevelopment.feature.wallets.presentation.viewmodels.WalletsViewModel
 import com.softwarecleandevelopment.feature.wallets.presentation.components.WalletItem
 import kotlinx.coroutines.FlowPreview
+
 @OptIn(ExperimentalMaterial3Api::class, FlowPreview::class)
 @Composable
 fun WalletsScreen(
@@ -35,14 +36,7 @@ fun WalletsScreen(
     onImportWallet: () -> Unit = {},
 ) {
     val wallets = viewModel.wallets.value
-    val currentBackStack = navController.currentBackStackEntryAsState()
 
-    LaunchedEffect(currentBackStack.value) {
-        val route = currentBackStack.value?.destination?.route
-        if (route == HomeScreens.WalletsScreen.route) {
-            viewModel.selectDefaultWallet()
-        }
-    }
     Scaffold(
         topBar = {
             TopAppBar(

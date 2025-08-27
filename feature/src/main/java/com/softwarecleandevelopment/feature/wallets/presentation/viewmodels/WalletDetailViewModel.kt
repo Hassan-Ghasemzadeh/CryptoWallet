@@ -20,7 +20,6 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import androidx.navigation.NavController
 import com.softwarecleandevelopment.feature.wallets.domain.usecase.SelectWalletUseCase
 
 @HiltViewModel

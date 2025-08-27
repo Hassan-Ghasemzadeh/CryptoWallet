@@ -3,6 +3,7 @@ package com.softwarecleandevelopment.feature.wallets.presentation
 import android.app.Activity
 import android.view.WindowManager
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -55,25 +56,39 @@ fun SecretPhraseScreen(
         ) {
             WarningBox()
             Spacer(modifier = Modifier.height(24.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly
-            ) {
-                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    for (i in 0 until 6) {
-                        WordBox(
-                            index = i,
-                            word = words[i],
-                            onClick = { })
+            if (words.isNotEmpty()) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        for (i in 0 until 6) {
+                            WordBox(
+                                index = i,
+                                word = words[i],
+                                onClick = { })
+                        }
+                    }
+                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        for (i in 6 until 12) {
+                            WordBox(
+                                index = i,
+                                word = words[i],
+                                onClick = { })
+                        }
                     }
                 }
-                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    for (i in 6 until 12) {
-                        WordBox(
-                            index = i,
-                            word = words[i],
-                            onClick = { })
-                    }
+            } else {
+                Box(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    Text(
+                        "Your secret phrase will appear here",
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+
                 }
+
             }
             Spacer(modifier = Modifier.height(16.dp))
             TextButton(onClick = {}) {

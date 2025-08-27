@@ -91,7 +91,7 @@ fun SecretPhraseScreen(
 
             }
             Spacer(modifier = Modifier.height(16.dp))
-            TextButton(onClick = {}) {
+            TextButton(onClick = { viewModel.copyToClipboard(context) }) {
                 Text(
                     text = "Copy",
                     color = MaterialTheme.colorScheme.primary, // Using primary color for consistency

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="wallets_screen_title">Wallets</string>
+    <string name="wallets_create_wallet_btn">Create a New Wallet</string>
+    <string name="wallets_import_wallet_btn">Import an Existing Wallet</string>
+</resources>

@@ -14,6 +14,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -22,6 +23,7 @@ import com.softwarecleandevelopment.feature.wallets.domain.models.UpdateWalletEv
 import com.softwarecleandevelopment.feature.wallets.presentation.viewmodels.WalletsViewModel
 import com.softwarecleandevelopment.feature.wallets.presentation.components.WalletItem
 import kotlinx.coroutines.FlowPreview
+import com.softwarecleandevelopment.feature.R
 
 @OptIn(ExperimentalMaterial3Api::class, FlowPreview::class)
 @Composable
@@ -38,7 +40,8 @@ fun WalletsScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Wallets", fontSize = 20.sp) }, navigationIcon = {
+                title = { Text(stringResource(R.string.wallets_screen_title), fontSize = 20.sp) },
+                navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(
                             Icons.AutoMirrored.Filled.ArrowBack,
@@ -46,8 +49,7 @@ fun WalletsScreen(
                             tint = MaterialTheme.colorScheme.onSurface,
                         )
                     }
-                }
-            )
+                })
         }) { padding ->
         Column(
             modifier = Modifier
@@ -66,7 +68,7 @@ fun WalletsScreen(
                     contentDescription = "Create",
                 )
                 Spacer(modifier = Modifier.width(12.dp))
-                Text("Create a New Wallet", fontSize = 16.sp)
+                Text(stringResource(R.string.wallets_create_wallet_btn), fontSize = 16.sp)
             }
 
             HorizontalDivider(thickness = 1.dp, color = Color.Gray.copy(alpha = 0.5f))
@@ -82,7 +84,7 @@ fun WalletsScreen(
                     contentDescription = "Import",
                 )
                 Spacer(modifier = Modifier.width(12.dp))
-                Text("Import an Existing Wallet", fontSize = 16.sp)
+                Text(stringResource(R.string.wallets_import_wallet_btn), fontSize = 16.sp)
             }
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -94,8 +96,7 @@ fun WalletsScreen(
                         wallet = wallet,
                         onClick = {
                             viewModel.selectWallet(
-                                wallet.id,
-                                navController = navController
+                                wallet.id, navController = navController
                             )
                         },
                         onSettingClick = {

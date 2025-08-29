@@ -30,6 +30,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -38,6 +39,7 @@ import com.softwarecleandevelopment.feature.wallets.domain.models.UpdateWalletEv
 import com.softwarecleandevelopment.feature.wallets.presentation.viewmodels.WalletDetailViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.debounce
+import com.softwarecleandevelopment.feature.R
 
 @OptIn(ExperimentalMaterial3Api::class, FlowPreview::class)
 @Composable
@@ -73,13 +75,15 @@ fun WalletDetailScreen(
     }
     Scaffold(
         topBar = {
-            CenterAlignedTopAppBar(title = { Text("Wallet") }, navigationIcon = {
-                IconButton(onClick = onNavigateBack) {
-                    Icon(
-                        Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Arrow back"
-                    )
-                }
-            })
+            CenterAlignedTopAppBar(
+                title = { Text(stringResource(R.string.wallet_detail_title)) },
+                navigationIcon = {
+                    IconButton(onClick = onNavigateBack) {
+                        Icon(
+                            Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Arrow back"
+                        )
+                    }
+                })
         }) { innerPadding ->
         Column(
             modifier = Modifier
@@ -102,7 +106,7 @@ fun WalletDetailScreen(
                     }
                 },
                 label = {
-                    Text("Name")
+                    Text(stringResource(R.string.wallet_detail_textfield_label))
                 },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
@@ -121,7 +125,10 @@ fun WalletDetailScreen(
             )
             ListItem(
                 headlineContent = {
-                    Text("Show Secret Phrase", style = MaterialTheme.typography.labelLarge)
+                    Text(
+                        stringResource(R.string.wallet_showsecretphrase_btn),
+                        style = MaterialTheme.typography.labelLarge
+                    )
                 }, trailingContent = {
                     Icon(
                         Icons.Default.ChevronRight,
@@ -148,7 +155,7 @@ fun WalletDetailScreen(
                     contentColor = MaterialTheme.colorScheme.onError,
                 )
             ) {
-                Text("Delete")
+                Text(stringResource(R.string.wallet_delete_btn))
             }
             Spacer(Modifier.weight(1f))
         }

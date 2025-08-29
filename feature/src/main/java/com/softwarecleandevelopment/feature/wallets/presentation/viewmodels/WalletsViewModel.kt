@@ -17,8 +17,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class WalletsViewModel @Inject constructor(
-    val selectWalletUseCase: SelectWalletUseCase,
-    val getWalletsUseCase: GetWalletsUseCase
+    private val selectWalletUseCase: SelectWalletUseCase,
+    private val getWalletsUseCase: GetWalletsUseCase
 ) : ViewModel() {
 
     private val _wallets = mutableStateOf<List<WalletEntity>>(listOf())

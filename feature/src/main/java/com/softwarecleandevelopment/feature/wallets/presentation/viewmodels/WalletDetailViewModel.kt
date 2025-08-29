@@ -9,7 +9,6 @@ import com.softwarecleandevelopment.core.common.utils.Resource
 import com.softwarecleandevelopment.core.database.room.models.WalletEntity
 import com.softwarecleandevelopment.feature.wallets.domain.models.DeleteWalletEvent
 import com.softwarecleandevelopment.feature.wallets.domain.models.UpdateWalletEvent
-import com.softwarecleandevelopment.feature.wallets.domain.repository.WalletsRepository
 import com.softwarecleandevelopment.feature.wallets.domain.usecase.DeleteWalletUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -26,10 +25,10 @@ import com.softwarecleandevelopment.feature.wallets.domain.usecase.UpdateWalletU
 
 @HiltViewModel
 class WalletDetailViewModel @Inject constructor(
-    val deleteWalletUseCase: DeleteWalletUseCase,
-    val selectWalletUseCase: SelectWalletUseCase,
-    val getWalletsUseCase: GetWalletsUseCase,
-    val updateWalletUseCase: UpdateWalletUseCase,
+    private val deleteWalletUseCase: DeleteWalletUseCase,
+    private val selectWalletUseCase: SelectWalletUseCase,
+    private val getWalletsUseCase: GetWalletsUseCase,
+    private val updateWalletUseCase: UpdateWalletUseCase,
     private val dataStore: DataStore<Preferences>
 ) : ViewModel() {
 

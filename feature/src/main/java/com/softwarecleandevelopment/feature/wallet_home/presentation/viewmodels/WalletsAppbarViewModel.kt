@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class WalletsAppbarViewModel @Inject constructor(
-    val getActiveWalletUseCase: GetActiveWalletUseCase,
+    private val getActiveWalletUseCase: GetActiveWalletUseCase,
 ) : ViewModel() {
     private val _name = mutableStateOf("")
     val name: State<String> = _name

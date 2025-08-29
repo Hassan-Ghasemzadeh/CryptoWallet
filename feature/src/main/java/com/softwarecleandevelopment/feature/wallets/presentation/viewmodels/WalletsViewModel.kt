@@ -8,7 +8,7 @@ import androidx.navigation.NavController
 import com.softwarecleandevelopment.core.common.utils.Resource
 import com.softwarecleandevelopment.core.database.room.models.WalletEntity
 import com.softwarecleandevelopment.feature.wallets.domain.usecase.SelectWalletUseCase
-import com.softwarecleandevelopment.feature.wallets.domain.repository.WalletsRepository
+import com.softwarecleandevelopment.feature.wallets.domain.usecase.GetWalletsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
@@ -16,12 +16,13 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class WalletsViewModel @Inject constructor(val walletsRepository: WalletsRepository) : ViewModel() {
+class WalletsViewModel @Inject constructor(
+    val selectWalletUseCase: SelectWalletUseCase,
+    val getWalletsUseCase: GetWalletsUseCase
+) : ViewModel() {
 
     private val _wallets = mutableStateOf<List<WalletEntity>>(listOf())
     val wallets: State<List<WalletEntity>> = _wallets
-
-    private val selectWalletUseCase = SelectWalletUseCase(walletsRepository)
 
     init {
         getWallets()
@@ -34,10 +35,9 @@ class WalletsViewModel @Inject constructor(val walletsRepository: WalletsReposit
         }
     }
 
-
     private fun getWallets() {
         viewModelScope.launch {
-            val result = walletsRepository.getWallets()
+            val result = getWalletsUseCase.invoke(Unit)
             when (result) {
                 is Resource.Error -> {
                     _wallets.value = listOf()

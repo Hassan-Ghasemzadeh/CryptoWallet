@@ -9,6 +9,9 @@
     <string name="wallet_delete_btn">Delete</string>
     <string name="secretphrase_emptylist">Your secret phrase will appear here</string>
     <string name="secretphrase_copy_brn">Copy</string>
+    <string name="secretphrase_title">Secret Phrase</string>
+    <string name="secretphrase_warningbox_title">Do not share your Secret Phrase!</string>
+    <string name="secretphrase_warningbox_description">If someone has your secret phrase they will have full control of your wallet!</string>
     <string name="home_send_brn">Send</string>
     <string name="home_receive_brn">Receive</string>
     <string name="home_managetoken_brn">Receive</string>

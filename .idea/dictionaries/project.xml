@@ -8,6 +8,7 @@
       <w>showsecretphrase</w>
       <w>textfield</w>
       <w>usecase</w>
+      <w>warningbox</w>
     </words>
   </dictionary>
 </component>

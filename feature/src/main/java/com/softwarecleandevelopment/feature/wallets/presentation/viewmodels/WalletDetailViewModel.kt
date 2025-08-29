@@ -20,11 +20,16 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import com.softwarecleandevelopment.feature.wallets.domain.usecase.GetWalletsUseCase
 import com.softwarecleandevelopment.feature.wallets.domain.usecase.SelectWalletUseCase
+import com.softwarecleandevelopment.feature.wallets.domain.usecase.UpdateWalletUseCase
 
 @HiltViewModel
 class WalletDetailViewModel @Inject constructor(
-    val walletsRepository: WalletsRepository,
+    val deleteWalletUseCase: DeleteWalletUseCase,
+    val selectWalletUseCase: SelectWalletUseCase,
+    val getWalletsUseCase: GetWalletsUseCase,
+    val updateWalletUseCase: UpdateWalletUseCase,
     private val dataStore: DataStore<Preferences>
 ) : ViewModel() {
 
@@ -44,8 +49,7 @@ class WalletDetailViewModel @Inject constructor(
 
     fun deleteWallet(walletId: Long) {
         viewModelScope.launch {
-            val usecase = DeleteWalletUseCase(walletsRepository)
-            val result = usecase.invoke(walletId)
+            val result = deleteWalletUseCase.invoke(walletId)
             when (result) {
                 is Resource.Error -> {}
                 is Resource.Success<*> -> {
@@ -68,17 +72,16 @@ class WalletDetailViewModel @Inject constructor(
 
 
     fun selectWallet() {
-        val result = SelectWalletUseCase(walletsRepository)
         val walletId = _wallets.value.first().id
         viewModelScope.launch {
-            result.invoke(walletId)
+            selectWalletUseCase.invoke(walletId)
         }
     }
 
 
     private fun getWallets() {
         viewModelScope.launch {
-            val result = walletsRepository.getWallets()
+            val result = getWalletsUseCase.invoke(Unit)
             when (result) {
                 is Resource.Error -> {
                     _wallets.value = listOf()
@@ -96,7 +99,7 @@ class WalletDetailViewModel @Inject constructor(
     fun updateWalletName(event: UpdateWalletEvent) {
         _name.value = event.name
         viewModelScope.launch {
-            val result = walletsRepository.updateWalletName(event.name, event.walletId)
+            val result = updateWalletUseCase.invoke(event)
             when (result) {
                 is Resource.Error -> {}
                 is Resource.Success<*> -> {}

@@ -2,6 +2,8 @@ package com.softwarecleandevelopment.cryptowallet.di.modules
 
 import com.softwarecleandevelopment.cryptowallet.confirmphrase.domain.repository.WalletRepository
 import com.softwarecleandevelopment.cryptowallet.confirmphrase.domain.usecases.CreateWalletUseCase
+import com.softwarecleandevelopment.cryptowallet.recoveryphrase.domain.repository.PhraseRepository
+import com.softwarecleandevelopment.cryptowallet.recoveryphrase.domain.usecases.GeneratePhraseUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,5 +17,11 @@ object UseCaseModule {
     @Singleton
     fun provideCreateWalletUseCase(walletRepository: WalletRepository): CreateWalletUseCase {
         return CreateWalletUseCase(walletRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGeneratePhraseUseCase(phraseRepository: PhraseRepository): GeneratePhraseUseCase {
+        return GeneratePhraseUseCase(phraseRepository)
     }
 }

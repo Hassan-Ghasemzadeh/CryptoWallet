@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class RecoveryPhraseViewModel @Inject constructor(
-    private val walletRepository: PhraseRepositoryImpl,
+    private val generatePhraseUseCase: GeneratePhraseUseCase,
 ) : ViewModel() {
     private var _mnemonic = mutableStateOf("")
     val mnemonic: State<String> = _mnemonic
@@ -35,8 +35,7 @@ class RecoveryPhraseViewModel @Inject constructor(
 
     fun generateWallet() {
         viewModelScope.launch {
-            val generateWalletUseCase = GeneratePhraseUseCase(repository = walletRepository)
-            val derived = generateWalletUseCase(Unit)
+            val derived = generatePhraseUseCase.invoke(Unit)
             when (derived) {
                 is Resource.Error -> {
                     _mnemonic.value = derived.message

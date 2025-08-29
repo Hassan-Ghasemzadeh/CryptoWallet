@@ -3,6 +3,7 @@
     <words>
       <w>alertbox</w>
       <w>emptylist</w>
+      <w>managetoken</w>
       <w>secretphrase</w>
       <w>showsecretphrase</w>
       <w>textfield</w>

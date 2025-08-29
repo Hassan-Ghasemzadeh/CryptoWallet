@@ -25,12 +25,13 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.softwarecleandevelopment.feature.wallet_home.domain.models.sampleCoins
 import com.softwarecleandevelopment.feature.wallet_home.presentation.components.CoinRow
 import com.softwarecleandevelopment.feature.wallet_home.presentation.components.QuickAction
-
+import com.softwarecleandevelopment.feature.R
 
 @Composable
 fun WalletHome(modifier: Modifier = Modifier) {
@@ -50,8 +51,14 @@ fun WalletHome(modifier: Modifier = Modifier) {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            QuickAction(icon = Icons.Outlined.KeyboardArrowUp, label = "Send") { /* TODO */ }
-            QuickAction(icon = Icons.Outlined.KeyboardArrowDown, label = "Receive") { /* TODO */ }
+            QuickAction(
+                icon = Icons.Outlined.KeyboardArrowUp,
+                label = stringResource(R.string.home_send_brn)
+            ) { /* TODO */ }
+            QuickAction(
+                icon = Icons.Outlined.KeyboardArrowDown,
+                label = stringResource(R.string.home_receive_brn)
+            ) { /* TODO */ }
         }
 
         Spacer(Modifier.height(12.dp))
@@ -74,7 +81,7 @@ fun WalletHome(modifier: Modifier = Modifier) {
                         contentDescription = null
                     )
                     Spacer(Modifier.width(8.dp))
-                    Text("Manage Tokens")
+                    Text(stringResource(R.string.home_managetoken_brn))
                 }
             }
         }

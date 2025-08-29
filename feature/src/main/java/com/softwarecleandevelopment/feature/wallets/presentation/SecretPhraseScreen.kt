@@ -20,6 +20,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -27,6 +28,7 @@ import com.softwarecleandevelopment.feature.wallets.presentation.components.Show
 import com.softwarecleandevelopment.feature.wallets.presentation.components.WarningBox
 import com.softwarecleandevelopment.feature.wallets.presentation.components.WordBox
 import com.softwarecleandevelopment.feature.wallets.presentation.viewmodels.SecretPhraseViewModel
+import com.softwarecleandevelopment.feature.R
 
 @Composable
 fun SecretPhraseScreen(
@@ -83,7 +85,7 @@ fun SecretPhraseScreen(
                     modifier = Modifier.fillMaxSize()
                 ) {
                     Text(
-                        "Your secret phrase will appear here",
+                        stringResource(R.string.secretphrase_emptylist),
                         modifier = Modifier.align(Alignment.Center)
                     )
 
@@ -93,7 +95,7 @@ fun SecretPhraseScreen(
             Spacer(modifier = Modifier.height(16.dp))
             TextButton(onClick = { viewModel.copyToClipboard(context) }) {
                 Text(
-                    text = "Copy",
+                    text = stringResource(R.string.secretphrase_copy_brn),
                     color = MaterialTheme.colorScheme.primary, // Using primary color for consistency
                     fontSize = 18.sp,
                 )

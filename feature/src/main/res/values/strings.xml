@@ -7,4 +7,6 @@
     <string name="wallet_detail_textfield_label">Name</string>
     <string name="wallet_showsecretphrase_btn">Show Secret Phrase</string>
     <string name="wallet_delete_btn">Delete</string>
+    <string name="secretphrase_emptylist">Your secret phrase will appear here</string>
+    <string name="secretphrase_copy_brn">Copy</string>
 </resources>

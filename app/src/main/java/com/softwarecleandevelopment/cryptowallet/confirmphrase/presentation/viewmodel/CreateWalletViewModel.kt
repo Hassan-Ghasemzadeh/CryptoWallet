@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CreateWalletViewModel @Inject constructor(
-    private val repositoryImpl: WalletRepositoryImpl,
+    private val createWalletUseCase: CreateWalletUseCase,
     private val dataStore: DataStore<Preferences>
 ) : ViewModel() {
     private val _toastMessage = MutableSharedFlow<String>()
@@ -27,8 +27,7 @@ class CreateWalletViewModel @Inject constructor(
 
     fun createWallet(derived: Derived) {
         viewModelScope.launch {
-            val useCase = CreateWalletUseCase(repositoryImpl)
-            val result = useCase.invoke(derived)
+            val result = createWalletUseCase.invoke(derived)
             when (result) {
                 is Resource.Error -> {
                     _toastMessage.emit("Error creating wallet: ${result.message}")

@@ -21,7 +21,7 @@ class WalletsViewModel @Inject constructor(val walletsRepository: WalletsReposit
     private val _wallets = mutableStateOf<List<WalletEntity>>(listOf())
     val wallets: State<List<WalletEntity>> = _wallets
 
-    private val result = SelectWalletUseCase(walletsRepository)
+    private val selectWalletUseCase = SelectWalletUseCase(walletsRepository)
 
     init {
         getWallets()
@@ -29,7 +29,7 @@ class WalletsViewModel @Inject constructor(val walletsRepository: WalletsReposit
 
     fun selectWallet(walletId: Long, navController: NavController) {
         viewModelScope.launch {
-            result.invoke(walletId)
+            selectWalletUseCase.invoke(walletId)
             navController.navigateUp()
         }
     }

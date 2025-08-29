@@ -18,8 +18,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.currentBackStackEntryAsState
-import com.softwarecleandevelopment.feature.dashboard.navigation.HomeScreens
 import com.softwarecleandevelopment.feature.wallets.domain.models.UpdateWalletEvent
 import com.softwarecleandevelopment.feature.wallets.presentation.viewmodels.WalletsViewModel
 import com.softwarecleandevelopment.feature.wallets.presentation.components.WalletItem

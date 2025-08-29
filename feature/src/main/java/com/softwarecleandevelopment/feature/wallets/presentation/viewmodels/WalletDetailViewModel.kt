@@ -42,27 +42,35 @@ class WalletDetailViewModel @Inject constructor(
     val navigation = _navigation.asSharedFlow()
     private val walletCreatedKey = booleanPreferencesKey("wallet_created")
 
-    init {
-        getWallets()
-    }
-
     fun deleteWallet(walletId: Long) {
         viewModelScope.launch {
             val result = deleteWalletUseCase.invoke(walletId)
             when (result) {
                 is Resource.Error -> {}
                 is Resource.Success<*> -> {
-                    if (_wallets.value.isEmpty()) {
-                        _navigation.emit(DeleteWalletEvent.NavigateToCreateWallet)
-                        dataStore.updateData {
-                            it.toMutablePreferences().apply {
-                                this[walletCreatedKey] = false
+                    val result = getWalletsUseCase.invoke(Unit)
+                    when (result) {
+                        is Resource.Error -> {
+                            _wallets.value = listOf()
+                        }
+
+                        is Resource.Success<Flow<List<WalletEntity>>> -> {
+                            result.data.collectLatest { response ->
+                                if (response.isEmpty()) {
+                                    _navigation.emit(DeleteWalletEvent.NavigateToCreateWallet)
+                                    dataStore.updateData {
+                                        it.toMutablePreferences().apply {
+                                            this[walletCreatedKey] = false
+                                        }
+                                    }
+                                } else {
+                                    selectWallet()
+                                    _navigation.emit(DeleteWalletEvent.NavigateBack)
+                                }
                             }
                         }
-                    } else {
-                        selectWallet()
-                        _navigation.emit(DeleteWalletEvent.NavigateBack)
                     }
+
                 }
             }
 
@@ -77,23 +85,6 @@ class WalletDetailViewModel @Inject constructor(
         }
     }
 
-
-    private fun getWallets() {
-        viewModelScope.launch {
-            val result = getWalletsUseCase.invoke(Unit)
-            when (result) {
-                is Resource.Error -> {
-                    _wallets.value = listOf()
-                }
-
-                is Resource.Success<Flow<List<WalletEntity>>> -> {
-                    result.data.collectLatest { response ->
-                        _wallets.value = response
-                    }
-                }
-            }
-        }
-    }
 
     fun updateWalletName(event: UpdateWalletEvent) {
         _name.value = event.name

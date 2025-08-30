@@ -5,14 +5,18 @@ import com.softwarecleandevelopment.crypto_chains.ethereum.data.datasource.EthCr
 import com.softwarecleandevelopment.crypto_chains.ethereum.data.datasource.EthCryptoDatasourceImpl
 import com.softwarecleandevelopment.crypto_chains.ethereum.data.repository.EthCryptoRepositoryImpl
 import com.softwarecleandevelopment.crypto_chains.ethereum.domain.repository.EthCryptoRepository
+import com.softwarecleandevelopment.crypto_chains.ethereum.domain.usecases.GetCryptoInfoUseCase
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import javax.inject.Singleton
 
 @Module
-@Singleton
+@InstallIn(SingletonComponent::class)
 object EthCryptoModule {
+
     @Provides
     @Singleton
     fun provideEthCryptoApi(retrofit: Retrofit): EthCryptoApi {
@@ -31,4 +35,9 @@ object EthCryptoModule {
         return EthCryptoRepositoryImpl(ethCryptoDatasource)
     }
 
+    @Provides
+    @Singleton
+    fun provideEthCryptoUseCase(ethCryptoRepository: EthCryptoRepository): GetCryptoInfoUseCase {
+        return GetCryptoInfoUseCase(ethCryptoRepository)
+    }
 }

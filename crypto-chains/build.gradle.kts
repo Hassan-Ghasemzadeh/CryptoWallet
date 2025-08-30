@@ -36,7 +36,6 @@ android {
 
 dependencies {
 
-    implementation(project(":core"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -45,6 +44,7 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.androidx.lifecycle.runtime.ktx)
 
+    implementation(project(":core"))
     //coroutine
     implementation(libs.androidx.coroutine.android)
     implementation(libs.androidx.coroutine.core)

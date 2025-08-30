@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId = "com.softwarecleandevelopment.cryptowallet"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
@@ -31,11 +31,12 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+        isCoreLibraryDesugaringEnabled = true
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "1.8"
     }
     buildFeatures {
         compose = true
@@ -80,7 +81,6 @@ dependencies {
     implementation(libs.androidx.kethereum.crypto)
     implementation(libs.androidx.kethereum.model)
     implementation(libs.androidx.kethereum.bip39Wordlist)
-    implementation(libs.androidx.kethereum.cryptoImplBouncycastle)
     //data store
     implementation(libs.androidx.datastore)
     //compose navigation
@@ -90,4 +90,7 @@ dependencies {
     implementation(libs.squareup.javapoet)
     //crypto tink
     implementation(libs.cryptoTink)
+
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
+
 }

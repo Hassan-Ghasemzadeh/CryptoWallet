@@ -69,7 +69,7 @@ dependencies {
     //crypto tink
     implementation(libs.cryptoTink)
     //bouncyCastle
-    implementation(libs.bouncyCastle.bcprov)
+    enforcedPlatform(libs.bouncyCastle.bcprov)
 
     //room
     implementation(libs.androidx.room.runtime)
@@ -78,7 +78,7 @@ dependencies {
 
 
     //retrofit
-    implementation(libs.squareup.retrofit)
+    api (libs.squareup.retrofit)
     implementation(libs.squareup.gson)
     implementation(libs.logging.interceptor)
 }

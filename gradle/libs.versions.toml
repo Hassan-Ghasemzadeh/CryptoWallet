@@ -24,6 +24,9 @@ bcprov = "1.70"
 web3j = "5.0.0"
 bitcoinj = "0.18.2"
 room = "2.6.0"
+retrofit = "2.11.0"
+loggingInterceptor = "4.12.0"
+
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -67,6 +70,11 @@ androidx_room_runtime = { group = "androidx.room", name = "room-runtime", versio
 androidx_room_compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 androidx_room_ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 material_icons_extended = { group = "androidx.compose.material", name = "material-icons-extended" }
+squareup_retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+squareup_gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
+logging_interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "loggingInterceptor" }
+
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

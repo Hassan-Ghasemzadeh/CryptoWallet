@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.android.dagger.hilt)
+    alias(libs.plugins.android.ksp)
 }
 
 android {
@@ -40,4 +42,22 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+
+    //coroutine
+    implementation(libs.androidx.coroutine.android)
+    implementation(libs.androidx.coroutine.core)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+
+    //dagger-hilt
+    implementation(libs.androidx.hilt.android)
+    ksp(libs.androidx.hilt.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
+    ksp(libs.androidx.hilt.integration.compiler)
+
+    //retrofit
+    implementation(libs.squareup.retrofit)
+    implementation(libs.squareup.gson)
+    implementation(libs.logging.interceptor)
 }

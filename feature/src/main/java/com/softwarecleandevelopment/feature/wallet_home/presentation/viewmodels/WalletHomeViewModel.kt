@@ -18,7 +18,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class WalletHomeViewModel @Inject constructor(
-   private val getCryptoInfoUseCase: GetCryptoInfoUseCase,
+    val getCryptoInfoUseCase: GetCryptoInfoUseCase,
 ) : ViewModel() {
     private val _cryptos: MutableState<List<CryptoInfo>> = mutableStateOf(listOf())
     val crypto: State<List<CryptoInfo>> = _cryptos

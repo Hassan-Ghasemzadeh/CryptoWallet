@@ -36,6 +36,7 @@ android {
 
 dependencies {
 
+    implementation(project(":core"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -60,4 +61,7 @@ dependencies {
     implementation(libs.squareup.retrofit)
     implementation(libs.squareup.gson)
     implementation(libs.logging.interceptor)
+
+    //web3j
+    implementation(libs.web3j.core)
 }

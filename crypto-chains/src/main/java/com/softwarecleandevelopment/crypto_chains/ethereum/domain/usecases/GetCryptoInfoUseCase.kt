@@ -7,7 +7,6 @@ import com.softwarecleandevelopment.crypto_chains.ethereum.domain.models.GetCryp
 import com.softwarecleandevelopment.crypto_chains.ethereum.domain.repository.EthCryptoRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
-import javax.inject.Singleton
 
 class GetCryptoInfoUseCase @Inject constructor(val repository: EthCryptoRepository) :
     UseCase<Resource<Flow<List<CryptoInfo>>>, GetCryptoInfoEvent>() {

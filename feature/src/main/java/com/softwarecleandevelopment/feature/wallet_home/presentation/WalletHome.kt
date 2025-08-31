@@ -28,15 +28,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.softwarecleandevelopment.feature.wallet_home.domain.models.sampleCoins
 import com.softwarecleandevelopment.feature.wallet_home.presentation.components.CoinRow
 import com.softwarecleandevelopment.feature.wallet_home.presentation.components.QuickAction
 import com.softwarecleandevelopment.feature.R
-import com.softwarecleandevelopment.feature.wallet_home.presentation.viewmodels.WalletHomeViewModel
 
 @Composable
-fun WalletHome(viewModel: WalletHomeViewModel = hiltViewModel(), modifier: Modifier = Modifier) {
+fun WalletHome(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .padding(horizontal = 16.dp),

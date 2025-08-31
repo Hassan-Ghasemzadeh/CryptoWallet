@@ -16,7 +16,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object EthCryptoModule {
-
     @Provides
     @Singleton
     fun provideEthCryptoApi(retrofit: Retrofit): EthCryptoApi {
@@ -37,7 +36,7 @@ object EthCryptoModule {
 
     @Provides
     @Singleton
-    fun provideEthCryptoUseCase(ethCryptoRepository: EthCryptoRepository): GetCryptoInfoUseCase {
-        return GetCryptoInfoUseCase(ethCryptoRepository)
+    fun provideGetCryptoInfoUseCase(repository: EthCryptoRepository): GetCryptoInfoUseCase {
+        return GetCryptoInfoUseCase(repository)
     }
 }

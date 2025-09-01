@@ -5,6 +5,7 @@ import androidx.annotation.RequiresApi
 import com.softwarecleandevelopment.core.common.utils.Resource
 import com.softwarecleandevelopment.core.common.utils.safeFlowCall
 import com.softwarecleandevelopment.crypto_chains.ethereum.data.datasource.EthCryptoDatasource
+import com.softwarecleandevelopment.crypto_chains.ethereum.data.datasource.EthCryptoDatasourceImpl
 import com.softwarecleandevelopment.crypto_chains.ethereum.domain.models.CryptoInfo
 import com.softwarecleandevelopment.crypto_chains.ethereum.domain.repository.EthCryptoRepository
 import kotlinx.coroutines.flow.Flow
@@ -15,14 +16,14 @@ import kotlin.collections.emptyMap
 class EthCryptoRepositoryImpl @Inject constructor(private val ethCryptoDatasource: EthCryptoDatasource) :
     EthCryptoRepository {
     @RequiresApi(Build.VERSION_CODES.O)
-    override suspend fun getCryptoInfo(
+    override fun getCryptoInfo(
         cryptos: List<CryptoInfo>,
         userAddress: String
     ): Resource<Flow<List<CryptoInfo>>> {
         val ids = cryptos.joinToString(",") { it.id }
-        val prices = ethCryptoDatasource.getPrice(ids)
         return safeFlowCall {
             flow {
+                val prices = ethCryptoDatasource.getPrice(ids)
                 cryptos.map {
                     val data: Map<String, Double> = prices[it.id] ?: emptyMap<String, Double>()
                     it.copy(

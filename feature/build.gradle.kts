@@ -3,10 +3,9 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.android.dagger.hilt)
-    alias(libs.plugins.android.ksp)
+    alias(libs.plugins.kapt)
     alias(libs.plugins.kotlin.parcelable)
 }
-
 android {
     namespace = "com.softwarecleandevelopment.feature"
     compileSdk = 36
@@ -40,9 +39,6 @@ android {
 }
 
 dependencies {
-
-    implementation(project(":core"))
-    implementation(project(":crypto-chains"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -59,11 +55,19 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     debugImplementation(libs.androidx.ui.tooling)
+
+    implementation(project(":core"))
+    api(project(":crypto-chains"))
     //data store
     implementation(libs.androidx.datastore)
     //dagger-hilt
     implementation(libs.androidx.hilt.android)
-    ksp(libs.androidx.hilt.compiler)
+    kapt(libs.androidx.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
-    ksp(libs.androidx.hilt.integration.compiler)
+    kapt(libs.androidx.hilt.integration.compiler)
+}
+
+
+kapt {
+    correctErrorTypes = true
 }

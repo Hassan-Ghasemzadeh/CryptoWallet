@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.android.dagger.hilt)
-    alias(libs.plugins.android.ksp)
+    alias(libs.plugins.kapt)
 }
 
 android {
@@ -53,9 +53,9 @@ dependencies {
 
     //dagger-hilt
     implementation(libs.androidx.hilt.android)
-    ksp(libs.androidx.hilt.compiler)
+    kapt(libs.androidx.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
-    ksp(libs.androidx.hilt.integration.compiler)
+    kapt(libs.androidx.hilt.integration.compiler)
 
     //retrofit
     implementation(libs.squareup.retrofit)
@@ -64,4 +64,8 @@ dependencies {
 
     //web3j
     implementation(libs.web3j.core)
+}
+
+kapt {
+    correctErrorTypes = true
 }

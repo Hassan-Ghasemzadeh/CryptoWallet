@@ -33,10 +33,4 @@ object EthCryptoModule {
     fun provideEthCryptoRepository(ethCryptoDatasource: EthCryptoDatasource): EthCryptoRepository {
         return EthCryptoRepositoryImpl(ethCryptoDatasource)
     }
-
-    @Provides
-    @Singleton
-    fun provideGetCryptoInfoUseCase(repository: EthCryptoRepository): GetCryptoInfoUseCase {
-        return GetCryptoInfoUseCase(repository)
-    }
 }

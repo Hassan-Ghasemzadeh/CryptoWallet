@@ -3,7 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.android.dagger.hilt)
-    alias(libs.plugins.android.ksp)
+    alias(libs.plugins.kapt)
     alias(libs.plugins.kotlin.parcelable)
 }
 
@@ -42,6 +42,7 @@ android {
         compose = true
     }
 }
+
 hilt {
     enableAggregatingTask = false
 }
@@ -72,9 +73,9 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.compose)
     //dagger-hilt
     implementation(libs.androidx.hilt.android)
-    ksp(libs.androidx.hilt.compiler)
+    kapt(libs.androidx.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
-    ksp(libs.androidx.hilt.integration.compiler)
+    kapt(libs.androidx.hilt.integration.compiler)
     //kethereum
     implementation(libs.androidx.kethereum.bip39)
     implementation(libs.androidx.kethereum.bip32)
@@ -91,6 +92,10 @@ dependencies {
     //crypto tink
     implementation(libs.cryptoTink)
 
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
 
+}
+
+kapt {
+    correctErrorTypes = true
 }

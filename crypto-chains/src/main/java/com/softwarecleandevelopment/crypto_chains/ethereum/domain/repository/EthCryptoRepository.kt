@@ -5,7 +5,7 @@ import com.softwarecleandevelopment.crypto_chains.ethereum.domain.models.CryptoI
 import kotlinx.coroutines.flow.Flow
 
 interface EthCryptoRepository {
-    suspend fun getCryptoInfo(
+    fun getCryptoInfo(
         cryptos: List<CryptoInfo>,
         userAddress: String
     ): Resource<Flow<List<CryptoInfo>>>

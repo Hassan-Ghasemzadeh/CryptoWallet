@@ -1,5 +1,6 @@
 [versions]
 agp = "8.12.0"
+desugar_jdk_libs = "2.0.4"
 kotlin = "2.1.20"
 coreKtx = "1.16.0"
 junit = "4.13.2"
@@ -11,7 +12,7 @@ composeBom = "2024.09.00"
 kethereumWallet = "0.85.5"
 coroutine = "1.10.2"
 lifecycle = "2.9.2"
-daggerHilt = "2.56.2"
+daggerHilt = "2.57.1"
 daggerHiltIntegration = "1.2.0"
 javapoet = "1.13.0"
 ksp = "2.1.20-1.0.32"
@@ -29,6 +30,7 @@ loggingInterceptor = "4.12.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+desugar_jdk_libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar_jdk_libs" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -83,3 +85,4 @@ android-dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "da
 android-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 kotlin_parcelable = { id = "kotlin-parcelize" }
+kapt = { id = "kotlin-kapt" }

@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.android.dagger.hilt)
+    alias(libs.plugins.kapt)
     alias(libs.plugins.android.ksp)
 }
 
@@ -35,8 +36,8 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
-
 }
+
 hilt {
     enableAggregatingTask = false
 }
@@ -59,9 +60,9 @@ dependencies {
 
     //dagger-hilt
     implementation(libs.androidx.hilt.android)
-    ksp(libs.androidx.hilt.compiler)
+    kapt(libs.androidx.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
-    ksp(libs.androidx.hilt.integration.compiler)
+    kapt(libs.androidx.hilt.integration.compiler)
     //javapoet
     implementation(libs.squareup.javapoet)
     //data store
@@ -81,4 +82,9 @@ dependencies {
     api (libs.squareup.retrofit)
     implementation(libs.squareup.gson)
     implementation(libs.logging.interceptor)
+}
+
+
+kapt {
+    correctErrorTypes = true
 }

@@ -26,7 +26,7 @@ object NetworkModule {
             level = HttpLoggingInterceptor.Level.BODY
         }
         val client = OkHttpClient.Builder().addInterceptor(logging).build()
-        return Retrofit.Builder().baseUrl("").addConverterFactory(GsonConverterFactory.create(gson))
+        return Retrofit.Builder().baseUrl("https://api.coingecko.com/api/v3/").addConverterFactory(GsonConverterFactory.create(gson))
             .client(client).build()
     }
 }

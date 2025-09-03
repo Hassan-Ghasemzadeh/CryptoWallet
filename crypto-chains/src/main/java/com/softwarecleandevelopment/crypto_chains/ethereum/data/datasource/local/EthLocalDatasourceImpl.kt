@@ -1,6 +1,5 @@
 package com.softwarecleandevelopment.crypto_chains.ethereum.data.datasource.local
 
-import androidx.compose.runtime.collectAsState
 import com.softwarecleandevelopment.core.database.room.dao.WalletDao
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

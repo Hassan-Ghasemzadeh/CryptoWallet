@@ -51,13 +51,15 @@ class WalletHomeViewModel @Inject constructor(
                     )
                     when (result) {
                         is Resource.Error -> {
-                            _isRefreshing.value = false
                             _cryptos.value = UiState.Error(result.message)
+
+                            _isRefreshing.value = false
                         }
 
                         is Resource.Success<Flow<List<CryptoInfo>>> -> {
-                            _isRefreshing.value = false
                             _cryptos.value = UiState.Success(result.data.first())
+
+                            _isRefreshing.value = false
                         }
                     }
                 }

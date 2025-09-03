@@ -65,6 +65,8 @@ dependencies {
     kapt(libs.androidx.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
     kapt(libs.androidx.hilt.integration.compiler)
+    //refresh
+    implementation(libs.accompanist.swiperefresh)
 }
 
 

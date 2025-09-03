@@ -27,6 +27,8 @@ class WalletHomeViewModel @Inject constructor(
 ) : ViewModel() {
     private val _cryptos = MutableStateFlow<UiState<List<CryptoInfo>>>(UiState.Loading)
     val cryptos: StateFlow<UiState<List<CryptoInfo>>> = _cryptos
+    private val _isRefreshing = MutableStateFlow<Boolean>(false)
+    val isRefreshing: StateFlow<Boolean> = _isRefreshing
 
     init {
         loadCryptoInfo()
@@ -35,6 +37,7 @@ class WalletHomeViewModel @Inject constructor(
     fun loadCryptoInfo() {
         viewModelScope.launch {
             _cryptos.value = UiState.Loading
+            _isRefreshing.value = true
             val generate = generateEthAddressUseCase.invoke(Unit)
             when (generate) {
                 is Resource.Error -> {}
@@ -48,10 +51,12 @@ class WalletHomeViewModel @Inject constructor(
                     )
                     when (result) {
                         is Resource.Error -> {
+                            _isRefreshing.value = false
                             _cryptos.value = UiState.Error(result.message)
                         }
 
                         is Resource.Success<Flow<List<CryptoInfo>>> -> {
+                            _isRefreshing.value = false
                             _cryptos.value = UiState.Success(result.data.first())
                         }
                     }

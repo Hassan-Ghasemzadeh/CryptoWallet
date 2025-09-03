@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import java.math.BigDecimal
 
 interface EthLocalDatasource {
-    suspend fun generateAddress() : Flow<String?>
+    fun generateAddress() : Flow<String?>
     suspend fun sendTransaction(from: String, to: String, amount: BigDecimal)
     suspend fun getTransaction()
 }

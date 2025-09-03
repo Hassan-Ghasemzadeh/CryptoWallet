@@ -1,8 +1,7 @@
-package com.softwarecleandevelopment.crypto_chains.ethereum.data.datasource
+package com.softwarecleandevelopment.crypto_chains.ethereum.data.datasource.remote
 
 import retrofit2.http.GET
 import retrofit2.http.Query
-
 
 interface EthCryptoApi {
     @GET("simple/price")

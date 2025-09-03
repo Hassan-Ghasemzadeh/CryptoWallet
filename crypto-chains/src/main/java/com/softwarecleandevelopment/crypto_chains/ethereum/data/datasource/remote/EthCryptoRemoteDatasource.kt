@@ -1,7 +1,7 @@
-package com.softwarecleandevelopment.crypto_chains.ethereum.data.datasource
+package com.softwarecleandevelopment.crypto_chains.ethereum.data.datasource.remote
 
 
-interface EthCryptoDatasource {
+interface EthCryptoRemoteDatasource {
     suspend fun getPrice(
         ids: String,
         change: Boolean = true,

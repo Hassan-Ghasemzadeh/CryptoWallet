@@ -1,11 +1,10 @@
 package com.softwarecleandevelopment.crypto_chains.ethereum.di
 
-import com.softwarecleandevelopment.crypto_chains.ethereum.data.datasource.EthCryptoApi
-import com.softwarecleandevelopment.crypto_chains.ethereum.data.datasource.EthCryptoDatasource
-import com.softwarecleandevelopment.crypto_chains.ethereum.data.datasource.EthCryptoDatasourceImpl
+import com.softwarecleandevelopment.crypto_chains.ethereum.data.datasource.remote.EthCryptoApi
+import com.softwarecleandevelopment.crypto_chains.ethereum.data.datasource.remote.EthCryptoRemoteDatasource
+import com.softwarecleandevelopment.crypto_chains.ethereum.data.datasource.remote.EthCryptoRemoteDatasourceImpl
 import com.softwarecleandevelopment.crypto_chains.ethereum.data.repository.EthCryptoRepositoryImpl
 import com.softwarecleandevelopment.crypto_chains.ethereum.domain.repository.EthCryptoRepository
-import com.softwarecleandevelopment.crypto_chains.ethereum.domain.usecases.GetCryptoInfoUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,13 +23,13 @@ object EthCryptoModule {
 
     @Provides
     @Singleton
-    fun provideEthCryptoDatasource(ethCryptoApi: EthCryptoApi): EthCryptoDatasource {
-        return EthCryptoDatasourceImpl(ethCryptoApi)
+    fun provideEthCryptoDatasource(ethCryptoApi: EthCryptoApi): EthCryptoRemoteDatasource {
+        return EthCryptoRemoteDatasourceImpl(ethCryptoApi)
     }
 
     @Provides
     @Singleton
-    fun provideEthCryptoRepository(ethCryptoDatasource: EthCryptoDatasource): EthCryptoRepository {
+    fun provideEthCryptoRepository(ethCryptoDatasource: EthCryptoRemoteDatasource): EthCryptoRepository {
         return EthCryptoRepositoryImpl(ethCryptoDatasource)
     }
 }

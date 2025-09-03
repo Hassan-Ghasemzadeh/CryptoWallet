@@ -4,7 +4,7 @@ import com.softwarecleandevelopment.crypto_chains.ethereum.data.datasource.remot
 import com.softwarecleandevelopment.crypto_chains.ethereum.data.datasource.remote.EthCryptoRemoteDatasource
 import com.softwarecleandevelopment.crypto_chains.ethereum.data.datasource.remote.EthCryptoRemoteDatasourceImpl
 import com.softwarecleandevelopment.crypto_chains.ethereum.data.repository.remote.EthCryptoRemoteRepositoryImpl
-import com.softwarecleandevelopment.crypto_chains.ethereum.domain.repository.EthCryptoRepository
+import com.softwarecleandevelopment.crypto_chains.ethereum.domain.repository.remote.EthCryptoRemoteRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,7 +29,7 @@ object EthCryptoModule {
 
     @Provides
     @Singleton
-    fun provideEthCryptoRepository(ethCryptoDatasource: EthCryptoRemoteDatasource): EthCryptoRepository {
+    fun provideEthCryptoRepository(ethCryptoDatasource: EthCryptoRemoteDatasource): EthCryptoRemoteRepository {
         return EthCryptoRemoteRepositoryImpl(ethCryptoDatasource)
     }
 }

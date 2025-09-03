@@ -9,7 +9,7 @@ import javax.inject.Inject
 class EthLocalDatasourceImpl @Inject constructor(
     private val dao: WalletDao
 ) : EthLocalDatasource {
-    override suspend fun generateAddress(): Flow<String?> {
+    override fun generateAddress(): Flow<String?> {
         return dao.getActiveWallet().map { it?.address }
     }
 

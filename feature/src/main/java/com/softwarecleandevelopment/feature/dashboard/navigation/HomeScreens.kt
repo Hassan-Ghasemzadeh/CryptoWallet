@@ -6,4 +6,5 @@ sealed class HomeScreens(val route: String) {
     object WalletsScreen : HomeScreens("wallets_screen")
     object WalletDetailScreen : HomeScreens("wallet_detail_screen")
     object WalletSecretPhraseScreen : HomeScreens("wallet_Secret_phrase_screen")
+    object ReceiveScreen : HomeScreens("receive_screen")
 }

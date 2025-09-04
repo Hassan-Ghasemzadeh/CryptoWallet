@@ -1,0 +1,86 @@
+package com.softwarecleandevelopment.feature.wallet_home.presentation.viewmodels.receive
+
+import com.softwarecleandevelopment.feature.wallet_home.domain.usecases.CopyToClipboardUseCase
+import com.softwarecleandevelopment.feature.wallet_home.domain.usecases.GenerateQrBitmapUseCase
+import com.softwarecleandevelopment.feature.wallet_home.domain.usecases.ShareTextUseCase
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.softwarecleandevelopment.core.common.utils.Resource
+import com.softwarecleandevelopment.core.database.room.models.WalletEntity
+import com.softwarecleandevelopment.feature.wallet_home.domain.usecases.GetActiveWalletUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+@HiltViewModel
+class ReceiveEthViewModel @Inject constructor(
+    private val getActiveWalletUseCase: GetActiveWalletUseCase,
+    private val generateQrBitmap: GenerateQrBitmapUseCase,
+    private val copyToClipboard: CopyToClipboardUseCase,
+    private val shareText: ShareTextUseCase,
+) : ViewModel() {
+
+    private val _ui = MutableStateFlow(
+        ReceiveEthUiState(
+            walletName = "",
+            address = ""
+        )
+    )
+    val ui: StateFlow<ReceiveEthUiState> = _ui
+    private val _navigateBack = MutableStateFlow(
+        false
+    )
+    val navigateBack: StateFlow<Boolean> = _navigateBack
+
+    init {
+        // Generate QR once
+        generateQrCode()
+    }
+
+    private fun generateQrCode() {
+        viewModelScope.launch {
+            val result = getActiveWalletUseCase.invoke(Unit)
+            when (result) {
+                is Resource.Error -> {
+                    _navigateBack.value = true
+                }
+
+                is Resource.Success<Flow<WalletEntity?>> -> {
+                    result.data.collectLatest {
+                        _ui.value = ReceiveEthUiState(
+                            walletName = it?.name ?: "",
+                            address = it?.address ?: ""
+                        )
+                        val bitmap = generateQrBitmap(it?.address ?: "")
+                        _ui.value = _ui.value.copy(qr = bitmap)
+                    }
+                }
+            }
+        }
+    }
+
+    fun onEvent(e: ReceiveEthEvent) {
+        when (e) {
+            ReceiveEthEvent.OnBackClick -> {
+
+            }
+
+            ReceiveEthEvent.OnCopyClick -> {
+                copyToClipboard("ETH Address", _ui.value.address)
+                consumeToast(toastMessage = "Address copied")
+            }
+
+            ReceiveEthEvent.OnShareClick -> {
+                shareText(_ui.value.address)
+            }
+        }
+    }
+
+    fun consumeToast(toastMessage: String) {
+        _ui.value = _ui.value.copy(toastMessage = toastMessage)
+    }
+}

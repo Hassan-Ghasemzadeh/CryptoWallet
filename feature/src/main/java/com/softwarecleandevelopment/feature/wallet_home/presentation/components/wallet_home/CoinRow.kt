@@ -1,4 +1,4 @@
-package com.softwarecleandevelopment.feature.wallet_home.presentation.components
+package com.softwarecleandevelopment.feature.wallet_home.presentation.components.wallet_home
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image

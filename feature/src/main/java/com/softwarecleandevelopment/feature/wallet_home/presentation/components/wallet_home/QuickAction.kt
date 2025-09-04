@@ -1,4 +1,4 @@
-package com.softwarecleandevelopment.feature.wallet_home.presentation.components
+package com.softwarecleandevelopment.feature.wallet_home.presentation.components.wallet_home
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer

@@ -1,4 +1,4 @@
-package com.softwarecleandevelopment.feature.wallet_home.presentation.viewmodels
+package com.softwarecleandevelopment.feature.wallet_home.presentation.viewmodels.wallet_home
 
 import android.os.Build
 import androidx.annotation.RequiresApi

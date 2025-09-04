@@ -40,10 +40,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.softwarecleandevelopment.core.common.utils.UiState
 import com.softwarecleandevelopment.crypto_chains.ethereum.domain.models.CryptoInfo
-import com.softwarecleandevelopment.feature.wallet_home.presentation.components.CoinRow
-import com.softwarecleandevelopment.feature.wallet_home.presentation.components.QuickAction
+import com.softwarecleandevelopment.feature.wallet_home.presentation.components.wallet_home.CoinRow
+import com.softwarecleandevelopment.feature.wallet_home.presentation.components.wallet_home.QuickAction
 import com.softwarecleandevelopment.feature.R
-import com.softwarecleandevelopment.feature.wallet_home.presentation.viewmodels.WalletHomeViewModel
+import com.softwarecleandevelopment.feature.wallet_home.presentation.viewmodels.wallet_home.WalletHomeViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)

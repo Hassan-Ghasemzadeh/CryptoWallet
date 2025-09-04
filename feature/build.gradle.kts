@@ -67,6 +67,8 @@ dependencies {
     kapt(libs.androidx.hilt.integration.compiler)
     //refresh
     implementation(libs.accompanist.swiperefresh)
+    //qr code
+    implementation(libs.zxing.core)
 }
 
 

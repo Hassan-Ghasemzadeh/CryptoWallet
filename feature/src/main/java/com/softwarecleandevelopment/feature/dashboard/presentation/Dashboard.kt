@@ -11,7 +11,7 @@ import com.softwarecleandevelopment.feature.dashboard.presentation.viewmodels.Bo
 import com.softwarecleandevelopment.feature.setting.presentation.SettingsScreen
 import com.softwarecleandevelopment.feature.transaction.presentation.TransactionsScreen
 import com.softwarecleandevelopment.feature.wallet_home.presentation.WalletHome
-import com.softwarecleandevelopment.feature.wallet_home.presentation.components.WalletTopBar
+import com.softwarecleandevelopment.feature.wallet_home.presentation.components.wallet_home.WalletTopBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

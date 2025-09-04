@@ -10,6 +10,7 @@ import com.softwarecleandevelopment.core.common.navigation.app_graph.AppGraph
 import com.softwarecleandevelopment.core.common.navigation.screens.CreateWalletScreens
 import com.softwarecleandevelopment.feature.dashboard.presentation.DashboardScreen
 import com.softwarecleandevelopment.feature.wallet_home.presentation.ReceiveCoinScreen
+import com.softwarecleandevelopment.feature.wallet_home.presentation.SendCoinScreen
 import com.softwarecleandevelopment.feature.wallets.domain.models.UpdateWalletEvent
 import com.softwarecleandevelopment.feature.wallets.presentation.SecretPhraseScreen
 import com.softwarecleandevelopment.feature.wallets.presentation.WalletDetailScreen
@@ -37,6 +38,11 @@ object DashboardNavHostExtension {
                             HomeScreens.ReceiveScreen.route
                         )
                     },
+                    onSendClick = {
+                        navController.navigate(
+                            HomeScreens.SendScreen.route,
+                        )
+                    }
                 )
             }
             composable(
@@ -70,26 +76,21 @@ object DashboardNavHostExtension {
                 val event =
                     navController.previousBackStackEntry?.savedStateHandle?.get<UpdateWalletEvent>("updateWalletEvent")
 
-                WalletDetailScreen(
-                    event = event,
-                    onNavigateBack = {
-                        navController.popBackStack()
-                    },
-                    onNavigateToCreateWallet = {
-                        navController.navigate(CreateWalletScreens.LandingScreen.route) {
-                            popUpTo(CreateWalletScreens.LandingScreen.route) {
-                                inclusive = true
-                            }
+                WalletDetailScreen(event = event, onNavigateBack = {
+                    navController.popBackStack()
+                }, onNavigateToCreateWallet = {
+                    navController.navigate(CreateWalletScreens.LandingScreen.route) {
+                        popUpTo(CreateWalletScreens.LandingScreen.route) {
+                            inclusive = true
                         }
-                    },
-                    onShowScreenPhrase = {
-                        navController.currentBackStackEntry?.savedStateHandle?.set(
-                            "secretPhraseEvent",
-                            event?.mnemonic,
-                        )
-                        navController.navigate(HomeScreens.WalletSecretPhraseScreen.route)
                     }
-                )
+                }, onShowScreenPhrase = {
+                    navController.currentBackStackEntry?.savedStateHandle?.set(
+                        "secretPhraseEvent",
+                        event?.mnemonic,
+                    )
+                    navController.navigate(HomeScreens.WalletSecretPhraseScreen.route)
+                })
             }
             composable(
                 route = HomeScreens.WalletSecretPhraseScreen.route,
@@ -97,11 +98,9 @@ object DashboardNavHostExtension {
                 val mnemonic =
                     navController.previousBackStackEntry?.savedStateHandle?.get<String>("secretPhraseEvent")
                 SecretPhraseScreen(
-                    mnemonic = mnemonic,
-                    onNavigateBack = {
+                    mnemonic = mnemonic, onNavigateBack = {
                         navController.popBackStack()
-                    }
-                )
+                    })
             }
             composable(
                 route = HomeScreens.ReceiveScreen.route,
@@ -109,7 +108,15 @@ object DashboardNavHostExtension {
                 ReceiveCoinScreen(
                     onNavigateBack = {
                         navController.popBackStack()
-                    }
+                    })
+            }
+            composable(
+                route = HomeScreens.SendScreen.route,
+            ) {
+                SendCoinScreen(
+                    onBack = {
+                        navController.popBackStack()
+                    },
                 )
             }
         }

@@ -18,7 +18,11 @@ import com.softwarecleandevelopment.feature.wallet_home.presentation.components.
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DashboardScreen(onTitleClicked: () -> Unit = {}, onReceiveClick: () -> Unit = {}) {
+fun DashboardScreen(
+    onTitleClicked: () -> Unit = {},
+    onReceiveClick: () -> Unit = {},
+    onSendClick: () -> Unit = { }
+) {
     val viewModel: BottomNavigationViewModel = hiltViewModel()
     val selectedIndex = viewModel.selectedIndex.value
 
@@ -44,7 +48,8 @@ fun DashboardScreen(onTitleClicked: () -> Unit = {}, onReceiveClick: () -> Unit 
                 modifier = Modifier
                     .padding(innerPadding)
                     .fillMaxSize(),
-                onReceiveClick = onReceiveClick
+                onReceiveClick = onReceiveClick,
+                onSendClick = onSendClick
             )
 
             BottomNavigation.TRANSACTION.ordinal -> TransactionsScreen(

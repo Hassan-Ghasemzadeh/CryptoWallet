@@ -49,8 +49,10 @@ import com.softwarecleandevelopment.feature.wallet_home.presentation.viewmodels.
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun WalletHome(
-    modifier: Modifier = Modifier, viewModel: WalletHomeViewModel = hiltViewModel(),
-    onReceiveClick: () -> Unit = {}, onSendClick: () -> Unit = {},
+    modifier: Modifier = Modifier,
+    viewModel: WalletHomeViewModel = hiltViewModel(),
+    onReceiveClick: () -> Unit = {},
+    onSendClick: () -> Unit = {},
 ) {
     val isRefreshing by viewModel.isRefreshing.collectAsState()
     val pullRefreshState = rememberPullToRefreshState()
@@ -80,7 +82,7 @@ fun WalletHome(
                 QuickAction(
                     icon = Icons.Outlined.KeyboardArrowUp,
                     label = stringResource(R.string.home_send_brn)
-                ) { /* TODO */ }
+                ) { onSendClick() }
                 QuickAction(
                     icon = Icons.Outlined.KeyboardArrowDown,
                     label = stringResource(R.string.home_receive_brn)

@@ -46,7 +46,6 @@ class ReceiveEthViewModel @Inject constructor(
             val result = getActiveWalletUseCase.invoke(Unit)
             when (result) {
                 is Resource.Error -> {
-                    _navigateBack.value = true
                 }
 
                 is Resource.Success<Flow<WalletEntity?>> -> {
@@ -66,7 +65,7 @@ class ReceiveEthViewModel @Inject constructor(
     fun onEvent(e: ReceiveEthEvent) {
         when (e) {
             ReceiveEthEvent.OnBackClick -> {
-
+                _navigateBack.value = true
             }
 
             ReceiveEthEvent.OnCopyClick -> {

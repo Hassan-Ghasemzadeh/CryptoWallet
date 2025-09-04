@@ -2,7 +2,7 @@ package com.softwarecleandevelopment.feature.wallet_home.presentation.viewmodels
 
 import android.graphics.Bitmap
 
-data class ReceiveEthUiState(
+data class ReceiveCoinUiState(
     val title: String = "Receive ETH",
     val walletName: String = "",
     val address: String = "",
@@ -10,8 +10,8 @@ data class ReceiveEthUiState(
     val toastMessage: String? = null
 )
 
-sealed interface ReceiveEthEvent {
-    data object OnBackClick : ReceiveEthEvent
-    data object OnCopyClick : ReceiveEthEvent
-    data object OnShareClick : ReceiveEthEvent
+sealed interface ReceiveCoinEvent {
+    data object OnBackClick : ReceiveCoinEvent
+    data object OnCopyClick : ReceiveCoinEvent
+    data object OnShareClick : ReceiveCoinEvent
 }

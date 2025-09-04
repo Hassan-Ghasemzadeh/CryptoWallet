@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ReceiveEthViewModel @Inject constructor(
+class ReceiveCoinViewModel @Inject constructor(
     private val getActiveWalletUseCase: GetActiveWalletUseCase,
     private val generateQrBitmap: GenerateQrBitmapUseCase,
     private val copyToClipboard: CopyToClipboardUseCase,
@@ -25,12 +25,12 @@ class ReceiveEthViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _ui = MutableStateFlow(
-        ReceiveEthUiState(
+        ReceiveCoinUiState(
             walletName = "",
             address = ""
         )
     )
-    val ui: StateFlow<ReceiveEthUiState> = _ui
+    val ui: StateFlow<ReceiveCoinUiState> = _ui
     private val _navigateBack = MutableStateFlow(
         false
     )
@@ -50,7 +50,7 @@ class ReceiveEthViewModel @Inject constructor(
 
                 is Resource.Success<Flow<WalletEntity?>> -> {
                     result.data.collectLatest {
-                        _ui.value = ReceiveEthUiState(
+                        _ui.value = ReceiveCoinUiState(
                             walletName = it?.name ?: "",
                             address = it?.address ?: ""
                         )
@@ -62,18 +62,18 @@ class ReceiveEthViewModel @Inject constructor(
         }
     }
 
-    fun onEvent(e: ReceiveEthEvent) {
+    fun onEvent(e: ReceiveCoinEvent) {
         when (e) {
-            ReceiveEthEvent.OnBackClick -> {
+            ReceiveCoinEvent.OnBackClick -> {
                 _navigateBack.value = true
             }
 
-            ReceiveEthEvent.OnCopyClick -> {
+            ReceiveCoinEvent.OnCopyClick -> {
                 copyToClipboard("ETH Address", _ui.value.address)
                 consumeToast(toastMessage = "Address copied")
             }
 
-            ReceiveEthEvent.OnShareClick -> {
+            ReceiveCoinEvent.OnShareClick -> {
                 shareText(_ui.value.address)
             }
         }

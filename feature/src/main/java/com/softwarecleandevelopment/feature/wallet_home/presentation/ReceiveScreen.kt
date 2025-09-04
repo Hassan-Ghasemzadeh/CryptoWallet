@@ -22,14 +22,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.softwarecleandevelopment.feature.wallet_home.presentation.viewmodels.receive.ReceiveEthEvent
+import com.softwarecleandevelopment.feature.wallet_home.presentation.viewmodels.receive.ReceiveCoinEvent
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.softwarecleandevelopment.feature.wallet_home.presentation.viewmodels.receive.ReceiveEthViewModel
+import com.softwarecleandevelopment.feature.wallet_home.presentation.viewmodels.receive.ReceiveCoinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ReceiveCoinScreen(
-    viewModel: ReceiveEthViewModel = hiltViewModel(),
+    viewModel: ReceiveCoinViewModel = hiltViewModel(),
     onNavigateBack: () -> Unit = {},
 ) {
     val context = LocalContext.current
@@ -52,12 +52,12 @@ fun ReceiveCoinScreen(
             CenterAlignedTopAppBar(
                 title = { Text(state.title) },
                 navigationIcon = {
-                    IconButton(onClick = { viewModel.onEvent(ReceiveEthEvent.OnBackClick) }) {
+                    IconButton(onClick = { viewModel.onEvent(ReceiveCoinEvent.OnBackClick) }) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
                 },
                 actions = {
-                    IconButton(onClick = { viewModel.onEvent(ReceiveEthEvent.OnShareClick) }) {
+                    IconButton(onClick = { viewModel.onEvent(ReceiveCoinEvent.OnShareClick) }) {
                         Icon(Icons.Filled.Share, contentDescription = "Share")
                     }
                 }
@@ -106,7 +106,7 @@ fun ReceiveCoinScreen(
                 horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterHorizontally)
             ) {
                 FilledTonalButton(
-                    onClick = { viewModel.onEvent(ReceiveEthEvent.OnCopyClick) },
+                    onClick = { viewModel.onEvent(ReceiveCoinEvent.OnCopyClick) },
                     modifier = Modifier
                         .weight(1f)
                         .height(52.dp),
@@ -117,7 +117,7 @@ fun ReceiveCoinScreen(
                     Text("Copy")
                 }
                 FilledTonalButton(
-                    onClick = { viewModel.onEvent(ReceiveEthEvent.OnShareClick) },
+                    onClick = { viewModel.onEvent(ReceiveCoinEvent.OnShareClick) },
                     modifier = Modifier
                         .weight(1f)
                         .height(52.dp),

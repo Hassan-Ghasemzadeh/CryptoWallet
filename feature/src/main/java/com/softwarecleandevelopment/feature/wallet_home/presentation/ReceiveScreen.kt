@@ -1,0 +1,161 @@
+package com.softwarecleandevelopment.feature.wallet_home.presentation
+
+
+import android.graphics.Bitmap
+import android.widget.Toast
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.IosShare
+import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.filled.ContentCopy
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.softwarecleandevelopment.feature.wallet_home.presentation.viewmodels.receive.ReceiveEthEvent
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.softwarecleandevelopment.feature.wallet_home.presentation.viewmodels.receive.ReceiveEthViewModel
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ReceiveEthScreen(
+    viewModel: ReceiveEthViewModel = hiltViewModel(),
+    onNavigateBack: () -> Unit = {},
+) {
+    val context = LocalContext.current
+    val state = viewModel.ui.collectAsState().value
+    // one-shot toast
+    LaunchedEffect(state.toastMessage) {
+        state.toastMessage?.let {
+            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+        }
+    }
+    LaunchedEffect(viewModel.navigateBack.value) {
+        if (viewModel.navigateBack.value) {
+            onNavigateBack()
+        }
+    }
+
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = { Text(state.title) },
+                navigationIcon = {
+                    IconButton(onClick = { viewModel.onEvent(ReceiveEthEvent.OnBackClick) }) {
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                    }
+                },
+                actions = {
+                    IconButton(onClick = { viewModel.onEvent(ReceiveEthEvent.OnShareClick) }) {
+                        Icon(Icons.Filled.IosShare, contentDescription = "Share")
+                    }
+                }
+            )
+        }
+    ) { innerPadding ->
+        Column(
+            Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .padding(horizontal = 20.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Spacer(Modifier.height(24.dp))
+
+            // QR card
+            ElevatedCard(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(20.dp)
+            ) {
+                Box(
+                    Modifier
+                        .padding(16.dp)
+                        .heightIn(min = 280.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    state.qr?.let { QrImage(it) }
+                }
+            }
+
+            Spacer(Modifier.height(20.dp))
+
+            Text(
+                text = state.walletName,
+                style = MaterialTheme.typography.headlineSmall
+            )
+
+            Spacer(Modifier.height(8.dp))
+
+            Text(
+                text = formatEthAddressMultiline(state.address),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                textAlign = TextAlign.Center
+            )
+
+            Spacer(Modifier.height(28.dp))
+
+            Row(
+                Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterHorizontally)
+            ) {
+                FilledTonalButton(
+                    onClick = { viewModel.onEvent(ReceiveEthEvent.OnCopyClick) },
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(52.dp),
+                    shape = RoundedCornerShape(16.dp)
+                ) {
+                    Icon(Icons.Filled.ContentCopy, contentDescription = null)
+                    Spacer(Modifier.width(8.dp))
+                    Text("Copy")
+                }
+                FilledTonalButton(
+                    onClick = { viewModel.onEvent(ReceiveEthEvent.OnShareClick) },
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(52.dp),
+                    shape = RoundedCornerShape(16.dp)
+                ) {
+                    Icon(Icons.Filled.Share, contentDescription = null)
+                    Spacer(Modifier.width(8.dp))
+                    Text("Share")
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun QrImage(bitmap: Bitmap) {
+    Image(
+        bitmap = bitmap.asImageBitmap(),
+        contentDescription = "ETH Address QR",
+        modifier = Modifier
+            .fillMaxWidth()
+            .aspectRatio(1f)
+            .clip(RoundedCornerShape(12.dp))
+            .padding(4.dp)
+    )
+}
+
+private fun formatEthAddressMultiline(address: String): String {
+    // Break into ~22-char lines for a tidy two-line look if long.
+    val chunk = 22
+    return address.chunked(chunk).joinToString("\n")
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun ReceiveEthPreview() {
+    MaterialTheme { ReceiveEthScreen() }
+}

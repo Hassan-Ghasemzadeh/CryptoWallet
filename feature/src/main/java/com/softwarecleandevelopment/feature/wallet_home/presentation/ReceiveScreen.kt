@@ -16,7 +16,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -27,20 +29,21 @@ import com.softwarecleandevelopment.feature.wallet_home.presentation.viewmodels.
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ReceiveEthScreen(
+fun ReceiveCoinScreen(
     viewModel: ReceiveEthViewModel = hiltViewModel(),
     onNavigateBack: () -> Unit = {},
 ) {
     val context = LocalContext.current
     val state = viewModel.ui.collectAsState().value
+    val navigateBack = viewModel.navigateBack.collectAsState().value
     // one-shot toast
     LaunchedEffect(state.toastMessage) {
         state.toastMessage?.let {
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
         }
     }
-    LaunchedEffect(viewModel.navigateBack.value) {
-        if (viewModel.navigateBack.value) {
+    LaunchedEffect(navigateBack) {
+        if (navigateBack) {
             onNavigateBack()
         }
     }
@@ -56,7 +59,7 @@ fun ReceiveEthScreen(
                 },
                 actions = {
                     IconButton(onClick = { viewModel.onEvent(ReceiveEthEvent.OnShareClick) }) {
-                        Icon(Icons.Filled.IosShare, contentDescription = "Share")
+                        Icon(Icons.Filled.Share, contentDescription = "Share")
                     }
                 }
             )
@@ -72,18 +75,13 @@ fun ReceiveEthScreen(
             Spacer(Modifier.height(24.dp))
 
             // QR card
-            ElevatedCard(
-                modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(20.dp)
+            Box(
+                Modifier
+                    .padding(16.dp)
+                    .heightIn(min = 280.dp),
+                contentAlignment = Alignment.Center
             ) {
-                Box(
-                    Modifier
-                        .padding(16.dp)
-                        .heightIn(min = 280.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    state.qr?.let { QrImage(it) }
-                }
+                state.qr?.let { QrImage(it) }
             }
 
             Spacer(Modifier.height(20.dp))
@@ -96,8 +94,8 @@ fun ReceiveEthScreen(
             Spacer(Modifier.height(8.dp))
 
             Text(
-                text = formatEthAddressMultiline(state.address),
-                style = MaterialTheme.typography.bodyMedium,
+                text = state.address,
+                style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 textAlign = TextAlign.Center
             )
@@ -143,19 +141,19 @@ private fun QrImage(bitmap: Bitmap) {
         modifier = Modifier
             .fillMaxWidth()
             .aspectRatio(1f)
+            .graphicsLayer {
+                shadowElevation = 8.dp.toPx()
+                shape = RoundedCornerShape(12.dp)
+                ambientShadowColor = Color.Black.copy(alpha = 0.2f)
+                spotShadowColor = Color.Black.copy(alpha = 0.4f)
+            }
             .clip(RoundedCornerShape(12.dp))
             .padding(4.dp)
     )
 }
 
-private fun formatEthAddressMultiline(address: String): String {
-    // Break into ~22-char lines for a tidy two-line look if long.
-    val chunk = 22
-    return address.chunked(chunk).joinToString("\n")
-}
-
 @Preview(showBackground = true)
 @Composable
 private fun ReceiveEthPreview() {
-    MaterialTheme { ReceiveEthScreen() }
+    MaterialTheme { ReceiveCoinScreen() }
 }

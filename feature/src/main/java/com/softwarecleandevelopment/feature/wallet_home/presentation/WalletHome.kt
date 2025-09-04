@@ -91,10 +91,7 @@ fun WalletHome(
             Spacer(Modifier.height(8.dp))
 
             LazyColumn(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
-                    .height(300.dp),
+                modifier = Modifier.fillMaxSize(),
                 contentPadding = PaddingValues(bottom = 24.dp),
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
@@ -103,8 +100,7 @@ fun WalletHome(
                         item {
                             Box(
                                 modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(300.dp),
+                                    .fillMaxWidth(),
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
@@ -118,8 +114,7 @@ fun WalletHome(
                         item {
                             Box(
                                 modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(300.dp),
+                                    .fillMaxWidth(),
 
                                 contentAlignment = Alignment.TopCenter
                             ) {
@@ -138,12 +133,18 @@ fun WalletHome(
                 }
                 item {
                     Spacer(Modifier.height(4.dp))
-                    TextButton(onClick = { /* manage tokens */ }) {
-                        Icon(
-                            imageVector = Icons.Outlined.Settings, contentDescription = null
-                        )
-                        Spacer(Modifier.width(8.dp))
-                        Text(stringResource(R.string.home_managetoken_brn))
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        contentAlignment = Alignment.TopCenter
+                    ) {
+                        TextButton(onClick = { /* manage tokens */ }) {
+                            Icon(
+                                imageVector = Icons.Outlined.Settings, contentDescription = null
+                            )
+                            Spacer(Modifier.width(8.dp))
+                            Text(stringResource(R.string.home_managetoken_brn))
+                        }
                     }
                 }
             }

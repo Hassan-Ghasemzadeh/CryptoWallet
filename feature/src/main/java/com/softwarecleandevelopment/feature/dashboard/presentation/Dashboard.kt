@@ -1,5 +1,7 @@
 package com.softwarecleandevelopment.feature.dashboard.presentation
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -13,9 +15,10 @@ import com.softwarecleandevelopment.feature.transaction.presentation.Transaction
 import com.softwarecleandevelopment.feature.wallet_home.presentation.WalletHome
 import com.softwarecleandevelopment.feature.wallet_home.presentation.components.wallet_home.WalletTopBar
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DashboardScreen(onTitleClicked: () -> Unit = {}) {
+fun DashboardScreen(onTitleClicked: () -> Unit = {}, onReceiveClick: () -> Unit = {}) {
     val viewModel: BottomNavigationViewModel = hiltViewModel()
     val selectedIndex = viewModel.selectedIndex.value
 
@@ -40,7 +43,8 @@ fun DashboardScreen(onTitleClicked: () -> Unit = {}) {
             BottomNavigation.HOME.ordinal -> WalletHome(
                 modifier = Modifier
                     .padding(innerPadding)
-                    .fillMaxSize()
+                    .fillMaxSize(),
+                onReceiveClick = onReceiveClick
             )
 
             BottomNavigation.TRANSACTION.ordinal -> TransactionsScreen(

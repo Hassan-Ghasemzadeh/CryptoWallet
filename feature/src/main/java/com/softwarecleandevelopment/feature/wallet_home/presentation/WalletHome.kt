@@ -49,7 +49,8 @@ import com.softwarecleandevelopment.feature.wallet_home.presentation.viewmodels.
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun WalletHome(
-    modifier: Modifier = Modifier, viewModel: WalletHomeViewModel = hiltViewModel()
+    modifier: Modifier = Modifier, viewModel: WalletHomeViewModel = hiltViewModel(),
+    onReceiveClick: () -> Unit = {}, onSendClick: () -> Unit = {},
 ) {
     val isRefreshing by viewModel.isRefreshing.collectAsState()
     val pullRefreshState = rememberPullToRefreshState()
@@ -83,7 +84,7 @@ fun WalletHome(
                 QuickAction(
                     icon = Icons.Outlined.KeyboardArrowDown,
                     label = stringResource(R.string.home_receive_brn)
-                ) { /* TODO */ }
+                ) { onReceiveClick() }
             }
 
             Spacer(Modifier.height(12.dp))
@@ -99,8 +100,7 @@ fun WalletHome(
                     is UiState.Error -> {
                         item {
                             Box(
-                                modifier = Modifier
-                                    .fillMaxWidth(),
+                                modifier = Modifier.fillMaxWidth(),
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
@@ -113,8 +113,7 @@ fun WalletHome(
                     is UiState.Loading -> {
                         item {
                             Box(
-                                modifier = Modifier
-                                    .fillMaxWidth(),
+                                modifier = Modifier.fillMaxWidth(),
 
                                 contentAlignment = Alignment.TopCenter
                             ) {
@@ -134,9 +133,7 @@ fun WalletHome(
                 item {
                     Spacer(Modifier.height(4.dp))
                     Box(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        contentAlignment = Alignment.TopCenter
+                        modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.TopCenter
                     ) {
                         TextButton(onClick = { /* manage tokens */ }) {
                             Icon(

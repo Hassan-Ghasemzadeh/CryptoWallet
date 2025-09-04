@@ -2,10 +2,9 @@ package com.softwarecleandevelopment.feature.wallet_home.domain.usecases
 
 import android.content.Context
 import android.content.Intent
-import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-class ShareTextUseCase @Inject constructor(@ApplicationContext private val appContext: Context) {
+class ShareTextUseCase @Inject constructor(private val appContext: Context) {
     operator fun invoke(text: String) {
         val sendIntent = Intent(Intent.ACTION_SEND).apply {
             type = "text/plain"

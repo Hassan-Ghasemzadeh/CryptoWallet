@@ -69,6 +69,13 @@ dependencies {
     implementation(libs.accompanist.swiperefresh)
     //qr code
     implementation(libs.zxing.core)
+    //ml kit barcode scanning
+    implementation(libs.barcode.scanning)
+    //camera x
+    implementation(libs.camera.core)
+    implementation(libs.androidx.camera.camera2)
+    implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.androidx.camera.view)
 }
 
 

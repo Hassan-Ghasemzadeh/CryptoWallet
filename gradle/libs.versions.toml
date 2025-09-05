@@ -1,6 +1,8 @@
 [versions]
 accompanistSwiperefresh = "0.28.0"
 agp = "8.12.0"
+barcodeScanning = "17.3.0"
+cameraCoreVersion = "1.2.3"
 core = "3.5.3"
 desugar_jdk_libs = "2.0.4"
 kotlin = "2.1.20"
@@ -32,7 +34,12 @@ loggingInterceptor = "4.12.0"
 
 [libraries]
 accompanist-swiperefresh = { module = "com.google.accompanist:accompanist-swiperefresh", version.ref = "accompanistSwiperefresh" }
+androidx-camera-camera2 = { module = "androidx.camera:camera-camera2", version.ref = "cameraCoreVersion" }
+androidx-camera-lifecycle = { module = "androidx.camera:camera-lifecycle", version.ref = "cameraCoreVersion" }
+androidx-camera-view = { module = "androidx.camera:camera-view", version.ref = "cameraCoreVersion" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+barcode-scanning = { module = "com.google.mlkit:barcode-scanning", version.ref = "barcodeScanning" }
+camera-core = { module = "androidx.camera:camera-core", version.ref = "cameraCoreVersion" }
 zxing-core = { module = "com.google.zxing:core", version.ref = "core" }
 desugar_jdk_libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar_jdk_libs" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }

@@ -82,7 +82,8 @@ dependencies {
     implementation(libs.androidx.kethereum.crypto)
     implementation(libs.androidx.kethereum.model)
     implementation(libs.androidx.kethereum.bip39Wordlist)
-    //data store
+    implementation(libs.androidx.kethereum.cryptoImplSpongycastle)
+     //data store
     implementation(libs.androidx.datastore)
     //compose navigation
     implementation(libs.androidx.navigation.compose)

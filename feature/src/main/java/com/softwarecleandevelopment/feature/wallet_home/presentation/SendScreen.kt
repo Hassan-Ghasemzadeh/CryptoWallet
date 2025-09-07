@@ -93,7 +93,7 @@ fun SendCoinScreen(
                     trailingIcon = {
                         Row {
                             TextButton(onClick = {
-                                val copiedText = sendCoinViewModel.getClipboardText()
+                                val copiedText = sendCoinViewModel.getCopiedText()
                                 if (copiedText != null) {
                                     sendCoinViewModel.onAddressChanged(copiedText)
                                 }

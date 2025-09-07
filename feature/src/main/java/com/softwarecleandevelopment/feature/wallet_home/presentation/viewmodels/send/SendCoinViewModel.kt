@@ -1,7 +1,9 @@
 package com.softwarecleandevelopment.feature.wallet_home.presentation.viewmodels.send
 
+import android.content.ClipDescription
 import android.content.ClipboardManager
 import android.content.Context
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -30,24 +32,26 @@ class SendCoinViewModel @Inject constructor(
         _uiState.value = _uiState.value.copy(amount = "1000")
     }
 
-    // A function to get text from the clipboard
-    fun getCopiedText(): String? {
-        val clipboardManager =
-            context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+    fun getClipboardText(): String? {
+        val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager
+            ?: return null
 
-        if (clipboardManager.hasPrimaryClip()) {
-            val clipData = clipboardManager.primaryClip
-
-            if (clipData != null && clipData.itemCount > 0) {
-                val item = clipData.getItemAt(0)
-
-                val text = item.text
-
-                return text?.toString()
-            }
+        if (!clipboard.hasPrimaryClip() || !clipboard.primaryClipDescription?.hasMimeType(
+                ClipDescription.MIMETYPE_TEXT_PLAIN
+            )!!
+        ) {
+            return null
         }
 
+        try {
+            val primaryClip = clipboard.primaryClip ?: return null
+            if (primaryClip.itemCount > 0) {
+                val item = primaryClip.getItemAt(0)
+                return item.text?.toString()
+            }
+        } catch (e: Exception) {
+            Toast.makeText(context, "Failed to read from clipboard.", Toast.LENGTH_SHORT).show()
+        }
         return null
     }
-
 }

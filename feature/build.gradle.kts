@@ -70,9 +70,9 @@ dependencies {
     //qr code
     implementation(libs.zxing.core)
     //ml kit barcode scanning
-    implementation(libs.barcode.scanning)
+    api(libs.barcode.scanning)
     //camera x
-    implementation(libs.camera.core)
+    api(libs.camera.core)
     implementation(libs.androidx.camera.camera2)
     implementation(libs.androidx.camera.lifecycle)
     implementation(libs.androidx.camera.view)

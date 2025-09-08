@@ -17,7 +17,12 @@ suspend fun <T> safeCall(
         Resource.Success(result)
     } catch (e: Exception) {
         e.printStackTrace()
-        Resource.Error(e.message ?: "Error in ${call()} function", e)
+        val errorMessage = when (e) {
+            is java.net.SocketTimeoutException -> "Connection timed out. Please try again."
+            is java.net.UnknownHostException -> "No internet connection. Please check your network."
+            else -> "An unexpected error occurred."
+        }
+        Resource.Error(errorMessage, e)
     }
 }
 
@@ -30,6 +35,11 @@ fun <T> safeFlowCall(
         Resource.Success(result)
     } catch (e: Exception) {
         e.printStackTrace()
-        Resource.Error(e.message ?: "Error in ${call()} function", e)
+        val errorMessage = when (e) {
+            is java.net.SocketTimeoutException -> "Connection timed out. Please try again."
+            is java.net.UnknownHostException -> "No internet connection. Please check your network."
+            else -> "An unexpected error occurred."
+        }
+        Resource.Error(errorMessage, e)
     }
 }

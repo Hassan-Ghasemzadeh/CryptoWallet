@@ -58,6 +58,10 @@ class ReceiveCoinViewModel @Inject constructor(
                         _ui.value = _ui.value.copy(qr = bitmap)
                     }
                 }
+
+                Resource.Loading -> {
+
+                }
             }
         }
     }

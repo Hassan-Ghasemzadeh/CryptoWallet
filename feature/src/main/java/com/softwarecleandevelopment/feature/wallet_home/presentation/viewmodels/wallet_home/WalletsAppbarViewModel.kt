@@ -36,6 +36,10 @@ class WalletsAppbarViewModel @Inject constructor(
                         _name.value = response?.name ?: ""
                     }
                 }
+
+                Resource.Loading -> {
+
+                }
             }
         }
     }

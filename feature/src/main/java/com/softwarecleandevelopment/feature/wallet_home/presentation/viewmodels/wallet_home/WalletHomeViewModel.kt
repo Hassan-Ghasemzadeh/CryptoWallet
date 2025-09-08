@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.softwarecleandevelopment.core.common.utils.Resource
 import com.softwarecleandevelopment.core.common.utils.UiState
+import com.softwarecleandevelopment.core.common.utils.UiState.*
 import com.softwarecleandevelopment.crypto_chains.ethereum.data.model.initialCryptos
 import com.softwarecleandevelopment.crypto_chains.ethereum.domain.models.CryptoInfo
 import com.softwarecleandevelopment.crypto_chains.ethereum.domain.models.GetCryptoInfoEvent
@@ -51,17 +52,25 @@ class WalletHomeViewModel @Inject constructor(
                     )
                     when (result) {
                         is Resource.Error -> {
-                            _cryptos.value = UiState.Error(result.message)
+                            _cryptos.value = Error(result.message)
 
                             _isRefreshing.value = false
                         }
 
                         is Resource.Success<Flow<List<CryptoInfo>>> -> {
-                            _cryptos.value = UiState.Success(result.data.first())
+                            _cryptos.value = Success(result.data.first())
 
                             _isRefreshing.value = false
                         }
+
+                        Resource.Loading -> {
+
+                        }
                     }
+                }
+
+                Resource.Loading -> {
+
                 }
             }
         }

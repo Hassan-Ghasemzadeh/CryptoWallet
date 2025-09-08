@@ -69,7 +69,15 @@ class WalletDetailViewModel @Inject constructor(
                                 }
                             }
                         }
+
+                        Resource.Loading -> {
+
+                        }
                     }
+
+                }
+
+                Resource.Loading -> {
 
                 }
             }
@@ -93,6 +101,9 @@ class WalletDetailViewModel @Inject constructor(
             when (result) {
                 is Resource.Error -> {}
                 is Resource.Success<*> -> {}
+                is Resource.Loading -> {
+
+                }
             }
         }
     }

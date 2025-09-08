@@ -48,6 +48,10 @@ class WalletsViewModel @Inject constructor(
                         _wallets.value = response
                     }
                 }
+
+                Resource.Loading -> {
+
+                }
             }
         }
     }

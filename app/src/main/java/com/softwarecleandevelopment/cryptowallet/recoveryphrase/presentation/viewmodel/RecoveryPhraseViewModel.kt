@@ -46,6 +46,10 @@ class RecoveryPhraseViewModel @Inject constructor(
                     _phraseList.value = derived.data.mnemonic.split(" ")
                     _derived.value = derived.data
                 }
+
+                Resource.Loading -> {
+
+                }
             }
         }
     }

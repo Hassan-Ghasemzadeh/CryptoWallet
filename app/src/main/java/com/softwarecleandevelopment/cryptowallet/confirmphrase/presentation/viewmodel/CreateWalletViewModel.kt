@@ -41,6 +41,8 @@ class CreateWalletViewModel @Inject constructor(
                     }
                     _toastMessage.emit("Wallet created successfully")
                 }
+
+                Resource.Loading -> {}
             }
         }
     }

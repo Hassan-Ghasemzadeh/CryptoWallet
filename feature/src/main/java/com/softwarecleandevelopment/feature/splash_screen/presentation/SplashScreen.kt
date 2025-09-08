@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.softwarecleandevelopment.core.common.navigation.app_graph.AppGraph
+import com.softwarecleandevelopment.core.common.navigation.screens.CreateWalletScreens
 import com.softwarecleandevelopment.feature.dashboard.navigation.HomeScreens
 import com.softwarecleandevelopment.feature.splash_screen.presentation.viewmodels.HandleWalletNavigationViewModel
 
@@ -35,6 +36,9 @@ fun SplashScreen(
         navController.navigate(destination) {
             // Pop the back stack to remove the splash screen
             popUpTo(HomeScreens.SplashScreens.route) {
+                inclusive = true
+            }
+            popUpTo(CreateWalletScreens.LandingScreen.route) {
                 inclusive = true
             }
         }

@@ -26,7 +26,6 @@ fun SplashScreen(
     val isWalletCreated by handleWalletNavigationViewModel.isWalletCreated()
         .collectAsState(initial = false)
 
-    // LaunchedEffect is perfect here. It runs once when the key changes.
     LaunchedEffect(isWalletCreated) {
         val destination = if (isWalletCreated) {
             AppGraph.DashboardGraph.graph
@@ -35,11 +34,12 @@ fun SplashScreen(
         }
         navController.navigate(destination) {
             // Pop the back stack to remove the splash screen
-            popUpTo(HomeScreens.SplashScreens.route) {
-                inclusive = true
-            }
-            popUpTo(CreateWalletScreens.LandingScreen.route) {
-                inclusive = true
+            if (isWalletCreated) {
+                popUpTo(
+                    CreateWalletScreens.LandingScreen.route
+                ) {
+                    inclusive = true
+                }
             }
         }
     }

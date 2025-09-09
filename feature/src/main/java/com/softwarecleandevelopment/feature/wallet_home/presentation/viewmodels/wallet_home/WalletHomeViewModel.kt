@@ -39,40 +39,57 @@ class WalletHomeViewModel @Inject constructor(
         viewModelScope.launch {
             _cryptos.value = UiState.Loading
             _isRefreshing.value = true
-            val generate = generateEthAddressUseCase.invoke(Unit)
-            when (generate) {
-                is Resource.Error -> {}
 
-                is Resource.Success<Flow<String?>> -> {
-                    val result = getCryptoInfoUseCase.invoke(
-                        GetCryptoInfoEvent(
-                            initialCryptos, generate.data.first().toString()
-
-                        )
-                    )
-                    when (result) {
-                        is Resource.Error -> {
-                            _cryptos.value = Error(result.message)
-
-                            _isRefreshing.value = false
-                        }
-
-                        is Resource.Success<Flow<List<CryptoInfo>>> -> {
-                            _cryptos.value = Success(result.data.first())
-
-                            _isRefreshing.value = false
-                        }
-
-                        Resource.Loading -> {
-
-                        }
+            try {
+                val ethAddressResult = getEthAddress()
+                when (ethAddressResult) {
+                    is Resource.Error -> TODO()
+                    Resource.Loading -> TODO()
+                    is Resource.Success<String?> -> {
+                        val ethAddress = ethAddressResult.data
+                        fetchAndDisplayCryptoInfo(ethAddress ?: "")
                     }
                 }
 
-                Resource.Loading -> {
-
-                }
+            } catch (e: Exception) {
+                // Catch any unexpected exceptions
+                handleError("An unexpected error occurred: ${e.message}")
+            } finally {
+                // Always set refreshing to false
+                _isRefreshing.value = false
             }
         }
+    }
+
+    private suspend fun getEthAddress(): Resource<String?> {
+        // Responsible for a single task: getting the address
+        return when (val result = generateEthAddressUseCase(Unit)) {
+            is Resource.Success -> Resource.Success(result.data.first())
+            is Resource.Error -> Resource.Error(result.message)
+            Resource.Loading -> Resource.Loading // Not expected in this flow but good practice
+        }
+    }
+
+    private suspend fun fetchAndDisplayCryptoInfo(ethAddress: String) {
+        // Responsible for fetching and updating UI with crypto info
+        val cryptoInfoResult = getCryptoInfoUseCase(
+            GetCryptoInfoEvent(initialCryptos, ethAddress)
+        )
+
+        when (cryptoInfoResult) {
+            is Resource.Success -> {
+                _cryptos.value = UiState.Success(cryptoInfoResult.data.first())
+            }
+
+            is Resource.Error -> {
+                handleError(cryptoInfoResult.message)
+            }
+
+            Resource.Loading -> {} // Not expected in this flow
+        }
+    }
+
+    private fun handleError(message: String?) {
+        _cryptos.value = UiState.Error(message ?: "An unknown error occurred.")
     }
 }

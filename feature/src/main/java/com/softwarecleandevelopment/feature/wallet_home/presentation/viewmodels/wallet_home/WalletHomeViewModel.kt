@@ -41,8 +41,14 @@ class WalletHomeViewModel @Inject constructor(
             try {
                 val ethAddressResult = getEthAddress()
                 when (ethAddressResult) {
-                    is Resource.Error -> TODO()
-                    Resource.Loading -> TODO()
+                    is Resource.Error -> {
+
+                    }
+
+                    Resource.Loading -> {
+
+                    }
+
                     is Resource.Success<String?> -> {
                         val ethAddress = ethAddressResult.data
                         fetchAndDisplayCryptoInfo(ethAddress ?: "")
@@ -51,7 +57,7 @@ class WalletHomeViewModel @Inject constructor(
 
             } catch (e: Exception) {
                 // Catch any unexpected exceptions
-                handleError("An unexpected error occurred: ${e.message}")
+                handleError(e.message)
             } finally {
                 // Always set refreshing to false
                 _isRefreshing.value = false

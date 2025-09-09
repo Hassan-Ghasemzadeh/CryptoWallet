@@ -6,14 +6,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.softwarecleandevelopment.core.common.utils.Resource
 import com.softwarecleandevelopment.core.common.utils.UiState
-import com.softwarecleandevelopment.core.common.utils.UiState.*
 import com.softwarecleandevelopment.crypto_chains.ethereum.data.model.initialCryptos
 import com.softwarecleandevelopment.crypto_chains.ethereum.domain.models.CryptoInfo
 import com.softwarecleandevelopment.crypto_chains.ethereum.domain.models.GetCryptoInfoEvent
 import com.softwarecleandevelopment.crypto_chains.ethereum.domain.usecases.GenerateEthAddressUseCase
 import com.softwarecleandevelopment.crypto_chains.ethereum.domain.usecases.GetCryptoInfoUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first

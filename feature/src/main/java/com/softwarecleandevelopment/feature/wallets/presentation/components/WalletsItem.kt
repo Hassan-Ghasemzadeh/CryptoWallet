@@ -1,5 +1,9 @@
 package com.softwarecleandevelopment.feature.wallets.presentation.components
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -20,6 +24,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,9 +40,7 @@ import com.softwarecleandevelopment.feature.wallets.domain.models.UpdateWalletEv
 
 @Composable
 fun WalletItem(
-    wallet: WalletEntity,
-    onClick: () -> Unit,
-    onSettingClick: (UpdateWalletEvent) -> Unit
+    wallet: WalletEntity, onClick: () -> Unit, onSettingClick: (UpdateWalletEvent) -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -45,14 +48,12 @@ fun WalletItem(
             .clip(RoundedCornerShape(12.dp))
             .background(MaterialTheme.colorScheme.surfaceContainer)
             .clickable { onClick() }
-            .padding(16.dp),
-        verticalAlignment = Alignment.CenterVertically) {
+            .padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
         // Wallet Icon
         Box(
             modifier = Modifier
                 .size(40.dp)
-                .clip(CircleShape),
-            contentAlignment = Alignment.Center
+                .clip(CircleShape), contentAlignment = Alignment.Center
         ) {
             Image(
                 painter = painterResource(id = R.drawable.app_icon),
@@ -70,12 +71,17 @@ fun WalletItem(
             Text("Multi-Coin", fontSize = 12.sp)
         }
 
+
         // Selected Mark
-        if (wallet.isActive) {
+        AnimatedVisibility(
+            visible = wallet.isActive,
+            enter = fadeIn(),
+            exit = fadeOut(),
+        ) {
             Icon(
                 Icons.Default.CheckCircle,
                 contentDescription = "Selected",
-                tint = Color.Blue
+                tint = Color.Blue,
             )
         }
 

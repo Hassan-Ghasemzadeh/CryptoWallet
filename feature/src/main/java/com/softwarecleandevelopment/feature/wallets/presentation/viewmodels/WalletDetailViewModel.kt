@@ -22,6 +22,8 @@ import androidx.datastore.preferences.core.Preferences
 import com.softwarecleandevelopment.feature.wallets.domain.usecase.GetWalletsUseCase
 import com.softwarecleandevelopment.feature.wallets.domain.usecase.SelectWalletUseCase
 import com.softwarecleandevelopment.feature.wallets.domain.usecase.UpdateWalletUseCase
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 @HiltViewModel
 class WalletDetailViewModel @Inject constructor(
@@ -32,8 +34,8 @@ class WalletDetailViewModel @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ) : ViewModel() {
 
-    private val _wallets = mutableStateOf<List<WalletEntity>>(listOf())
-    val wallets: State<List<WalletEntity>> = _wallets
+    private val _wallets = MutableStateFlow<List<WalletEntity>>(listOf())
+    val wallets: StateFlow<List<WalletEntity>> = _wallets
 
     private val _name = mutableStateOf("")
     val name: State<String> = _name
@@ -56,6 +58,7 @@ class WalletDetailViewModel @Inject constructor(
 
                         is Resource.Success<Flow<List<WalletEntity>>> -> {
                             result.data.collectLatest { response ->
+                                _wallets.value = response
                                 if (response.isEmpty()) {
                                     _navigation.emit(DeleteWalletEvent.NavigateToCreateWallet)
                                     dataStore.updateData {
@@ -65,21 +68,15 @@ class WalletDetailViewModel @Inject constructor(
                                     }
                                 } else {
                                     selectWallet()
-                                    _navigation.emit(DeleteWalletEvent.NavigateBack)
                                 }
                             }
                         }
 
-                        Resource.Loading -> {
-
-                        }
+                        Resource.Loading -> {}
                     }
-
                 }
 
-                Resource.Loading -> {
-
-                }
+                Resource.Loading -> {}
             }
 
         }
@@ -87,7 +84,7 @@ class WalletDetailViewModel @Inject constructor(
 
 
     fun selectWallet() {
-        val walletId = _wallets.value.first().id
+        val walletId = _wallets.value.firstOrNull()?.id ?: return
         viewModelScope.launch {
             selectWalletUseCase.invoke(walletId)
         }

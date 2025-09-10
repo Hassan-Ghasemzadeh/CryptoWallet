@@ -35,8 +35,12 @@ fun WalletsScreen(
     onCreateWallet: () -> Unit = {},
     onImportWallet: () -> Unit = {},
 ) {
-    val wallets = viewModel.wallets.value
-
+    val wallets = viewModel.wallets.collectAsState().value
+    LaunchedEffect(Unit) {
+        viewModel.navigationEvent.collect {
+            navController.popBackStack()
+        }
+    }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -95,8 +99,8 @@ fun WalletsScreen(
                     WalletItem(
                         wallet = wallet,
                         onClick = {
-                            viewModel.selectWallet(
-                                wallet.id, navController = navController
+                            viewModel.onWalletClicked(
+                                wallet.id,
                             )
                         },
                         onSettingClick = {

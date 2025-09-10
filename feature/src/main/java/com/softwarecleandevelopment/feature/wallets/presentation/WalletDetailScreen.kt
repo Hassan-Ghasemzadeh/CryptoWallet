@@ -51,7 +51,7 @@ fun WalletDetailScreen(
     onNavigateToCreateWallet: () -> Unit = {}
 ) {
     val focus = LocalFocusManager.current
-    LaunchedEffect(Unit) {
+    LaunchedEffect(viewModel.navigation) {
         if (event != null) {
             viewModel.updateWalletName(
                 UpdateWalletEvent(
@@ -64,10 +64,6 @@ fun WalletDetailScreen(
                 when (it) {
                     DeleteWalletEvent.NavigateToCreateWallet -> {
                         onNavigateToCreateWallet()
-                    }
-
-                    DeleteWalletEvent.NavigateBack -> {
-                        onNavigateBack()
                     }
                 }
             }
@@ -146,6 +142,7 @@ fun WalletDetailScreen(
             Button(
                 onClick = {
                     viewModel.deleteWallet(event!!.walletId)
+                    onNavigateBack()
                 },
                 modifier = Modifier
                     .fillMaxWidth()

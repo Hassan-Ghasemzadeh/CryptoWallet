@@ -1,7 +1,5 @@
 package com.softwarecleandevelopment.feature.wallets.presentation.viewmodels
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
@@ -11,9 +9,15 @@ import com.softwarecleandevelopment.feature.wallets.domain.usecase.SelectWalletU
 import com.softwarecleandevelopment.feature.wallets.domain.usecase.GetWalletsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
 
 @HiltViewModel
 class WalletsViewModel @Inject constructor(
@@ -21,17 +25,25 @@ class WalletsViewModel @Inject constructor(
     private val getWalletsUseCase: GetWalletsUseCase
 ) : ViewModel() {
 
-    private val _wallets = mutableStateOf<List<WalletEntity>>(listOf())
-    val wallets: State<List<WalletEntity>> = _wallets
+    private val _wallets = MutableStateFlow<List<WalletEntity>>(listOf())
+    val wallets: StateFlow<List<WalletEntity>> = _wallets
+    private val _navigationEvent = MutableSharedFlow<Unit>()
+    val navigationEvent: SharedFlow<Unit> = _navigationEvent.asSharedFlow()
 
     init {
         getWallets()
     }
 
-    fun selectWallet(walletId: Long, navController: NavController) {
+    fun selectWallet(walletId: Long) {
         viewModelScope.launch {
             selectWalletUseCase.invoke(walletId)
-            navController.navigateUp()
+        }
+    }
+
+    fun onWalletClicked(walletId: Long) {
+        viewModelScope.launch {
+            selectWallet(walletId)
+            _navigationEvent.emit(Unit) // Emit a navigation event
         }
     }
 
@@ -49,7 +61,7 @@ class WalletsViewModel @Inject constructor(
                     }
                 }
 
-                Resource.Loading -> {
+                is Resource.Loading -> {
 
                 }
             }

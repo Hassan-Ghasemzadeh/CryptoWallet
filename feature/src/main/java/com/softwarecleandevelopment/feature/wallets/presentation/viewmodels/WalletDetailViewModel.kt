@@ -22,6 +22,10 @@ import androidx.datastore.preferences.core.Preferences
 import com.softwarecleandevelopment.feature.wallets.domain.usecase.GetWalletsUseCase
 import com.softwarecleandevelopment.feature.wallets.domain.usecase.SelectWalletUseCase
 import com.softwarecleandevelopment.feature.wallets.domain.usecase.UpdateWalletUseCase
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -40,7 +44,7 @@ class WalletDetailViewModel @Inject constructor(
     private val _name = mutableStateOf("")
     val name: State<String> = _name
     private val _navigation =
-        MutableSharedFlow<DeleteWalletEvent>(replay = 0, extraBufferCapacity = 1)
+        MutableSharedFlow<DeleteWalletEvent>()
     val navigation = _navigation.asSharedFlow()
     private val walletCreatedKey = booleanPreferencesKey("wallet_created")
 
@@ -50,43 +54,56 @@ class WalletDetailViewModel @Inject constructor(
             when (result) {
                 is Resource.Error -> {}
                 is Resource.Success<*> -> {
-                    val result = getWalletsUseCase.invoke(Unit)
-                    when (result) {
-                        is Resource.Error -> {
-                            _wallets.value = listOf()
-                        }
-
-                        is Resource.Success<Flow<List<WalletEntity>>> -> {
-                            result.data.collectLatest { response ->
-                                _wallets.value = response
-                                if (response.isEmpty()) {
-                                    _navigation.emit(DeleteWalletEvent.NavigateToCreateWallet)
-                                    dataStore.updateData {
-                                        it.toMutablePreferences().apply {
-                                            this[walletCreatedKey] = false
-                                        }
-                                    }
-                                } else {
-                                    selectWallet()
-                                }
-                            }
-                        }
-
-                        Resource.Loading -> {}
-                    }
+                    getWallets()
                 }
 
-                Resource.Loading -> {}
+                is Resource.Loading -> {}
             }
 
         }
     }
 
-
-    fun selectWallet() {
-        val walletId = _wallets.value.firstOrNull()?.id ?: return
+    private fun getWallets() {
         viewModelScope.launch {
+            val result = getWalletsUseCase.invoke(Unit)
+            when (result) {
+                is Resource.Error -> {
+                    _wallets.value = listOf()
+                }
+
+                is Resource.Success<Flow<List<WalletEntity>>> -> {
+                    result.data.collectLatest { response ->
+                        _wallets.value = response
+                        if (response.isEmpty()) {
+                            onResetWallet()
+                        } else {
+                            selectWallet()
+                        }
+                    }
+                }
+
+                Resource.Loading -> {}
+            }
+        }
+    }
+
+    @OptIn(DelicateCoroutinesApi::class)
+    private fun selectWallet() {
+        val walletId = _wallets.value.first().id
+        GlobalScope.launch(Dispatchers.IO) {
+            delay(500)
             selectWalletUseCase.invoke(walletId)
+        }
+    }
+
+    private fun onResetWallet() {
+        viewModelScope.launch {
+            _navigation.emit(DeleteWalletEvent.NavigateToCreateWallet)
+            dataStore.updateData {
+                it.toMutablePreferences().apply {
+                    this[walletCreatedKey] = false
+                }
+            }
         }
     }
 

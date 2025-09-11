@@ -1,9 +1,11 @@
 package com.softwarecleandevelopment.core.database.room.models
 
+import androidx.compose.runtime.Immutable
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 
+@Immutable
 @Entity(
     tableName = "wallets", indices = [Index(value = ["chain", "address"], unique = true)]
 )

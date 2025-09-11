@@ -60,11 +60,12 @@ fun WalletDetailScreen(
                     mnemonic = event.mnemonic,
                 )
             )
-            viewModel.navigation.debounce(500).collect {
+            viewModel.navigation.collect {
                 when (it) {
                     DeleteWalletEvent.NavigateToCreateWallet -> {
                         onNavigateToCreateWallet()
                     }
+
                 }
             }
         }

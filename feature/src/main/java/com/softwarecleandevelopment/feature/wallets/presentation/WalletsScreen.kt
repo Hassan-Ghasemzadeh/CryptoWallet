@@ -95,7 +95,7 @@ fun WalletsScreen(
 
             // Wallet List
             LazyColumn {
-                items(wallets) { wallet ->
+                items(wallets, key = { it.id }) { wallet ->
                     WalletItem(
                         wallet = wallet,
                         onClick = {
@@ -106,7 +106,7 @@ fun WalletsScreen(
                         onSettingClick = {
                             onSettingClicked(it)
                         },
-                    )
+                     )
                     Spacer(modifier = Modifier.height(12.dp))
                 }
             }

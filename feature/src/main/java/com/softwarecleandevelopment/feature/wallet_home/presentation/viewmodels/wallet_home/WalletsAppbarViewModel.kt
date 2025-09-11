@@ -9,6 +9,9 @@ import com.softwarecleandevelopment.core.database.room.models.WalletEntity
 import com.softwarecleandevelopment.feature.wallet_home.domain.usecases.GetActiveWalletUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -16,8 +19,8 @@ import javax.inject.Inject
 class WalletsAppbarViewModel @Inject constructor(
     private val getActiveWalletUseCase: GetActiveWalletUseCase,
 ) : ViewModel() {
-    private val _name = mutableStateOf("")
-    val name: State<String> = _name
+    private val _name = MutableStateFlow("")
+    val name: StateFlow<String> = _name
 
     init {
         getActiveWallet()
@@ -32,7 +35,7 @@ class WalletsAppbarViewModel @Inject constructor(
                 }
 
                 is Resource.Success<Flow<WalletEntity?>> -> {
-                    result.data.collect { response ->
+                    result.data.collectLatest { response ->
                         _name.value = response?.name ?: ""
                     }
                 }

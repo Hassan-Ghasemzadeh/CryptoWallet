@@ -54,7 +54,7 @@ fun WalletHome(
     modifier: Modifier = Modifier,
     viewModel: WalletHomeViewModel = hiltViewModel(),
     onReceiveClick: () -> Unit = {},
-    onSendClick: () -> Unit = {},
+    onSendClick: (balance: Double) -> Unit = {},
 ) {
     val isRefreshing by viewModel.isRefreshing.collectAsState()
     val pullRefreshState = rememberPullToRefreshState()
@@ -85,7 +85,7 @@ fun WalletHome(
                 QuickAction(
                     icon = Icons.Outlined.KeyboardArrowUp,
                     label = stringResource(R.string.home_send_brn)
-                ) { onSendClick() }
+                ) { onSendClick(balance) }
                 QuickAction(
                     icon = Icons.Outlined.KeyboardArrowDown,
                     label = stringResource(R.string.home_receive_brn)

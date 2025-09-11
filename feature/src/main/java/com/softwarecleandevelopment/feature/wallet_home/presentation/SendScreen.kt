@@ -29,6 +29,7 @@ import com.softwarecleandevelopment.feature.wallet_home.presentation.viewmodels.
 fun SendCoinScreen(
     sendCoinViewModel: SendCoinViewModel = hiltViewModel<SendCoinViewModel>(),
     scannerViewModel: ScannerViewModel = hiltViewModel<ScannerViewModel>(),
+    balance: Double = 0.0,
     onBack: () -> Unit = {},
     onNext: () -> Unit = {}
 ) {
@@ -128,7 +129,7 @@ fun SendCoinScreen(
                         keyboardType = KeyboardType.Number
                     ),
                     trailingIcon = {
-                        TextButton(onClick = { sendCoinViewModel.onMaxClicked() }) {
+                        TextButton(onClick = { sendCoinViewModel.onMaxClicked(balance) }) {
                             Text("Max")
                         }
                     }
@@ -154,5 +155,5 @@ fun SendCoinScreen(
 @Preview(showBackground = true)
 @Composable
 fun PreviewSendScreen() {
-    SendCoinScreen()
+    SendCoinScreen(balance = 0.0)
 }

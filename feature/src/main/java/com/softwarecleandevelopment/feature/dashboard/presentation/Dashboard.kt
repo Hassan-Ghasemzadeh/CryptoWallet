@@ -21,7 +21,7 @@ import com.softwarecleandevelopment.feature.wallet_home.presentation.components.
 fun DashboardScreen(
     onTitleClicked: () -> Unit = {},
     onReceiveClick: () -> Unit = {},
-    onSendClick: () -> Unit = { }
+    onSendClick: (balance: Double) -> Unit = { }
 ) {
     val viewModel: BottomNavigationViewModel = hiltViewModel()
     val selectedIndex = viewModel.selectedIndex.value

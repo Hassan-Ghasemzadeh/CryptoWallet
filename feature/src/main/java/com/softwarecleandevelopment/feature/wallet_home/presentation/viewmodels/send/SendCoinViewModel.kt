@@ -25,9 +25,9 @@ class SendCoinViewModel @Inject constructor(
         _uiState.value = _uiState.value.copy(amount = newAmount)
     }
 
-    fun onMaxClicked() {
+    fun onMaxClicked(balance: Double) {
         // Example: Fetch balance and set it
-        _uiState.value = _uiState.value.copy(amount = "1000")
+        _uiState.value = _uiState.value.copy(amount = "$balance")
     }
 
     // A function to get text from the clipboard

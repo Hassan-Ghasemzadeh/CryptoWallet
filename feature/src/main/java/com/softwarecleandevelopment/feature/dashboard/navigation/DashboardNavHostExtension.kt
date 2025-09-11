@@ -38,7 +38,11 @@ object DashboardNavHostExtension {
                             HomeScreens.ReceiveScreen.route
                         )
                     },
-                    onSendClick = {
+                    onSendClick = { balance ->
+                        navController.currentBackStackEntry?.savedStateHandle?.set(
+                            "balance",
+                            balance,
+                        )
                         navController.navigate(
                             HomeScreens.SendScreen.route,
                         )
@@ -113,7 +117,10 @@ object DashboardNavHostExtension {
             composable(
                 route = HomeScreens.SendScreen.route,
             ) {
+                val balance =
+                    navController.previousBackStackEntry?.savedStateHandle?.get<Double>("balance")
                 SendCoinScreen(
+                    balance = balance ?: 0.0,
                     onBack = {
                         navController.popBackStack()
                     },

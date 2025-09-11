@@ -15,6 +15,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,6 +32,7 @@ fun WalletTopBar(
     onClick: () -> Unit,
     walletsAppbarViewModel: WalletsAppbarViewModel = hiltViewModel()
 ) {
+    val walletName = walletsAppbarViewModel.name.collectAsState().value
     CenterAlignedTopAppBar(
         title = {
             Row(
@@ -51,7 +53,7 @@ fun WalletTopBar(
                     )
                 }
                 Spacer(Modifier.width(8.dp))
-                Text(walletsAppbarViewModel.name.value)
+                Text(walletName)
                 Icon(
                     Icons.Outlined.KeyboardArrowDown,
                     contentDescription = "Arrow Down",

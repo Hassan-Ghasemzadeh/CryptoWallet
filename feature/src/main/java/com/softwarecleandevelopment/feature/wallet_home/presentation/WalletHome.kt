@@ -59,6 +59,7 @@ fun WalletHome(
     val isRefreshing by viewModel.isRefreshing.collectAsState()
     val pullRefreshState = rememberPullToRefreshState()
     val uiState by viewModel.cryptos.collectAsState()
+    val balance by viewModel.balance.collectAsState()
     PullToRefreshBox(
         isRefreshing = isRefreshing,
         onRefresh = viewModel::loadCryptoInfo,
@@ -73,7 +74,7 @@ fun WalletHome(
         ) {
             Spacer(Modifier.height(4.dp))
             Text(
-                text = "$0.00",
+                text = "$balance",
                 style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.SemiBold)
             )
             Spacer(Modifier.height(16.dp))

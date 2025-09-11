@@ -28,6 +28,8 @@ class WalletHomeViewModel @Inject constructor(
     val cryptos: StateFlow<UiState<List<CryptoInfo>>> = _cryptos
     private val _isRefreshing = MutableStateFlow<Boolean>(false)
     val isRefreshing: StateFlow<Boolean> = _isRefreshing
+    private val _balance = MutableStateFlow(0.0)
+    val balance: StateFlow<Double> = _balance
 
     init {
         loadCryptoInfo()
@@ -82,7 +84,13 @@ class WalletHomeViewModel @Inject constructor(
 
         when (cryptoInfoResult) {
             is Resource.Success -> {
-                _cryptos.value = UiState.Success(cryptoInfoResult.data.first())
+                val chains = cryptoInfoResult.data.first()
+                _cryptos.value = UiState.Success(chains)
+                chains.forEach {
+                    var temp = 0.0
+                    temp += it.balance
+                    _balance.value = temp
+                }
             }
 
             is Resource.Error -> {

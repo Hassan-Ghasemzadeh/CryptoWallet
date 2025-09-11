@@ -86,11 +86,7 @@ class WalletHomeViewModel @Inject constructor(
             is Resource.Success -> {
                 val chains = cryptoInfoResult.data.first()
                 _cryptos.value = UiState.Success(chains)
-                chains.forEach {
-                    var temp = 0.0
-                    temp += it.balance
-                    _balance.value = temp
-                }
+                getCryptosBalance(chains)
             }
 
             is Resource.Error -> {
@@ -98,6 +94,14 @@ class WalletHomeViewModel @Inject constructor(
             }
 
             Resource.Loading -> {} // Not expected in this flow
+        }
+    }
+
+    private fun getCryptosBalance(chains: List<CryptoInfo>) {
+        chains.forEach {
+            var temp = 0.0
+            temp += it.balance
+            _balance.value = temp
         }
     }
 

@@ -4,9 +4,9 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.softwarecleandevelopment.core.common.utils.Resource
 import com.softwarecleandevelopment.core.common.utils.safeFlowCall
-import com.softwarecleandevelopment.crypto_chains.ethereum.data.datasource.remote.EthCryptoRemoteDatasource
+import com.softwarecleandevelopment.crypto_chains.ethereum.data.datasource.remote.EthRemoteDatasource
 import com.softwarecleandevelopment.crypto_chains.ethereum.domain.models.CryptoInfo
-import com.softwarecleandevelopment.crypto_chains.ethereum.domain.repository.remote.EthCryptoRemoteRepository
+import com.softwarecleandevelopment.crypto_chains.ethereum.domain.repository.remote.EthRemoteRepository
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
@@ -14,8 +14,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class EthCryptoRemoteRepositoryImpl @Inject constructor(private val ethCryptoDatasource: EthCryptoRemoteDatasource) :
-    EthCryptoRemoteRepository {
+class EthRemoteRepositoryImpl @Inject constructor(private val ethCryptoDatasource: EthRemoteDatasource) :
+    EthRemoteRepository {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun getCryptoInfo(
         cryptos: List<CryptoInfo>,

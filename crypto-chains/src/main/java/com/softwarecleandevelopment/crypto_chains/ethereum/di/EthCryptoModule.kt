@@ -3,13 +3,13 @@ package com.softwarecleandevelopment.crypto_chains.ethereum.di
 import com.softwarecleandevelopment.core.database.room.dao.WalletDao
 import com.softwarecleandevelopment.crypto_chains.ethereum.data.datasource.local.EthLocalDatasource
 import com.softwarecleandevelopment.crypto_chains.ethereum.data.datasource.local.EthLocalDatasourceImpl
-import com.softwarecleandevelopment.crypto_chains.ethereum.data.datasource.remote.EthCryptoApi
-import com.softwarecleandevelopment.crypto_chains.ethereum.data.datasource.remote.EthCryptoRemoteDatasource
-import com.softwarecleandevelopment.crypto_chains.ethereum.data.datasource.remote.EthCryptoRemoteDatasourceImpl
+import com.softwarecleandevelopment.crypto_chains.ethereum.data.datasource.remote.EthApi
+import com.softwarecleandevelopment.crypto_chains.ethereum.data.datasource.remote.EthRemoteDatasource
+import com.softwarecleandevelopment.crypto_chains.ethereum.data.datasource.remote.EthRemoteDatasourceImpl
 import com.softwarecleandevelopment.crypto_chains.ethereum.data.repository.local.EthLocalRepositoryImpl
-import com.softwarecleandevelopment.crypto_chains.ethereum.data.repository.remote.EthCryptoRemoteRepositoryImpl
+import com.softwarecleandevelopment.crypto_chains.ethereum.data.repository.remote.EthRemoteRepositoryImpl
 import com.softwarecleandevelopment.crypto_chains.ethereum.domain.repository.local.EthLocalRepository
-import com.softwarecleandevelopment.crypto_chains.ethereum.domain.repository.remote.EthCryptoRemoteRepository
+import com.softwarecleandevelopment.crypto_chains.ethereum.domain.repository.remote.EthRemoteRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,20 +22,20 @@ import javax.inject.Singleton
 object EthCryptoModule {
     @Provides
     @Singleton
-    fun provideEthCryptoApi(retrofit: Retrofit): EthCryptoApi {
-        return retrofit.create(EthCryptoApi::class.java)
+    fun provideEthCryptoApi(retrofit: Retrofit): EthApi {
+        return retrofit.create(EthApi::class.java)
     }
 
     @Provides
     @Singleton
-    fun provideEthCryptoDatasource(ethCryptoApi: EthCryptoApi): EthCryptoRemoteDatasource {
-        return EthCryptoRemoteDatasourceImpl(ethCryptoApi)
+    fun provideEthCryptoDatasource(ethCryptoApi: EthApi): EthRemoteDatasource {
+        return EthRemoteDatasourceImpl(ethCryptoApi)
     }
 
     @Provides
     @Singleton
-    fun provideEthCryptoRepository(ethCryptoDatasource: EthCryptoRemoteDatasource): EthCryptoRemoteRepository {
-        return EthCryptoRemoteRepositoryImpl(ethCryptoDatasource)
+    fun provideEthCryptoRepository(ethCryptoDatasource: EthRemoteDatasource): EthRemoteRepository {
+        return EthRemoteRepositoryImpl(ethCryptoDatasource)
     }
 
     @Provides

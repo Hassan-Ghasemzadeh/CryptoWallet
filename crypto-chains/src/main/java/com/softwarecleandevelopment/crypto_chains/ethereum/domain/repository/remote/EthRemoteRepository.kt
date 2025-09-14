@@ -4,7 +4,7 @@ import com.softwarecleandevelopment.core.common.utils.Resource
 import com.softwarecleandevelopment.crypto_chains.ethereum.domain.models.CryptoInfo
 import kotlinx.coroutines.flow.Flow
 
-interface EthCryptoRemoteRepository {
+interface EthRemoteRepository {
     fun getCryptoInfo(
         cryptos: List<CryptoInfo>,
         userAddress: String

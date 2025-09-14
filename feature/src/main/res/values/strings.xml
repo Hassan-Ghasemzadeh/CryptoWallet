@@ -15,4 +15,12 @@
     <string name="home_send_brn">Send</string>
     <string name="home_receive_brn">Receive</string>
     <string name="home_managetoken_brn">Manage tokens</string>
+    <string name="send_token_title">Send %1$s Token</string>
+    <string name="send_token_address_label">Address or Domain Name</string>
+    <string name="send_token_address_placeholder">Search or Enter</string>
+    <string name="send_token_paste">Paste</string>
+    <string name="send_token_amount_title">Amount</string>
+    <string name="send_token_amount">%1$s Token Amount</string>
+    <string name="send_token_max">Max</string>
+    <string name="send_token_next">Next</string>
 </resources>

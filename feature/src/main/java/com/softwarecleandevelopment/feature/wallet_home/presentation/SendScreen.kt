@@ -14,6 +14,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -23,6 +24,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.softwarecleandevelopment.feature.wallet_home.presentation.components.send.CameraPreview
 import com.softwarecleandevelopment.feature.wallet_home.presentation.viewmodels.scanner.ScannerViewModel
 import com.softwarecleandevelopment.feature.wallet_home.presentation.viewmodels.send.SendCoinViewModel
+import com.softwarecleandevelopment.feature.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -41,8 +43,7 @@ fun SendCoinScreen(
     val cameraPermissionState = remember {
         mutableStateOf(
             ContextCompat.checkSelfPermission(
-                context,
-                Manifest.permission.CAMERA
+                context, Manifest.permission.CAMERA
             ) == PackageManager.PERMISSION_GRANTED
         )
     }
@@ -57,25 +58,21 @@ fun SendCoinScreen(
     }
     if (showScanner && cameraPermissionState.value) {
         CameraPreview(
-            scannerViewModel,
-            onScanned = {
+            scannerViewModel, onScanned = {
                 sendCoinViewModel.onAddressChanged(it)
                 showScanner = false
-            }
-        )
+            })
     } else {
         Scaffold(
             topBar = {
                 CenterAlignedTopAppBar(
-                    title = { Text("Send Token") },
+                    title = { Text(stringResource(R.string.send_token_title, "Eth")) },
                     navigationIcon = {
                         IconButton(onClick = onBack) {
                             Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                         }
-                    }
-                )
-            }
-        ) { padding ->
+                    })
+            }) { padding ->
             Column(
                 modifier = Modifier
                     .padding(padding)
@@ -87,8 +84,8 @@ fun SendCoinScreen(
                 OutlinedTextField(
                     value = state.address,
                     onValueChange = sendCoinViewModel::onAddressChanged,
-                    label = { Text("Address or Domain Name") },
-                    placeholder = { Text("Search or Enter") },
+                    label = { Text(stringResource(R.string.send_token_address_label)) },
+                    placeholder = { Text(stringResource(R.string.send_token_address_placeholder)) },
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true,
                     trailingIcon = {
@@ -99,7 +96,7 @@ fun SendCoinScreen(
                                     sendCoinViewModel.onAddressChanged(copiedText)
                                 }
                             }) {
-                                Text("Paste")
+                                Text(stringResource(R.string.send_token_paste))
                             }
                             Spacer(modifier = Modifier.width(4.dp))
                             IconButton(onClick = {
@@ -112,8 +109,7 @@ fun SendCoinScreen(
                                 Icon(Icons.Default.QrCodeScanner, contentDescription = "Scan QR")
                             }
                         }
-                    }
-                )
+                    })
 
                 Spacer(modifier = Modifier.height(24.dp))
 
@@ -121,8 +117,8 @@ fun SendCoinScreen(
                 OutlinedTextField(
                     value = state.amount,
                     onValueChange = sendCoinViewModel::onAmountChanged,
-                    label = { Text("Amount") },
-                    placeholder = { Text("Token Amount") },
+                    label = { Text(stringResource(R.string.send_token_amount_title)) },
+                    placeholder = { Text(stringResource(R.string.send_token_amount, "Eth")) },
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(
@@ -130,10 +126,9 @@ fun SendCoinScreen(
                     ),
                     trailingIcon = {
                         TextButton(onClick = { sendCoinViewModel.onMaxClicked(balance) }) {
-                            Text("Max")
+                            Text(stringResource(R.string.send_token_max))
                         }
-                    }
-                )
+                    })
 
                 Spacer(modifier = Modifier.weight(1f))
 
@@ -145,7 +140,7 @@ fun SendCoinScreen(
                         .height(48.dp),
                     enabled = state.address.isNotBlank() && state.amount.isNotBlank()
                 ) {
-                    Text("Next")
+                    Text(stringResource(R.string.send_token_next))
                 }
             }
         }

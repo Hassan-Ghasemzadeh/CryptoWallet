@@ -1,6 +1,7 @@
 package com.softwarecleandevelopment.crypto_chains.ethereum.data.datasource.remote
 
 import android.util.Log
+import com.softwarecleandevelopment.core.common.utils.Constants
 import com.softwarecleandevelopment.crypto_chains.ethereum.domain.models.SendResult
 import com.softwarecleandevelopment.crypto_chains.ethereum.domain.models.SendTokenEvent
 import kotlinx.coroutines.Dispatchers
@@ -23,7 +24,7 @@ import java.math.BigInteger
 import javax.inject.Inject
 
 class EthRemoteDatasourceImpl @Inject constructor(val ethApi: EthApi) : EthRemoteDatasource {
-    private val ethRpcUrl = "https://mainnet.infura.io/v3/ce064e40a69b4971a4e28afcb113baa0"
+    private val ethRpcUrl = Constants.rpcUrl
     override suspend fun getPrice(
         ids: String, change: Boolean
     ): Map<String, Map<String, Double>> {
@@ -59,7 +60,7 @@ class EthRemoteDatasourceImpl @Inject constructor(val ethApi: EthApi) : EthRemot
 
     override suspend fun send(params: SendTokenEvent): SendResult {
         return withContext(Dispatchers.IO) {
-            val web3 = Web3j.build(HttpService(params.rpcUrl))
+            val web3 = Web3j.build(HttpService(Constants.rpcUrl))
 
             // credentials from private key (DO NOT store plain text in real apps)
             val credentials = Credentials.create(params.privateKey)
@@ -159,7 +160,7 @@ class EthRemoteDatasourceImpl @Inject constructor(val ethApi: EthApi) : EthRemot
     override suspend fun estimateNetworkFee(
         tokenContractAddress: String?
     ): Pair<BigInteger, BigInteger> = withContext(Dispatchers.IO) {
-       val rpcUrl = "https://mainnet.infura.io/v3/ce064e40a69b4971a4e28afcb113baa0"
+        val rpcUrl = Constants.rpcUrl
         val web3 = Web3j.build(HttpService(rpcUrl))
         val gasPrice = web3.ethGasPrice().send().gasPrice
         val gasLimit =

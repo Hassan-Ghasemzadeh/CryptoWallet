@@ -10,7 +10,4 @@ data class SendTokenEvent(
     val tokenContractAddress: String? = null,
     val tokenDecimals: Int = 18,
     val chainId: Long = ChainIdLong.MAINNET
-) {
-    val rpcUrl: String
-        get() = "https://mainnet.infura.io/v3/ce064e40a69b4971a4e28afcb113baa0"
-}
+)

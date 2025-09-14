@@ -12,14 +12,4 @@ class EthLocalDatasourceImpl @Inject constructor(
     override fun generateAddress(): Flow<String?> {
         return dao.getActiveWallet().map { it?.address }
     }
-
-    override suspend fun sendTransaction(
-        from: String, to: String, amount: BigDecimal
-    ) {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun getTransaction() {
-        TODO("Not yet implemented")
-    }
 }

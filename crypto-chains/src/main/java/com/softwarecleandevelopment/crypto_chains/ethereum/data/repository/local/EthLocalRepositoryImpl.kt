@@ -14,14 +14,4 @@ class EthLocalRepositoryImpl @Inject constructor(
     override fun generateAddress(): Resource<Flow<String?>> {
         return safeFlowCall { datasource.generateAddress() }
     }
-
-    override suspend fun sendTransaction(
-        from: String, to: String, amount: BigDecimal
-    ) {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun getTransaction() {
-        TODO("Not yet implemented")
-    }
 }

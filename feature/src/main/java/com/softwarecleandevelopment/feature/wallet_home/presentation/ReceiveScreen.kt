@@ -142,7 +142,7 @@ private fun QrImage(bitmap: Bitmap) {
             .aspectRatio(1f)
             .graphicsLayer {
                 shadowElevation = 8.dp.toPx()
-                shape = RoundedCornerShape(12.dp)
+                shape = RoundedCornerShape(50.dp)
                 ambientShadowColor = Color.Black.copy(alpha = 0.2f)
                 spotShadowColor = Color.Black.copy(alpha = 0.4f)
             }

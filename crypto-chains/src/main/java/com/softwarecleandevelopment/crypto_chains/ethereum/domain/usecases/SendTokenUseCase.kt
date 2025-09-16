@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 class SendTokenUseCase @Inject constructor(private val repo: EthRemoteRepository) :
     UseCase<Flow<Resource<SendResult>>, SendTokenEvent>() {
-    override suspend fun invoke(params: SendTokenEvent): Flow<Resource<SendResult>>  = flow {
+    override suspend fun invoke(params: SendTokenEvent): Flow<Resource<SendResult>> = flow {
         emit(
             Resource.Success(
                 SendResult(

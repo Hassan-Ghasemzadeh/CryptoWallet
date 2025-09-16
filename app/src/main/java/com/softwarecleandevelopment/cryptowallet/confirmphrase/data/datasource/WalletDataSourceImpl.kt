@@ -13,16 +13,17 @@ class WalletDataSourceImpl @Inject constructor(
 ) : WalletDataSource {
     override suspend fun createNewWallet(derived: Derived): Long {
         val encryptedMnemonic = cryptoStore.encrypt(derived.mnemonic.toByteArray(Charsets.UTF_8))
-        val encryptedPrivateKey = cryptoStore.encrypt(derived.privateKeyHex!!.toByteArray(Charsets.UTF_8))
+        val encryptedPrivateKey =
+            cryptoStore.encrypt(derived.privateKeyHex!!.toByteArray(Charsets.UTF_8))
         val mnemonic = Base64.encodeToString(encryptedMnemonic, Base64.DEFAULT)
-
+        val privateKey = Base64.encodeToString(encryptedPrivateKey, Base64.DEFAULT)
         val count = walletDao.getWalletCount()
         val name = "Wallet #${count + 1}"
         val entity = WalletEntity(
             chain = ChainType.MULTI_COIN.displayName,
             address = derived.address,
             publicKeyHex = derived.publicKeyHex,
-            privateKey = encryptedPrivateKey.toString(),
+            privateKey = privateKey,
             mnemonic = mnemonic,
             isActive = true,
             name = name

@@ -38,6 +38,7 @@ fun SendCoinScreen(
     val state by sendCoinViewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
     var showScanner by remember { mutableStateOf(false) }
+    var showSheet by remember { mutableStateOf(false) }
 
     // permission launcher
     val cameraPermissionState = remember {
@@ -134,13 +135,23 @@ fun SendCoinScreen(
 
                 // Next button
                 Button(
-                    onClick = onNext,
+                    onClick = {
+                        showSheet = true
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(48.dp),
                     enabled = state.address.isNotBlank() && state.amount.isNotBlank()
                 ) {
                     Text(stringResource(R.string.send_token_next))
+                }
+                if (showSheet) {
+                    ConfirmSendBottomSheet(
+                        toAddress = state.address,
+                        tokenAmount = state.amount
+                    ) {
+                        showSheet = false
+                    }
                 }
             }
         }

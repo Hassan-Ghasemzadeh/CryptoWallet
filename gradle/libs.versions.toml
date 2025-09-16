@@ -31,6 +31,7 @@ bitcoinj = "0.18.2"
 room = "2.6.0"
 retrofit = "2.11.0"
 loggingInterceptor = "4.12.0"
+foundationLayout = "1.9.1"
 
 [libraries]
 accompanist-swiperefresh = { module = "com.google.accompanist:accompanist-swiperefresh", version.ref = "accompanistSwiperefresh" }
@@ -86,6 +87,7 @@ material_icons_extended = { group = "androidx.compose.material", name = "materia
 squareup_retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 squareup_gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
 logging_interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "loggingInterceptor" }
+androidx-compose-foundation-layout = { group = "androidx.compose.foundation", name = "foundation-layout", version.ref = "foundationLayout" }
 
 
 [plugins]

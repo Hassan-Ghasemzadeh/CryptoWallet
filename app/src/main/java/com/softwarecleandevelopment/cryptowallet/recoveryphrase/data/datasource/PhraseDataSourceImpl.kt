@@ -32,7 +32,7 @@ class PhraseDataSourceImpl @Inject constructor(
                 mnemonic = words,
                 address = masterKey.keyPair.toAddress().hex,
                 publicKeyHex = masterKey.keyPair.publicKey.toString(),
-                privateKeyHex = masterKey.keyPair.privateKey.key.toString(),
+                privateKeyHex = masterKey.keyPair.privateKey.toString(),
                 derivationPath = ""
             )
         } catch (exception: Exception) {

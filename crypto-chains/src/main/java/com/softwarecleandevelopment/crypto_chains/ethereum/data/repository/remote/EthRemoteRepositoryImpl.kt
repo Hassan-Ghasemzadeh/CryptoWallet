@@ -53,7 +53,7 @@ class EthRemoteRepositoryImpl @Inject constructor(private val datasource: EthRem
     }
 
     override suspend fun estimateNetworkFee(
-        rpcUrl: String, tokenContractAddress: String?
+        tokenContractAddress: String?
     ): Resource<Pair<BigInteger, BigInteger>> {
         return safeCall { datasource.estimateNetworkFee(tokenContractAddress) }
     }

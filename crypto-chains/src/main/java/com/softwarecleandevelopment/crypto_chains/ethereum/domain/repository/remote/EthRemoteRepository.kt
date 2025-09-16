@@ -19,7 +19,7 @@ interface EthRemoteRepository {
     ): Resource<SendResult>
 
     suspend fun estimateNetworkFee(
-        rpcUrl: String, tokenContractAddress: String? = null
+        tokenContractAddress: String? = null
     ): Resource<Pair<BigInteger /*gasPrice*/, BigInteger /*gasLimit*/>>
 
 }

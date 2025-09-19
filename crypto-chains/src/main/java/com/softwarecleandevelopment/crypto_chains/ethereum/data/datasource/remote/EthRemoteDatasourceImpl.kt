@@ -36,6 +36,9 @@ class EthRemoteDatasourceImpl @Inject constructor(val ethApi: EthApi) : EthRemot
     ): Double {
         return when (symbol) {
             "ETH" -> getEthBalance(ethRpcUrl, userAddress)
+            "BTC" -> 0.0
+            "DOGE" -> 0.0
+            "USDT" -> 0.0
             else -> {
                 TODO("Not yet implemented")
             }

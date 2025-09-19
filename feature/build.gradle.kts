@@ -37,7 +37,11 @@ android {
         compose = true
     }
 }
-
+configurations.all {
+    resolutionStrategy {
+        force("com.google.guava:listenablefuture:1.0")
+    }
+}
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -74,11 +78,17 @@ dependencies {
     api(libs.barcode.scanning)
     //camera x
     api(libs.camera.core)
-    implementation(libs.androidx.camera.camera2)
+    implementation(libs.androidx.camera.camera2) {
+        exclude("com.google.guava", "listenablefuture")
+    }
     implementation(libs.androidx.camera.lifecycle)
     implementation(libs.androidx.camera.view)
     //web3j
-    implementation(libs.web3j.core)
+    implementation(libs.web3j.core){
+        exclude("org.bouncycastle", "bcprov-jdk15on")
+    }
+    implementation("androidx.concurrent:concurrent-futures:1.1.0")
+    implementation("androidx.concurrent:concurrent-futures-ktx:1.1.0")
 }
 
 

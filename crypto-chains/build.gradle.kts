@@ -63,7 +63,11 @@ dependencies {
     implementation(libs.logging.interceptor)
 
     //web3j
-    implementation(libs.web3j.core)
+    implementation(libs.web3j.core){
+        exclude("org.bouncycastle", "bcprov-jdk15on")
+    }
+    //bitcoinj
+    implementation(libs.bitcoinj.core)
 }
 
 kapt {

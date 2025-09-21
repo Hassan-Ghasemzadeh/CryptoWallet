@@ -23,28 +23,7 @@ import java.math.BigDecimal
 import java.math.BigInteger
 import javax.inject.Inject
 
-class EthRemoteDatasourceImpl @Inject constructor(val ethApi: EthApi) : EthRemoteDatasource {
-    private val ethRpcUrl = Constants.rpcUrl
-    override suspend fun getPrice(
-        ids: String, change: Boolean
-    ): Map<String, Map<String, Double>> {
-        return ethApi.getPrice(ids, change = change)
-    }
-
-    override suspend fun getBalance(
-        symbol: String, userAddress: String
-    ): Double {
-        return when (symbol) {
-            "ETH" -> getEthBalance(ethRpcUrl, userAddress)
-            "BTC" -> 0.0
-            "DOGE" -> 0.0
-            "USDT" -> 0.0
-            else -> {
-                TODO("Not yet implemented")
-            }
-        }
-    }
-
+class EthRemoteDatasourceImpl @Inject constructor() : EthRemoteDatasource {
     override suspend fun getEthBalance(
         rpcUrl: String, address: String
     ): Double {
@@ -107,8 +86,7 @@ class EthRemoteDatasourceImpl @Inject constructor(val ethApi: EthApi) : EthRemot
 
                 // build ERC20 transfer data manually
                 val methodId = Numeric.hexStringToByteArray(
-                    org.web3j.crypto.Hash.sha3String("transfer(address,uint256)")
-                        .substring(0, 10)
+                    org.web3j.crypto.Hash.sha3String("transfer(address,uint256)").substring(0, 10)
                 )
                 val function = org.web3j.abi.datatypes.Function(
                     "transfer", listOf(
@@ -120,12 +98,7 @@ class EthRemoteDatasourceImpl @Inject constructor(val ethApi: EthApi) : EthRemot
 
                 // estimate gas via eth_estimateGas
                 val tx = Transaction.createFunctionCallTransaction(
-                    fromAddress,
-                    null,
-                    gasPrice,
-                    null,
-                    params.tokenContractAddress,
-                    encodedFunction
+                    fromAddress, null, gasPrice, null, params.tokenContractAddress, encodedFunction
                 )
                 val ethEstimateGas: EthEstimateGas = web3.ethEstimateGas(tx).send()
                 gasLimit = ethEstimateGas.amountUsed ?: BigInteger.valueOf(100_000L)
@@ -137,8 +110,7 @@ class EthRemoteDatasourceImpl @Inject constructor(val ethApi: EthApi) : EthRemot
             }
 
             // sign transaction
-            val signedMessage =
-                TransactionEncoder.signMessage(rawTx, params.chainId, credentials)
+            val signedMessage = TransactionEncoder.signMessage(rawTx, params.chainId, credentials)
             val hexValue = Numeric.toHexString(signedMessage)
 
             // send

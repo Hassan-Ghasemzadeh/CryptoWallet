@@ -1,7 +1,7 @@
 package com.softwarecleandevelopment.crypto_chains.ethereum.domain.repository.remote
 
 import com.softwarecleandevelopment.core.common.utils.Resource
-import com.softwarecleandevelopment.crypto_chains.ethereum.domain.models.CryptoInfo
+import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.CryptoInfo
 import com.softwarecleandevelopment.crypto_chains.ethereum.domain.models.SendResult
 import com.softwarecleandevelopment.crypto_chains.ethereum.domain.models.SendTokenEvent
 import kotlinx.coroutines.flow.Flow
@@ -10,10 +10,6 @@ import java.math.BigDecimal
 import java.math.BigInteger
 
 interface EthRemoteRepository {
-    fun getCryptoInfo(
-        cryptos: List<CryptoInfo>, userAddress: String
-    ): Resource<Flow<List<CryptoInfo>>>
-
     suspend fun send(
         params: SendTokenEvent
     ): Resource<SendResult>

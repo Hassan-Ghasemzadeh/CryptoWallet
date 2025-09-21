@@ -13,6 +13,7 @@ import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.usecase.Get
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -23,8 +24,8 @@ class WalletHomeViewModel @Inject constructor(
     private val getCryptoInfoUseCase: GetCryptoInfoUseCase,
     private val generateEthAddressUseCase: GenerateEthAddressUseCase,
 ) : ViewModel() {
-    private val _cryptos = MutableStateFlow<UiState<List<CryptoInfo>>>(UiState.Loading)
-    val cryptos: StateFlow<UiState<List<CryptoInfo>>> = _cryptos
+    private val _cryptos = MutableStateFlow<Resource<List<CryptoInfo>>>(Resource.Loading)
+    val cryptos: StateFlow<Resource<List<CryptoInfo>>> = _cryptos
     private val _isRefreshing = MutableStateFlow<Boolean>(false)
     val isRefreshing: StateFlow<Boolean> = _isRefreshing
     private val _balance = MutableStateFlow(0.0)
@@ -36,33 +37,14 @@ class WalletHomeViewModel @Inject constructor(
 
     fun loadCryptoInfo() {
         viewModelScope.launch {
-            _cryptos.value = UiState.Loading
+            _cryptos.value = Resource.Loading
             _isRefreshing.value = true
-
-            try {
-                val ethAddressResult = getEthAddress()
-                when (ethAddressResult) {
-                    is Resource.Error -> {
-
-                    }
-
-                    Resource.Loading -> {
-
-                    }
-
-                    is Resource.Success<String?> -> {
-                        val ethAddress = ethAddressResult.data
-                        fetchAndDisplayCryptoInfo(ethAddress ?: "")
-                    }
-                }
-
-            } catch (e: Exception) {
-                // Catch any unexpected exceptions
-                handleError(e.message)
-            } finally {
-                // Always set refreshing to false
-                _isRefreshing.value = false
+            val ethAddressResult = getEthAddress()
+            if (ethAddressResult is Resource.Success<String?>) {
+                val ethAddress = ethAddressResult.data
+                fetchAndDisplayCryptoInfo(ethAddress ?: "")
             }
+            _isRefreshing.value = false
         }
     }
 
@@ -77,20 +59,11 @@ class WalletHomeViewModel @Inject constructor(
 
     private suspend fun fetchAndDisplayCryptoInfo(ethAddress: String) {
         // Responsible for fetching and updating UI with crypto info
-        val cryptoInfoResult = getCryptoInfoUseCase(ethAddress)
-
-        when (cryptoInfoResult) {
-            is Resource.Success -> {
-                val chains = cryptoInfoResult.data.first()
-                _cryptos.value = UiState.Success(chains)
-                getCryptosBalance(chains)
+        getCryptoInfoUseCase(ethAddress).collectLatest {
+            _cryptos.value = it
+            if (it is Resource.Success<List<CryptoInfo>>) {
+                getCryptosBalance(it.data)
             }
-
-            is Resource.Error -> {
-                handleError(cryptoInfoResult.message)
-            }
-
-            Resource.Loading -> {} // Not expected in this flow
         }
     }
 
@@ -100,9 +73,5 @@ class WalletHomeViewModel @Inject constructor(
             temp += it.balance
             _balance.value = temp
         }
-    }
-
-    private fun handleError(message: String?) {
-        _cryptos.value = UiState.Error(message ?: "An unknown error occurred.")
     }
 }

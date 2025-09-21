@@ -4,9 +4,13 @@ import android.util.Log
 import com.softwarecleandevelopment.core.common.utils.Constants
 import com.softwarecleandevelopment.crypto_chains.ethereum.domain.models.SendResult
 import com.softwarecleandevelopment.crypto_chains.ethereum.domain.models.SendTokenEvent
+import com.softwarecleandevelopment.crypto_chains.ethereum.domain.models.TransactionData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
+import org.web3j.abi.FunctionEncoder
+import org.web3j.abi.datatypes.Address
+import org.web3j.abi.datatypes.generated.Uint256
 import org.web3j.crypto.Credentials
 import org.web3j.crypto.RawTransaction
 import org.web3j.crypto.TransactionEncoder
@@ -14,7 +18,6 @@ import org.web3j.protocol.Web3j
 import org.web3j.protocol.core.DefaultBlockParameterName
 import org.web3j.protocol.core.methods.request.Transaction
 import org.web3j.protocol.core.methods.response.EthEstimateGas
-import org.web3j.protocol.core.methods.response.EthGetTransactionCount
 import org.web3j.protocol.core.methods.response.TransactionReceipt
 import org.web3j.protocol.http.HttpService
 import org.web3j.utils.Convert
@@ -23,7 +26,13 @@ import java.math.BigDecimal
 import java.math.BigInteger
 import javax.inject.Inject
 
+private const val ETH_TRANSFER_GAS_LIMIT = 21_000L
+private const val ERC20_TRANSFER_GAS_LIMIT = 100_000L
+private const val RECEIPT_POLLING_ATTEMPTS = 15
+private const val RECEIPT_POLLING_DELAY_MS = 2000L
+
 class EthRemoteDatasourceImpl @Inject constructor() : EthRemoteDatasource {
+    val rpcUrl = Constants.rpcUrl
     override suspend fun getEthBalance(
         rpcUrl: String, address: String
     ): Double {
@@ -40,108 +49,222 @@ class EthRemoteDatasourceImpl @Inject constructor() : EthRemoteDatasource {
         }
     }
 
+    /**
+     * Sends a transaction on the blockchain, either a native currency transfer or an ERC20 token transfer.
+     * This function handles the entire transaction lifecycle, from building to sending and waiting for a receipt.
+     *
+     * @param params The parameters for the transaction.
+     * @return A [SendResult] containing the transaction hash and the final receipt.
+     */
     override suspend fun send(params: SendTokenEvent): SendResult {
         return withContext(Dispatchers.IO) {
-            val web3 = Web3j.build(HttpService(Constants.rpcUrl))
-
-            // credentials from private key (DO NOT store plain text in real apps)
+            val web3 = Web3j.build(HttpService(rpcUrl))
             val credentials = Credentials.create(params.privateKey)
             val fromAddress = credentials.address
 
-            // get nonce
-            val ethGetTransactionCount: EthGetTransactionCount = web3.ethGetTransactionCount(
-                fromAddress, DefaultBlockParameterName.PENDING
-            ).send()
-            val nonce = ethGetTransactionCount.transactionCount
-
-            // get gas price
             val gasPrice = web3.ethGasPrice().send().gasPrice
+            val nonce = getTransactionCount(web3, fromAddress)
 
-            // build data and value
-            val rawTx: RawTransaction
-            val value: BigInteger
-            val gasLimit: BigInteger
-
-            if (params.tokenContractAddress.isNullOrEmpty()) {
-                // native transfer (ETH/BNB)
-                // convert amountHuman to Wei
-                value = Convert.toWei(params.amountHuman, Convert.Unit.ETHER).toBigInteger()
-
-                // estimate gas
-                val txForEstimate = Transaction.createEtherTransaction(
-                    fromAddress, null, gasPrice, null, params.toAddress, value
-                )
-                val ethEstimateGas: EthEstimateGas = web3.ethEstimateGas(txForEstimate).send()
-                gasLimit = ethEstimateGas.amountUsed ?: BigInteger.valueOf(21000L)
-
-                rawTx = RawTransaction.createEtherTransaction(
-                    nonce, gasPrice, gasLimit, params.toAddress, value
-                )
+            val transactionData = if (params.tokenContractAddress.isNullOrEmpty()) {
+                buildNativeTransferData(web3, fromAddress, params, gasPrice, nonce)
             } else {
-                // ERC20 transfer: build function call data
-                // function signature: transfer(address,uint256)
-                val scaledAmount =
-                    params.amountHuman.multiply(BigDecimal.TEN.pow(params.tokenDecimals))
-                        .toBigInteger()
-
-                // build ERC20 transfer data manually
-                val methodId = Numeric.hexStringToByteArray(
-                    org.web3j.crypto.Hash.sha3String("transfer(address,uint256)").substring(0, 10)
-                )
-                val function = org.web3j.abi.datatypes.Function(
-                    "transfer", listOf(
-                        org.web3j.abi.datatypes.Address(params.toAddress),
-                        org.web3j.abi.datatypes.generated.Uint256(scaledAmount)
-                    ), emptyList()
-                )
-                val encodedFunction = org.web3j.abi.FunctionEncoder.encode(function)
-
-                // estimate gas via eth_estimateGas
-                val tx = Transaction.createFunctionCallTransaction(
-                    fromAddress, null, gasPrice, null, params.tokenContractAddress, encodedFunction
-                )
-                val ethEstimateGas: EthEstimateGas = web3.ethEstimateGas(tx).send()
-                gasLimit = ethEstimateGas.amountUsed ?: BigInteger.valueOf(100_000L)
-
-                rawTx = RawTransaction.createTransaction(
-                    nonce, gasPrice, gasLimit, params.tokenContractAddress, encodedFunction
-                )
-                value = BigInteger.ZERO
+                buildErc20TransferData(web3, fromAddress, params, gasPrice, nonce)
             }
 
-            // sign transaction
-            val signedMessage = TransactionEncoder.signMessage(rawTx, params.chainId, credentials)
-            val hexValue = Numeric.toHexString(signedMessage)
+            val signedTransaction =
+                signTransaction(transactionData.rawTx, params.chainId, credentials)
+            val txHash = sendSignedTransaction(web3, signedTransaction)
+            val receipt = waitForTransactionReceipt(web3, txHash)
 
-            // send
-            val ethSend = web3.ethSendRawTransaction(hexValue).send()
-
-            val txHash = ethSend.transactionHash
-
-            // optionally wait for receipt (sync wait) - here we try for a few attempts
-            var receipt: TransactionReceipt? = null
-            repeat(15) {
-                val request = web3.ethGetTransactionReceipt(txHash).send()
-                if (request.transactionReceipt.isPresent) {
-                    receipt = request.transactionReceipt.get()
-                    return@repeat
-                }
-                delay(2000)
-            }
-            return@withContext SendResult(txHash, receipt)
+            SendResult(txHash, receipt)
         }
     }
 
-    override suspend fun estimateNetworkFee(
-        tokenContractAddress: String?
-    ): Pair<BigInteger, BigInteger> = withContext(Dispatchers.IO) {
-        val rpcUrl = Constants.rpcUrl
-        val web3 = Web3j.build(HttpService(rpcUrl))
-        val gasPrice = web3.ethGasPrice().send().gasPrice
-        val gasLimit =
-            if (tokenContractAddress.isNullOrEmpty()) BigInteger.valueOf(21_000L) else BigInteger.valueOf(
-                100_000L
-            )
-        Pair(gasPrice, gasLimit)
+    /**
+     * Retrieves the transaction count (nonce) for a given address.
+     */
+    private suspend fun getTransactionCount(web3: Web3j, fromAddress: String): BigInteger {
+        val ethGetTransactionCount = web3.ethGetTransactionCount(
+            fromAddress,
+            DefaultBlockParameterName.PENDING
+        ).send()
+        return ethGetTransactionCount.transactionCount
+    }
+
+    /**
+     * Builds the necessary data for a native currency transfer.
+     */
+    private fun buildNativeTransferData(
+        web3: Web3j,
+        fromAddress: String,
+        params: SendTokenEvent,
+        gasPrice: BigInteger,
+        nonce: BigInteger
+    ): TransactionData {
+        val valueInWei = Convert.toWei(params.amountHuman, Convert.Unit.ETHER).toBigInteger()
+        val gasLimit = estimateGasLimitForNativeTransfer(
+            web3,
+            fromAddress,
+            params.toAddress,
+            valueInWei,
+            gasPrice
+        )
+
+        val rawTx = RawTransaction.createEtherTransaction(
+            nonce,
+            gasPrice,
+            gasLimit,
+            params.toAddress,
+            valueInWei
+        )
+        return TransactionData(rawTx, valueInWei)
+    }
+
+    /**
+     * Builds the necessary data for an ERC20 token transfer.
+     */
+    private fun buildErc20TransferData(
+        web3: Web3j,
+        fromAddress: String,
+        params: SendTokenEvent,
+        gasPrice: BigInteger,
+        nonce: BigInteger
+    ): TransactionData {
+        val scaledAmount = params.amountHuman
+            .multiply(BigDecimal.TEN.pow(params.tokenDecimals))
+            .toBigInteger()
+
+        val encodedFunction = encodeErc20TransferFunction(params.toAddress, scaledAmount)
+        val gasLimit = estimateGasLimitForErc20Transfer(
+            web3,
+            fromAddress,
+            params.tokenContractAddress!!,
+            encodedFunction,
+            gasPrice
+        )
+
+        val rawTx = RawTransaction.createTransaction(
+            nonce,
+            gasPrice,
+            gasLimit,
+            params.tokenContractAddress,
+            BigInteger.ZERO,
+            encodedFunction
+        )
+        return TransactionData(rawTx, BigInteger.ZERO)
+    }
+
+    /**
+     * Encodes the ERC20 transfer function call.
+     */
+    private fun encodeErc20TransferFunction(toAddress: String, scaledAmount: BigInteger): String {
+        val function = org.web3j.abi.datatypes.Function(
+            "transfer",
+            listOf(
+                Address(toAddress),
+                Uint256(scaledAmount)
+            ),
+            emptyList()
+        )
+        return FunctionEncoder.encode(function)
+    }
+
+    /**
+     * Estimates the gas limit for a native transfer.
+     */
+    private fun estimateGasLimitForNativeTransfer(
+        web3: Web3j,
+        fromAddress: String,
+        toAddress: String,
+        valueInWei: BigInteger,
+        gasPrice: BigInteger
+    ): BigInteger {
+        val txForEstimate = Transaction.createEtherTransaction(
+            fromAddress,
+            null,
+            gasPrice,
+            null,
+            toAddress,
+            valueInWei
+        )
+        val ethEstimateGas: EthEstimateGas = web3.ethEstimateGas(txForEstimate).send()
+        return ethEstimateGas.amountUsed ?: BigInteger.valueOf(ETH_TRANSFER_GAS_LIMIT)
+    }
+
+    /**
+     * Estimates the gas limit for an ERC20 transfer.
+     */
+    private fun estimateGasLimitForErc20Transfer(
+        web3: Web3j,
+        fromAddress: String,
+        tokenContractAddress: String,
+        encodedFunction: String,
+        gasPrice: BigInteger
+    ): BigInteger {
+        val tx = Transaction.createFunctionCallTransaction(
+            fromAddress,
+            null,
+            gasPrice,
+            null,
+            tokenContractAddress,
+            encodedFunction
+        )
+        val ethEstimateGas: EthEstimateGas = web3.ethEstimateGas(tx).send()
+        return ethEstimateGas.amountUsed ?: BigInteger.valueOf(ERC20_TRANSFER_GAS_LIMIT)
+    }
+
+    /**
+     * Signs a raw transaction with the user's credentials.
+     */
+    private fun signTransaction(
+        rawTx: RawTransaction,
+        chainId: Long,
+        credentials: Credentials
+    ): String {
+        val signedMessage = TransactionEncoder.signMessage(rawTx, chainId, credentials)
+        return Numeric.toHexString(signedMessage)
+    }
+
+    /**
+     * Sends a signed transaction to the blockchain.
+     */
+    private fun sendSignedTransaction(web3: Web3j, signedTransaction: String): String {
+        val ethSend = web3.ethSendRawTransaction(signedTransaction).send()
+        return ethSend.transactionHash
+    }
+
+    /**
+     * Polls the network to wait for a transaction receipt.
+     */
+    private suspend fun waitForTransactionReceipt(
+        web3: Web3j,
+        txHash: String
+    ): TransactionReceipt? {
+        repeat(RECEIPT_POLLING_ATTEMPTS) {
+            val request = web3.ethGetTransactionReceipt(txHash).send()
+            if (request.transactionReceipt.isPresent) {
+                return request.transactionReceipt.get()
+            }
+            delay(RECEIPT_POLLING_DELAY_MS)
+        }
+        return null
+    }
+
+    override suspend fun estimateNetworkFee(tokenContractAddress: String?): Pair<BigInteger, BigInteger> =
+        withContext(Dispatchers.IO) {
+            val web3j = Web3j.build(HttpService(rpcUrl))
+            val gasPrice = web3j.ethGasPrice().send().gasPrice
+            val gasLimit = getGasLimit(tokenContractAddress)
+            gasPrice to gasLimit
+        }
+
+    private fun getGasLimit(tokenContractAddress: String?): BigInteger {
+        val defaultGasLimit = BigInteger.valueOf(21_000L)
+        val tokenTransferGasLimit = BigInteger.valueOf(100_000L)
+        return if (tokenContractAddress.isNullOrEmpty()) {
+            defaultGasLimit
+        } else {
+            tokenTransferGasLimit
+        }
     }
 }

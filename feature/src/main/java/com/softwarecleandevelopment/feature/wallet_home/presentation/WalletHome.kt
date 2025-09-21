@@ -40,7 +40,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.softwarecleandevelopment.core.common.utils.UiState
+import com.softwarecleandevelopment.core.common.utils.Resource
 import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.CryptoInfo
 import com.softwarecleandevelopment.feature.wallet_home.presentation.components.wallet_home.CoinRow
 import com.softwarecleandevelopment.feature.wallet_home.presentation.components.wallet_home.QuickAction
@@ -102,14 +102,14 @@ fun WalletHome(
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 when (uiState) {
-                    is UiState.Error -> {
+                    is Resource.Error -> {
                         item {
                             Box(
                                 modifier = Modifier.fillMaxWidth(),
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
-                                    text = (uiState as UiState.Error).message,
+                                    text = (uiState as Resource.Error).message,
                                     textAlign = TextAlign.Center,
                                     fontSize = 12.sp,
                                 )
@@ -117,7 +117,7 @@ fun WalletHome(
                         }
                     }
 
-                    is UiState.Loading -> {
+                    is Resource.Loading -> {
                         item {
                             Box(
                                 modifier = Modifier.fillMaxWidth(),
@@ -131,8 +131,8 @@ fun WalletHome(
                         }
                     }
 
-                    is UiState.Success<List<CryptoInfo>> -> {
-                        items((uiState as UiState.Success<List<CryptoInfo>>).data) { coin ->
+                    is Resource.Success<List<CryptoInfo>> -> {
+                        items((uiState as Resource.Success<List<CryptoInfo>>).data) { coin ->
                             CoinRow(coin = coin, onClick = { /* open details */ })
                         }
                     }

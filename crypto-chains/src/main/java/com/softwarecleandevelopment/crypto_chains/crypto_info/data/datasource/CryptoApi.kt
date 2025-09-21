@@ -1,9 +1,9 @@
-package com.softwarecleandevelopment.crypto_chains.ethereum.data.datasource.remote
+package com.softwarecleandevelopment.crypto_chains.crypto_info.data.datasource
 
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface EthApi {
+interface CryptoApi {
     @GET("simple/price")
     suspend fun getPrice(
         @Query("ids") ids: String,

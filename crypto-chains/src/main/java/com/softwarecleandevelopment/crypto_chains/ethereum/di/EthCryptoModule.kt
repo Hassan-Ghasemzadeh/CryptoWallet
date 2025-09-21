@@ -3,7 +3,6 @@ package com.softwarecleandevelopment.crypto_chains.ethereum.di
 import com.softwarecleandevelopment.core.database.room.dao.WalletDao
 import com.softwarecleandevelopment.crypto_chains.ethereum.data.datasource.local.EthLocalDatasource
 import com.softwarecleandevelopment.crypto_chains.ethereum.data.datasource.local.EthLocalDatasourceImpl
-import com.softwarecleandevelopment.crypto_chains.ethereum.data.datasource.remote.EthApi
 import com.softwarecleandevelopment.crypto_chains.ethereum.data.datasource.remote.EthRemoteDatasource
 import com.softwarecleandevelopment.crypto_chains.ethereum.data.datasource.remote.EthRemoteDatasourceImpl
 import com.softwarecleandevelopment.crypto_chains.ethereum.data.repository.local.EthLocalRepositoryImpl
@@ -14,22 +13,16 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import retrofit2.Retrofit
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object EthCryptoModule {
-    @Provides
-    @Singleton
-    fun provideEthCryptoApi(retrofit: Retrofit): EthApi {
-        return retrofit.create(EthApi::class.java)
-    }
 
     @Provides
     @Singleton
-    fun provideEthCryptoDatasource(ethCryptoApi: EthApi): EthRemoteDatasource {
-        return EthRemoteDatasourceImpl(ethCryptoApi)
+    fun provideEthCryptoDatasource(): EthRemoteDatasource {
+        return EthRemoteDatasourceImpl()
     }
 
     @Provides

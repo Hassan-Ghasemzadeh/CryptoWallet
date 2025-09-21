@@ -1,7 +1,7 @@
-package com.softwarecleandevelopment.crypto_chains.ethereum.data.model
+package com.softwarecleandevelopment.crypto_chains.crypto_info.data.model
 
 import com.softwarecleandevelopment.crypto_chains.R
-import com.softwarecleandevelopment.crypto_chains.ethereum.domain.models.CryptoInfo
+import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.CryptoInfo
 
 
 val initialCryptos = listOf<CryptoInfo>(

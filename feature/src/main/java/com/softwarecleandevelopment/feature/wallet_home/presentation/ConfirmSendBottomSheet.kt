@@ -95,8 +95,6 @@ fun ConfirmSendBottomSheet(
                 // Top card showing amount & token
                 Card(modifier = Modifier.fillMaxWidth()) {
                     Column(modifier = Modifier.padding(12.dp)) {
-                        Text("$${"0.00"}", fontWeight = FontWeight.Bold)
-                        Spacer(Modifier.height(4.dp))
                         Text("$amount $tokenSymbol")
                     }
                 }

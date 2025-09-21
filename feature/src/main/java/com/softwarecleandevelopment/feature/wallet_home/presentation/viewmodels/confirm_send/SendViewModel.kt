@@ -22,6 +22,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import okio.Utf8
 import org.web3j.utils.Convert
+import java.math.BigInteger
+import java.math.RoundingMode
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,6 +33,7 @@ class SendViewModel @Inject constructor(
     private val estimateNetworkFeeUseCase: EstimateNetworkFeeUseCase,
     private val cryptoStore: CryptoStore,
 ) : ViewModel() {
+
     private val _state = MutableStateFlow(SendState())
     val state: StateFlow<SendState> = _state.asStateFlow()
 
@@ -39,98 +42,118 @@ class SendViewModel @Inject constructor(
 
     fun getPrivateKey() {
         viewModelScope.launch {
-            val result = getActiveWalletUseCase.invoke(Unit)
-            when (result) {
-                is Resource.Error -> {
-
-                }
-
-                is Resource.Loading -> {
-
-                }
-
-                is Resource.Success<Flow<WalletEntity?>> -> {
-                    try {
-                        result.data.collectLatest {
-
-                            val encodedPrivateKey = it?.privateKey.toString()
-
-                            val encryptedPrivateKeyBytes =
-                                Base64.decode(encodedPrivateKey, Base64.DEFAULT)
-
-                            val decryptedKeyBytes = cryptoStore.decrypt(encryptedPrivateKeyBytes)
-
-                            val privateKeyString =
-                                Base64.encodeToString(decryptedKeyBytes, Base64.DEFAULT)
-
-                            _privateKey.value = privateKeyString
-                        }
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
+            getActiveWalletUseCase.invoke(Unit).let { result ->
+                when (result) {
+                    is Resource.Success -> handleWalletResult(result.data)
+                    is Resource.Error -> handleWalletError(result.message)
+                    is Resource.Loading -> handleWalletLoading() // Placeholder for loading state if needed
                 }
             }
         }
     }
+
+    private suspend fun handleWalletResult(walletFlow: Flow<WalletEntity?>) {
+        try {
+            walletFlow.collectLatest { wallet ->
+                wallet?.privateKey?.let { encryptedKey ->
+                    _privateKey.value = decryptPrivateKey(encryptedKey)
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            // Consider updating a state flow for errors
+        }
+    }
+
+    private fun handleWalletError(message: String?) {
+        // Log the error or update the state with an error message
+        println("Error fetching active wallet: $message")
+        // _state.update { it.copy(error = message) }
+    }
+
+    private fun handleWalletLoading() {
+        // Handle loading state if necessary
+        // _state.update { it.copy(isLoading = true) }
+    }
+
+    private fun decryptPrivateKey(encodedPrivateKey: String): String {
+        val encryptedBytes = Base64.decode(encodedPrivateKey, Base64.DEFAULT)
+        val decryptedBytes = cryptoStore.decrypt(encryptedBytes)
+        return Base64.encodeToString(decryptedBytes, Base64.DEFAULT)
+    }
+
+    //---------------------------------------------------------
 
     fun estimateFee(tokenContractAddress: String? = null) {
         viewModelScope.launch {
+            _state.update { it.copy(isLoading = true, error = null) }
             try {
-                _state.update { it.copy(isLoading = true, error = null) }
-                val result = estimateNetworkFeeUseCase.invoke(tokenContractAddress)
-                // approximate fee in native currency (wei -> ether)
-                if (result is Resource.Success) {
-                    val (gasPrice, gasLimit) = result.data
-                    val feeWei = gasPrice.multiply(gasLimit)
-                    val feeEth = Convert.fromWei(feeWei.toBigDecimal(), Convert.Unit.ETHER)
-                    // convert to USD: skipped here (needs external API). We'll show ETH amount.
-                    _state.update {
-                        it.copy(
-                            isLoading = false,
-                            networkFeeUsd = "~$feeEth ${if (tokenContractAddress.isNullOrEmpty()) "ETH/BNB" else "ETH/BNB (token)"}"
-                        )
-                    }
+                when (val result = estimateNetworkFeeUseCase.invoke(tokenContractAddress)) {
+                    is Resource.Success -> handleFeeEstimationSuccess(
+                        result.data,
+                        tokenContractAddress
+                    )
+
+                    is Resource.Error -> handleFeeEstimationError(result.message)
+                    is Resource.Loading -> {} // Not handled here, but could be.
                 }
             } catch (e: Exception) {
-                _state.update { it.copy(isLoading = false, error = e.message) }
+                handleFeeEstimationError(e.message)
             }
         }
     }
 
-    fun send(
-        event: SendTokenEvent
+    private fun handleFeeEstimationSuccess(
+        feeData: Pair<BigInteger, BigInteger>,
+        tokenContractAddress: String?
     ) {
+        val (gasPrice, gasLimit) = feeData
+        val feeInWei = gasPrice.multiply(gasLimit)
+        val feeInEther = Convert.fromWei(feeInWei.toBigDecimal(), Convert.Unit.ETHER)
+        val feeDisplayString =
+            "~${feeInEther.setScale(8, RoundingMode.HALF_UP)} ${if (tokenContractAddress.isNullOrEmpty()) "ETH/BNB" else "ETH/BNB (token)"}"
+        _state.update {
+            it.copy(
+                isLoading = false,
+                networkFeeUsd = feeDisplayString
+            )
+        }
+    }
+
+    private fun handleFeeEstimationError(message: String?) {
+        _state.update { it.copy(isLoading = false, error = message) }
+    }
+
+    //---------------------------------------------------------
+
+    fun send(event: SendTokenEvent) {
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true, error = null, successTransactionHash = null) }
-            sendTokenUseCase(
-                event
-            ).collect { resultWrapper ->
+            sendTokenUseCase(event).collect { resultWrapper ->
                 when (resultWrapper) {
-                    is Resource.Error -> {
-                        _state.update {
-                            it.copy(
-                                isLoading = false, error = resultWrapper.message
-                            )
-                        }
-                    }
-
-                    is Resource.Loading -> {
-                        _state.update {
-                            it.copy(
-                                isLoading = false,
-                            )
-                        }
-                    }
-
-                    is Resource.Success<SendResult> -> {
-                        resultWrapper.data.copy(
-                            receipt = resultWrapper.data.receipt,
-                            transactionHash = resultWrapper.data.transactionHash
-                        )
-                    }
+                    is Resource.Error -> handleSendError(resultWrapper.message)
+                    is Resource.Success -> handleSendSuccess(resultWrapper.data)
+                    is Resource.Loading -> handleSendLoading()
                 }
             }
         }
     }
 
+    private fun handleSendSuccess(sendResult: SendResult) {
+        // Update state with transaction hash or receipt
+        _state.update {
+            it.copy(
+                isLoading = false,
+                successTransactionHash = sendResult.transactionHash
+            )
+        }
+    }
+
+    private fun handleSendError(message: String?) {
+        _state.update { it.copy(isLoading = false, error = message) }
+    }
+
+    private fun handleSendLoading() {
+        _state.update { it.copy(isLoading = true) }
+    }
 }

@@ -41,7 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.softwarecleandevelopment.core.common.utils.UiState
-import com.softwarecleandevelopment.crypto_chains.ethereum.domain.models.CryptoInfo
+import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.CryptoInfo
 import com.softwarecleandevelopment.feature.wallet_home.presentation.components.wallet_home.CoinRow
 import com.softwarecleandevelopment.feature.wallet_home.presentation.components.wallet_home.QuickAction
 import com.softwarecleandevelopment.feature.R

@@ -29,9 +29,9 @@ fun CameraPreview(
     val previewView = remember { PreviewView(context) }
 
     DisposableEffect(Unit) {
-        scannerViewModel.bindCamera(lifecycleOwner, context, previewView, onScanned)
+        scannerViewModel.startScanning(lifecycleOwner, context, previewView, onScanned)
         onDispose {
-            scannerViewModel.stopCamera()
+            scannerViewModel.stopScanning()
         }
     }
 

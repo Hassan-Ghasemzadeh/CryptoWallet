@@ -1,4 +1,4 @@
-package com.softwarecleandevelopment.crypto_chains.ethereum.domain.models
+package com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model
 
 data class CryptoInfo(
     val id: String,

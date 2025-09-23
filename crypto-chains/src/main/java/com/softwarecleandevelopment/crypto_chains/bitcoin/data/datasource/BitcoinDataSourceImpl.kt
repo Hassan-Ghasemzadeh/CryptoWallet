@@ -1,9 +1,7 @@
 package com.softwarecleandevelopment.crypto_chains.bitcoin.data.datasource
 
 import org.bitcoinj.core.Address
-import org.bitcoinj.crypto.ChildNumber
 import org.bitcoinj.crypto.DeterministicHierarchy
-import org.bitcoinj.crypto.HDKeyDerivation
 import org.bitcoinj.crypto.HDUtils
 import org.bitcoinj.params.MainNetParams
 import org.bitcoinj.script.Script

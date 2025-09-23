@@ -15,14 +15,14 @@ import javax.inject.Singleton
 object DogeCoinModule {
     @Provides
     @Singleton
-    fun provideDogeCoinRepository(dataSource: DogeCoinDataSource): DogeCoinRepository {
-        return DogeCoinRepositoryImpl(dataSource)
+    fun provideDogeCoinDataSource(): DogeCoinDataSource {
+        return DogeCoinDataSourceImpl()
     }
 
     @Provides
     @Singleton
-    fun provideDogeCoinDataSource(): DogeCoinDataSource {
-        return DogeCoinDataSourceImpl()
+    fun provideDogeCoinRepository(dataSource: DogeCoinDataSource): DogeCoinRepository {
+        return DogeCoinRepositoryImpl(dataSource)
     }
 
 }

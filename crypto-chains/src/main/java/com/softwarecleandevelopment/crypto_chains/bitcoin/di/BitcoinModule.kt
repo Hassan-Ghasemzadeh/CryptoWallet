@@ -1,4 +1,4 @@
-package com.softwarecleandevelopment.crypto_chains.bitcoin
+package com.softwarecleandevelopment.crypto_chains.bitcoin.di
 
 import com.softwarecleandevelopment.crypto_chains.bitcoin.data.datasource.BitcoinDataSource
 import com.softwarecleandevelopment.crypto_chains.bitcoin.data.datasource.BitcoinDataSourceImpl

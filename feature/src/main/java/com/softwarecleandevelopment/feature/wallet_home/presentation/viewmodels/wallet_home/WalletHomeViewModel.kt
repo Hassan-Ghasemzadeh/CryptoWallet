@@ -36,7 +36,6 @@ class WalletHomeViewModel @Inject constructor(
     fun loadCryptoInfo() {
         viewModelScope.launch {
             try {
-                _cryptos.value = Resource.Loading
                 _isRefreshing.value = true
                 val ethAddressResult = getEthAddress()
                 if (ethAddressResult is Resource.Success<String?>) {
@@ -45,6 +44,7 @@ class WalletHomeViewModel @Inject constructor(
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
+                _cryptos.value = Resource.Error(e.message ?: "Unknown error")
             } finally {
                 _isRefreshing.value = false
             }
@@ -62,7 +62,7 @@ class WalletHomeViewModel @Inject constructor(
 
     private suspend fun fetchAndDisplayCryptoInfo(ethAddress: String) {
         // Responsible for fetching and updating UI with crypto info
-        getCryptoInfoUseCase(ethAddress).collectLatest {
+        getCryptoInfoUseCase(ethAddress).collect {
             _cryptos.value = it
             if (it is Resource.Success<List<CryptoInfo>>) {
                 getCryptosBalance(it.data)

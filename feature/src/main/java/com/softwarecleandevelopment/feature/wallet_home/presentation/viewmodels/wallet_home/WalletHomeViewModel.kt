@@ -5,8 +5,6 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.softwarecleandevelopment.core.common.utils.Resource
-import com.softwarecleandevelopment.core.common.utils.UiState
-import com.softwarecleandevelopment.crypto_chains.crypto_info.data.model.initialCryptos
 import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.CryptoInfo
 import com.softwarecleandevelopment.crypto_chains.ethereum.domain.usecases.GenerateEthAddressUseCase
 import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.usecase.GetCryptoInfoUseCase
@@ -37,14 +35,19 @@ class WalletHomeViewModel @Inject constructor(
 
     fun loadCryptoInfo() {
         viewModelScope.launch {
-            _cryptos.value = Resource.Loading
-            _isRefreshing.value = true
-            val ethAddressResult = getEthAddress()
-            if (ethAddressResult is Resource.Success<String?>) {
-                val ethAddress = ethAddressResult.data
-                fetchAndDisplayCryptoInfo(ethAddress ?: "")
+            try {
+                _cryptos.value = Resource.Loading
+                _isRefreshing.value = true
+                val ethAddressResult = getEthAddress()
+                if (ethAddressResult is Resource.Success<String?>) {
+                    val ethAddress = ethAddressResult.data
+                    fetchAndDisplayCryptoInfo(ethAddress ?: "")
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            } finally {
+                _isRefreshing.value = false
             }
-            _isRefreshing.value = false
         }
     }
 

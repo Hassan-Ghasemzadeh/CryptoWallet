@@ -5,7 +5,7 @@ import androidx.annotation.RequiresApi
 import com.softwarecleandevelopment.core.common.utils.Constants
 import com.softwarecleandevelopment.crypto_chains.crypto_info.data.model.initialCryptos
 import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.CryptoInfo
-import com.softwarecleandevelopment.crypto_chains.ethereum.data.datasource.remote.EthRemoteDatasource
+import com.softwarecleandevelopment.crypto_chains.ethereum.data.datasource.EthDatasource
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 class CryptoInfoDataSourceImpl @Inject constructor(
     val api: CryptoApi,
-    val datasource: EthRemoteDatasource
+    val datasource: EthDatasource
 ) : CryptoInfoDatasource {
     private val rpcUrl = Constants.rpcUrl
 

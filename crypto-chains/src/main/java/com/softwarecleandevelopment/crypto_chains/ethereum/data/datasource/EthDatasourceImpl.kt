@@ -1,15 +1,19 @@
-package com.softwarecleandevelopment.crypto_chains.ethereum.data.datasource.remote
+package com.softwarecleandevelopment.crypto_chains.ethereum.data.datasource
 
 import android.util.Log
 import com.softwarecleandevelopment.core.common.utils.Constants
+import com.softwarecleandevelopment.core.database.room.dao.WalletDao
 import com.softwarecleandevelopment.crypto_chains.ethereum.domain.models.SendResult
 import com.softwarecleandevelopment.crypto_chains.ethereum.domain.models.SendTokenEvent
 import com.softwarecleandevelopment.crypto_chains.ethereum.domain.models.TransactionData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import org.web3j.abi.FunctionEncoder
 import org.web3j.abi.datatypes.Address
+import org.web3j.abi.datatypes.Function
 import org.web3j.abi.datatypes.generated.Uint256
 import org.web3j.crypto.Credentials
 import org.web3j.crypto.RawTransaction
@@ -31,8 +35,14 @@ private const val ERC20_TRANSFER_GAS_LIMIT = 100_000L
 private const val RECEIPT_POLLING_ATTEMPTS = 15
 private const val RECEIPT_POLLING_DELAY_MS = 2000L
 
-class EthRemoteDatasourceImpl @Inject constructor() : EthRemoteDatasource {
+class EthRemoteDatasourceImpl @Inject constructor(private val dao: WalletDao) :
+    EthDatasource {
     val rpcUrl = Constants.rpcUrl
+
+    override fun generateAddress(): Flow<String?> {
+        return dao.getActiveWallet().map { it?.address }
+    }
+
     override suspend fun getEthBalance(
         rpcUrl: String, address: String
     ): Double {
@@ -158,7 +168,7 @@ class EthRemoteDatasourceImpl @Inject constructor() : EthRemoteDatasource {
      * Encodes the ERC20 transfer function call.
      */
     private fun encodeErc20TransferFunction(toAddress: String, scaledAmount: BigInteger): String {
-        val function = org.web3j.abi.datatypes.Function(
+        val function = Function(
             "transfer",
             listOf(
                 Address(toAddress),

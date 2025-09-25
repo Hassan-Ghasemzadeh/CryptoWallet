@@ -1,5 +1,6 @@
 package com.softwarecleandevelopment.crypto_chains.dogecoin.data.datasource
 
+import com.softwarecleandevelopment.core.common.model.AddressParams
 import com.softwarecleandevelopment.core.common.utils.base58CheckEncode
 import com.softwarecleandevelopment.core.common.utils.ripemd160
 import com.softwarecleandevelopment.core.common.utils.sha256
@@ -11,18 +12,18 @@ import javax.inject.Inject
 
 class DogeCoinDataSourceImpl @Inject constructor() : DogeCoinDataSource {
     override suspend fun generateAddress(
-        mnemonic: String, passPhrase: String
+        params: AddressParams,
     ): String {
-        val words = mnemonic.split(Regex("\\s+"))
-        val seed = MnemonicCode.toSeed(words, passPhrase)
+        val words = params.mnemonic.split(Regex("\\s+"))
+        val seed = MnemonicCode.toSeed(words, params.passPhrase)
         val masterKey = HDKeyDerivation.createMasterPrivateKey(seed)
         val hierarchy = DeterministicHierarchy(masterKey)
-        val path = listOf(
+        val path: List<ChildNumber> = listOf(
             ChildNumber(44, false),
             ChildNumber(3, false),
             ChildNumber.ZERO_HARDENED,
             ChildNumber.ZERO,
-            ChildNumber.ZERO,
+            ChildNumber(params.accountIndex, false),
         )
         val key = hierarchy.get(path, true, true)
         val pubKeyBytes = key.pubKeyPoint.getEncoded(true)

@@ -1,5 +1,6 @@
 package com.softwarecleandevelopment.crypto_chains.bitcoin.data.repository
 
+import com.softwarecleandevelopment.core.common.model.AddressParams
 import com.softwarecleandevelopment.core.common.utils.Resource
 import com.softwarecleandevelopment.core.common.utils.safeCall
 import com.softwarecleandevelopment.crypto_chains.bitcoin.data.datasource.BitcoinDataSource
@@ -9,9 +10,8 @@ import javax.inject.Inject
 class BitcoinRepositoryImpl @Inject constructor(private val dataSource: BitcoinDataSource) :
     BitcoinRepository {
     override suspend fun generateBitcoinAddress(
-        mnemonic: String,
-        passPhrase: String
+        params: AddressParams
     ): Resource<String> {
-        return safeCall { dataSource.generateAddress(mnemonic, passPhrase) }
+        return safeCall { dataSource.generateAddress(params) }
     }
 }

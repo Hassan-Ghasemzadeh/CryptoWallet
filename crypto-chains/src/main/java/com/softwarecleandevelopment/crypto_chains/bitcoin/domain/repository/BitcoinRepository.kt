@@ -4,5 +4,5 @@ import com.softwarecleandevelopment.core.crypto.models.AddressParams
 import com.softwarecleandevelopment.core.common.utils.Resource
 
 interface BitcoinRepository {
-    suspend fun generateBitcoinAddress(params: AddressParams): Resource<String>
+    suspend fun generateAddress(params: AddressParams): Resource<String>
 }

@@ -12,7 +12,7 @@ class GenerateBitcoinAddressUseCase @Inject constructor(
     private val repository: BitcoinRepository,
 ) : UseCase<Flow<Resource<String>>, AddressParams>() {
     override suspend fun invoke(params: AddressParams): Flow<Resource<String>> = flow {
-        val result = repository.generateBitcoinAddress(params)
+        val result = repository.generateAddress(params)
         when (result) {
             is Resource.Success -> emit(Resource.Success(result.data))
             is Resource.Error -> emit(Resource.Error(result.message, result.throwable))

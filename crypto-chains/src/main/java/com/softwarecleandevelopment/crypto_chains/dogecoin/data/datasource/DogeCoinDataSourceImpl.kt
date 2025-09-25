@@ -1,6 +1,6 @@
 package com.softwarecleandevelopment.crypto_chains.dogecoin.data.datasource
 
-import com.softwarecleandevelopment.core.common.model.AddressParams
+import com.softwarecleandevelopment.core.crypto.models.AddressParams
 import com.softwarecleandevelopment.core.common.utils.base58CheckEncode
 import com.softwarecleandevelopment.core.common.utils.ripemd160
 import com.softwarecleandevelopment.core.common.utils.sha256

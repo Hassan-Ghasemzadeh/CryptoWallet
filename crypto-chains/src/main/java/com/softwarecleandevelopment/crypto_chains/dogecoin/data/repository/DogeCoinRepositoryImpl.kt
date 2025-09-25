@@ -1,6 +1,6 @@
 package com.softwarecleandevelopment.crypto_chains.dogecoin.data.repository
 
-import com.softwarecleandevelopment.core.common.model.AddressParams
+import com.softwarecleandevelopment.core.crypto.models.AddressParams
 import com.softwarecleandevelopment.core.common.utils.Resource
 import com.softwarecleandevelopment.core.common.utils.safeCall
 import com.softwarecleandevelopment.crypto_chains.dogecoin.data.datasource.DogeCoinDataSource

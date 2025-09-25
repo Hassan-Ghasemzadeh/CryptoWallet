@@ -1,4 +1,4 @@
-package com.softwarecleandevelopment.core.common.model
+package com.softwarecleandevelopment.core.crypto.models
 
 data class AddressParams(
     val mnemonic: String,

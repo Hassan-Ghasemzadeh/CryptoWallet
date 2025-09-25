@@ -1,6 +1,6 @@
 package com.softwarecleandevelopment.crypto_chains.tether.domain.usecase
 
-import com.softwarecleandevelopment.core.common.model.AddressParams
+import com.softwarecleandevelopment.core.crypto.models.AddressParams
 import com.softwarecleandevelopment.core.common.utils.Resource
 import com.softwarecleandevelopment.core.common.utils.UseCase
 import com.softwarecleandevelopment.crypto_chains.tether.domain.repository.TetherRepository

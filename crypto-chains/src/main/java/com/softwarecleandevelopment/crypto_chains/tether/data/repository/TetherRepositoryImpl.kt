@@ -3,7 +3,7 @@ package com.softwarecleandevelopment.crypto_chains.tether.data.repository
 import com.softwarecleandevelopment.core.common.utils.Resource
 import com.softwarecleandevelopment.core.common.utils.safeCall
 import com.softwarecleandevelopment.crypto_chains.tether.data.datasource.TetherDataSource
-import com.softwarecleandevelopment.core.common.model.AddressParams
+import com.softwarecleandevelopment.core.crypto.models.AddressParams
 import com.softwarecleandevelopment.crypto_chains.tether.domain.repository.TetherRepository
 import javax.inject.Inject
 

@@ -1,6 +1,6 @@
 package com.softwarecleandevelopment.crypto_chains.tether.data.datasource
 
-import com.softwarecleandevelopment.core.common.model.AddressParams
+import com.softwarecleandevelopment.core.crypto.models.AddressParams
 import org.web3j.crypto.Bip32ECKeyPair
 import org.web3j.crypto.Credentials
 import org.web3j.crypto.MnemonicUtils

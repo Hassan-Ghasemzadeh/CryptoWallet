@@ -1,7 +1,7 @@
 package com.softwarecleandevelopment.crypto_chains.tether.domain.repository
 
 import com.softwarecleandevelopment.core.common.utils.Resource
-import com.softwarecleandevelopment.core.common.model.AddressParams
+import com.softwarecleandevelopment.core.crypto.models.AddressParams
 
 interface TetherRepository {
     suspend fun generateAddress(

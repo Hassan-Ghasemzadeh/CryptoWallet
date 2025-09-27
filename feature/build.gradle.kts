@@ -87,8 +87,8 @@ dependencies {
     implementation(libs.web3j.core){
         exclude("org.bouncycastle", "bcprov-jdk15on")
     }
-    implementation("androidx.concurrent:concurrent-futures:1.1.0")
-    implementation("androidx.concurrent:concurrent-futures-ktx:1.1.0")
+    implementation(libs.androidx.concurrent.futures)
+    implementation(libs.androidx.concurrent.futures.ktx)
 }
 
 

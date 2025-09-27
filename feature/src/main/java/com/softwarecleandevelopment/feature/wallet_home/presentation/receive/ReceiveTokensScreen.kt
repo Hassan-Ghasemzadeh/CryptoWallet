@@ -29,8 +29,10 @@ import com.softwarecleandevelopment.feature.wallet_home.presentation.viewmodels.
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ReceiveTokensScreen() {
-    val tokens = hiltViewModel<ReceiveTokensViewModel>().tokens
+fun ReceiveTokensScreen(
+    viewModel: ReceiveTokensViewModel = hiltViewModel()
+) {
+    val tokens = viewModel.tokens
     var query by remember { mutableStateOf("") }
 
     val filteredTokens = tokens.filter {

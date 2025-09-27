@@ -3,6 +3,8 @@ accompanistSwiperefresh = "0.28.0"
 agp = "8.12.0"
 barcodeScanning = "17.3.0"
 cameraCoreVersion = "1.2.3"
+concurrentFuturesKtx = "1.1.0"
+concurrentFutures = "1.1.0"
 core = "3.5.3"
 desugar_jdk_libs = "2.0.4"
 kotlin = "2.1.20"
@@ -38,6 +40,8 @@ accompanist-swiperefresh = { module = "com.google.accompanist:accompanist-swiper
 androidx-camera-camera2 = { module = "androidx.camera:camera-camera2", version.ref = "cameraCoreVersion" }
 androidx-camera-lifecycle = { module = "androidx.camera:camera-lifecycle", version.ref = "cameraCoreVersion" }
 androidx-camera-view = { module = "androidx.camera:camera-view", version.ref = "cameraCoreVersion" }
+androidx-concurrent-futures = { module = "androidx.concurrent:concurrent-futures", version.ref = "concurrentFutures" }
+androidx-concurrent-futures-ktx = { module = "androidx.concurrent:concurrent-futures-ktx", version.ref = "concurrentFuturesKtx" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 barcode-scanning = { module = "com.google.mlkit:barcode-scanning", version.ref = "barcodeScanning" }
 camera-core = { module = "androidx.camera:camera-core", version.ref = "cameraCoreVersion" }

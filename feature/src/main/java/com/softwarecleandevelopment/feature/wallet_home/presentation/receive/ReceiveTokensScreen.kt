@@ -17,10 +17,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -30,15 +27,11 @@ import com.softwarecleandevelopment.feature.wallet_home.presentation.viewmodels.
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ReceiveTokensScreen(
-    viewModel: ReceiveTokensViewModel = hiltViewModel()
+    viewModel: ReceiveTokensViewModel = hiltViewModel(),
+    onItemClick: (address: String) -> Unit = {},
 ) {
-    val tokens = viewModel.tokens
-    var query by remember { mutableStateOf("") }
-
-    val filteredTokens = tokens.filter {
-        it.name.contains(query, ignoreCase = true) || it.symbol.contains(query, ignoreCase = true)
-    }
-
+    val filteredTokens = viewModel.filteredTokens.collectAsState().value
+    val address = viewModel.address.collectAsState().value
     Scaffold(
         topBar = {
             TopAppBar(
@@ -49,8 +42,7 @@ fun ReceiveTokensScreen(
                     }
                 },
             )
-        }
-    ) { padding ->
+        }) { padding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -58,8 +50,8 @@ fun ReceiveTokensScreen(
         ) {
             // Search Box
             OutlinedTextField(
-                value = query,
-                onValueChange = { query = it },
+                value = viewModel.searchQuery.collectAsState().value,
+                onValueChange = { viewModel.onSearchQueryChanged(it) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp),
@@ -75,7 +67,15 @@ fun ReceiveTokensScreen(
                 modifier = Modifier.fillMaxSize()
             ) {
                 items(filteredTokens) { token ->
-                    TokenItem(token = token)
+                    TokenItem(
+                        token = token,
+                        onItemClick = {
+                            onItemClick(address)
+                        },
+                        onCopyClick = {
+                            viewModel.copyToClipBoard(token.id)
+                        },
+                    )
                 }
             }
         }

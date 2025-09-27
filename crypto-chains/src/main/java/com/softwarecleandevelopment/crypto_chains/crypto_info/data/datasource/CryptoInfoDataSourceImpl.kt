@@ -3,7 +3,6 @@ package com.softwarecleandevelopment.crypto_chains.crypto_info.data.datasource
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.softwarecleandevelopment.core.common.utils.Constants
-import com.softwarecleandevelopment.crypto_chains.crypto_info.data.model.initialCryptos
 import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.CryptoInfo
 import com.softwarecleandevelopment.crypto_chains.ethereum.data.datasource.EthDatasource
 import kotlinx.coroutines.async
@@ -14,8 +13,9 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class CryptoInfoDataSourceImpl @Inject constructor(
-    val api: CryptoApi,
-    val datasource: EthDatasource
+    private val api: CryptoApi,
+    private val datasource: EthDatasource,
+    private val initialCryptos: List<CryptoInfo>
 ) : CryptoInfoDatasource {
     private val rpcUrl = Constants.rpcUrl
 

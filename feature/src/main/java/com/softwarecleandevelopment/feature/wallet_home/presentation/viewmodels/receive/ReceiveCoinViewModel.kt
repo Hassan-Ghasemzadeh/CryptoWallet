@@ -9,10 +9,13 @@ import com.softwarecleandevelopment.core.common.utils.Resource
 import com.softwarecleandevelopment.core.database.room.models.WalletEntity
 import com.softwarecleandevelopment.feature.wallet_home.domain.usecases.GetActiveWalletUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -36,32 +39,24 @@ class ReceiveCoinViewModel @Inject constructor(
     )
     val navigateBack: StateFlow<Boolean> = _navigateBack
 
-    init {
-        // Generate QR once
-        generateQrCode()
-    }
-
-    private fun generateQrCode() {
-        viewModelScope.launch {
+    fun generateQrCode(address: String) {
+        viewModelScope.launch((Dispatchers.Default)) {
             val result = getActiveWalletUseCase.invoke(Unit)
-            when (result) {
-                is Resource.Error -> {
-                }
+            val wallet = (result as Resource.Success).data.first()
+            _ui.value = ReceiveCoinUiState(
+                walletName = wallet?.name ?: "",
+                address = address,
+            )
+            // CHECK: If the address is NOT empty, proceed with QR generation
+            if (address.isNotEmpty()) {
+                // Only run the QR generation if the address is valid!
+                val qrBitmap = generateQrBitmap(address)
 
-                is Resource.Success<Flow<WalletEntity?>> -> {
-                    result.data.collectLatest {
-                        _ui.value = ReceiveCoinUiState(
-                            walletName = it?.name ?: "",
-                            address = it?.address ?: ""
-                        )
-                        val bitmap = generateQrBitmap(it?.address ?: "")
-                        _ui.value = _ui.value.copy(qr = bitmap)
-                    }
-                }
-
-                Resource.Loading -> {
-
-                }
+                // Update the UI state with the QR
+                _ui.update { it.copy(qr = qrBitmap) }
+            } else {
+                // Handle the failure where getAddress returned an empty string
+                _ui.update { it.copy(toastMessage = "Could not generate address.") }
             }
         }
     }

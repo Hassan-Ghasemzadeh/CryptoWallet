@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.CryptoInfo
@@ -36,11 +37,12 @@ fun TokenItem(token: CryptoInfo, onCopyClick: () -> Unit = {}, onItemClick: () -
     ) {
         // Token logo
         Image(
-            painter = painterResource(id = token.iconRes),
-            contentDescription = token.name,
             modifier = Modifier
-                .size(36.dp)
-                .clip(CircleShape)
+                .size(40.dp)
+                .clip(CircleShape),
+            painter = painterResource(id = token.iconRes),
+            contentDescription = "crypto coin icon",
+            contentScale = ContentScale.Crop
         )
 
         Spacer(modifier = Modifier.width(12.dp))

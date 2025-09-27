@@ -10,6 +10,7 @@ import com.softwarecleandevelopment.core.common.navigation.app_graph.AppGraph
 import com.softwarecleandevelopment.core.common.navigation.screens.CreateWalletScreens
 import com.softwarecleandevelopment.feature.dashboard.presentation.DashboardScreen
 import com.softwarecleandevelopment.feature.wallet_home.presentation.receive.ReceiveCoinScreen
+import com.softwarecleandevelopment.feature.wallet_home.presentation.receive.ReceiveTokensScreen
 import com.softwarecleandevelopment.feature.wallet_home.presentation.send.SendCoinScreen
 import com.softwarecleandevelopment.feature.wallets.domain.models.UpdateWalletEvent
 import com.softwarecleandevelopment.feature.wallets.presentation.SecretPhraseScreen
@@ -35,7 +36,7 @@ object DashboardNavHostExtension {
                     },
                     onReceiveClick = {
                         navController.navigate(
-                            HomeScreens.ReceiveScreen.route
+                            HomeScreens.ReceiveTokensScreen.route
                         )
                     },
                     onSendClick = { balance ->
@@ -107,9 +108,31 @@ object DashboardNavHostExtension {
                     })
             }
             composable(
+                route = HomeScreens.ReceiveTokensScreen.route,
+            ) {
+                ReceiveTokensScreen(
+                    onItemClick = {
+                        navController.currentBackStackEntry?.savedStateHandle?.set(
+                            "coin_address",
+                            it,
+                        )
+                        navController.navigate(
+                            HomeScreens.ReceiveScreen.route
+                        )
+                    },
+                    onBackClick = {
+                        navController.popBackStack()
+                    }
+                )
+            }
+            composable(
                 route = HomeScreens.ReceiveScreen.route,
             ) {
+                val address =
+                    navController.previousBackStackEntry?.savedStateHandle?.get<String>("coin_address")
+
                 ReceiveCoinScreen(
+                    address = address ?: "",
                     onNavigateBack = {
                         navController.popBackStack()
                     })

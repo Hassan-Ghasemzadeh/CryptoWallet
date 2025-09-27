@@ -1,5 +1,4 @@
-package com.softwarecleandevelopment.crypto_chains.crypto_info.data.model
-
+package com.softwarecleandevelopment.crypto_chains.crypto_info.di
 
 import com.softwarecleandevelopment.crypto_chains.R
 import com.softwarecleandevelopment.crypto_chains.bitcoin.domain.usecase.GenerateBitcoinAddressUseCase

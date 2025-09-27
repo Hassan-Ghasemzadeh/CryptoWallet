@@ -1,17 +1,20 @@
 package com.softwarecleandevelopment.feature.wallet_home.presentation.viewmodels.wallet_home
 
 import android.os.Build
+import android.util.Base64
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.softwarecleandevelopment.core.common.utils.Resource
+import com.softwarecleandevelopment.core.crypto.models.AddressParams
+import com.softwarecleandevelopment.core.crypto.security.CryptoStore
 import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.CryptoInfo
 import com.softwarecleandevelopment.crypto_chains.ethereum.domain.usecases.GenerateEthAddressUseCase
 import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.usecase.GetCryptoInfoUseCase
+import com.softwarecleandevelopment.feature.wallet_home.domain.usecases.GetActiveWalletUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,7 +23,8 @@ import javax.inject.Inject
 @HiltViewModel
 class WalletHomeViewModel @Inject constructor(
     private val getCryptoInfoUseCase: GetCryptoInfoUseCase,
-    private val generateEthAddressUseCase: GenerateEthAddressUseCase,
+    private val getActiveWalletUseCase: GetActiveWalletUseCase,
+    private val cryptoStore: CryptoStore,
 ) : ViewModel() {
     private val _cryptos = MutableStateFlow<Resource<List<CryptoInfo>>>(Resource.Loading)
     val cryptos: StateFlow<Resource<List<CryptoInfo>>> = _cryptos
@@ -37,11 +41,7 @@ class WalletHomeViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 _isRefreshing.value = true
-                val ethAddressResult = getEthAddress()
-                if (ethAddressResult is Resource.Success<String?>) {
-                    val ethAddress = ethAddressResult.data
-                    fetchAndDisplayCryptoInfo(ethAddress ?: "")
-                }
+                fetchAndDisplayCryptoInfo()
             } catch (e: Exception) {
                 e.printStackTrace()
                 _cryptos.value = Resource.Error(e.message ?: "Unknown error")
@@ -51,21 +51,24 @@ class WalletHomeViewModel @Inject constructor(
         }
     }
 
-    private suspend fun getEthAddress(): Resource<String?> {
-        // Responsible for a single task: getting the address
-        return when (val result = generateEthAddressUseCase(Unit)) {
-            is Resource.Success -> Resource.Success(result.data.first())
-            is Resource.Error -> Resource.Error(result.message)
-            Resource.Loading -> Resource.Loading // Not expected in this flow but good practice
-        }
-    }
-
-    private suspend fun fetchAndDisplayCryptoInfo(ethAddress: String) {
+    private suspend fun fetchAndDisplayCryptoInfo() {
         // Responsible for fetching and updating UI with crypto info
-        getCryptoInfoUseCase(ethAddress).collect {
-            _cryptos.value = it
-            if (it is Resource.Success<List<CryptoInfo>>) {
-                getCryptosBalance(it.data)
+        val result = getActiveWalletUseCase.invoke(Unit)
+        if (result is Resource.Success) {
+            val wallet = result.data.first()
+            val decryptedByteArray = Base64.decode(wallet?.mnemonic, Base64.DEFAULT)
+            val decryptedMnemonic = cryptoStore.decrypt(decryptedByteArray)
+            val mnemonic = decryptedMnemonic.toString(Charsets.UTF_8)
+            val params = AddressParams(
+                accountIndex = wallet?.id?.toInt() ?: 0,
+                mnemonic = mnemonic,
+                passPhrase = "",
+            )
+            getCryptoInfoUseCase(params).collect {
+                _cryptos.value = it
+                if (it is Resource.Success<List<CryptoInfo>>) {
+                    getCryptosBalance(it.data)
+                }
             }
         }
     }

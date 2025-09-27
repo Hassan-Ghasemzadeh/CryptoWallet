@@ -3,6 +3,8 @@ package com.softwarecleandevelopment.crypto_chains.crypto_info.data.datasource
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.softwarecleandevelopment.core.common.utils.Constants
+import com.softwarecleandevelopment.core.common.utils.Resource
+import com.softwarecleandevelopment.core.crypto.models.AddressParams
 import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.CryptoInfo
 import com.softwarecleandevelopment.crypto_chains.ethereum.data.datasource.EthDatasource
 import kotlinx.coroutines.async
@@ -21,10 +23,10 @@ class CryptoInfoDataSourceImpl @Inject constructor(
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun getCryptoInfo(
-        userAddress: String
+        params: AddressParams,
     ): Flow<List<CryptoInfo>> {
         return flow {
-            val updatedCryptos = fetchAndUpdateCryptoData(initialCryptos, userAddress)
+            val updatedCryptos = fetchAndUpdateCryptoData(initialCryptos, params)
             emit(updatedCryptos)
         }
     }
@@ -45,15 +47,29 @@ class CryptoInfoDataSourceImpl @Inject constructor(
 
     private suspend fun fetchAndUpdateCryptoData(
         cryptos: List<CryptoInfo>,
-        userAddress: String
+        params: AddressParams,
     ): List<CryptoInfo> {
         val cryptoIds = cryptos.joinToString(",") { it.id }
         val prices = api.getPrice(cryptoIds)
 
         return coroutineScope {
             cryptos.map { crypto ->
+                val result = crypto.generator.invoke(params)
+                val address = when (result) {
+                    is Resource.Error -> {
+                        "Error generating address"
+                    }
+
+                    is Resource.Loading -> {
+                        "Loading address"
+                    }
+
+                    is Resource.Success<String> -> {
+                        result.data
+                    }
+                }
                 async {
-                    updateCryptoInfo(crypto, prices, userAddress)
+                    updateCryptoInfo(crypto, prices, address)
                 }
             }.awaitAll()
         }

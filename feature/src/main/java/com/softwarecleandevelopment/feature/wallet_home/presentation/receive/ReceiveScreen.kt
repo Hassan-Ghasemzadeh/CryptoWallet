@@ -30,11 +30,15 @@ import com.softwarecleandevelopment.feature.wallet_home.presentation.viewmodels.
 @Composable
 fun ReceiveCoinScreen(
     viewModel: ReceiveCoinViewModel = hiltViewModel(),
+    address: String,
     onNavigateBack: () -> Unit = {},
 ) {
     val context = LocalContext.current
     val state = viewModel.ui.collectAsState().value
     val navigateBack = viewModel.navigateBack.collectAsState().value
+    LaunchedEffect(address) {
+        viewModel.generateQrCode(address)
+    }
     // one-shot toast
     LaunchedEffect(state.toastMessage) {
         state.toastMessage?.let {
@@ -149,10 +153,4 @@ private fun QrImage(bitmap: Bitmap) {
             .clip(RoundedCornerShape(12.dp))
             .padding(4.dp)
     )
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun ReceiveEthPreview() {
-    MaterialTheme { ReceiveCoinScreen() }
 }

@@ -1,5 +1,6 @@
 package com.softwarecleandevelopment.core.common.utils
 
+import org.bouncycastle.crypto.digests.RIPEMD160Digest
 import java.math.BigInteger
 import java.security.MessageDigest
 
@@ -8,30 +9,28 @@ const val BASE58_ALPHABET = "123456789ABCDEFGHIJKLMNOPQRSTUVWxYZabcdefghijklmnop
 fun sha256(input: ByteArray): ByteArray = MessageDigest.getInstance("SHA-256").digest(input)
 
 fun ripemd160(input: ByteArray): ByteArray {
-    val digest = MessageDigest.getInstance("RIPEMD160")
-    return digest.digest(input)
+    val digest = RIPEMD160Digest()
+    digest.update(input, 0, input.size)
+    val out = ByteArray(20)
+    digest.doFinal(out, 0)
+    return out
 }
 
-fun base58CheckEncode(versionedPayload: ByteArray): String {
-    val checksum = sha256(sha256(versionedPayload)).copyOfRange(0, 4)
-    val full = versionedPayload + checksum
-    var bigInteger = full.fold(BigInteger.ZERO) { acc, byte ->
-        acc.shiftLeft(8).or(BigInteger.valueOf((byte.toInt() and 0xFF).toLong()))
+fun base58CheckEncode(versioned: ByteArray): String {
+    val checksum = sha256(sha256(versioned)).copyOfRange(0, 4)
+    val full = versioned + checksum
+
+    var bi = BigInteger(1, full)
+    val sb = StringBuilder()
+    while (bi > BigInteger.ZERO) {
+        val divRem = bi.divideAndRemainder(BigInteger.valueOf(58))
+        bi = divRem[0]
+        sb.append(BASE58_ALPHABET[divRem[1].toInt()])
     }
-    val stringBuilder = StringBuilder()
-    while (bigInteger > BigInteger.ZERO) {
-        val divRem = bigInteger.divideAndRemainder(BigInteger.valueOf(58))
-        bigInteger = divRem[0]
-        val rem = divRem[1].toInt()
-        stringBuilder.append(BASE58_ALPHABET[rem])
+
+    for (b in full) {
+        if (b.toInt() == 0) sb.append('1') else break
     }
-    //leading-zero->'1'
-    for (byte in full) {
-        if (byte.toInt() == 0) {
-            stringBuilder.append('1')
-        } else {
-            break
-        }
-    }
-    return stringBuilder.reverse().toString()
+
+    return sb.reverse().toString()
 }

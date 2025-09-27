@@ -71,7 +71,7 @@ dependencies {
     implementation(libs.cryptoTink)
     //bouncyCastle
     enforcedPlatform(libs.bouncyCastle.bcprov)
-
+    implementation(libs.bouncyCastle.bcpkix)
     //room
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)

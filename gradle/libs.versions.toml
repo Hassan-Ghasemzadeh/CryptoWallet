@@ -82,6 +82,7 @@ androidx-navigation-compose = { group = "androidx.navigation", name = "navigatio
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 bouncyCastle_bcprov = { group = "org.bouncycastle", name = "bcprov-jdk15to18", version.ref = "bcprov" }
+bouncyCastle_bcpkix = { group = "org.bouncycastle", name = "bcpkix-jdk15to18", version.ref = "bcprov" }
 web3j_core = { group = "org.web3j", name = "core", version.ref = "web3j" }
 bitcoinj_core = { group = "org.bitcoinj", name = "bitcoinj-core", version.ref = "bitcoinj" }
 androidx_room_runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }

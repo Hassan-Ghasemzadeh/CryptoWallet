@@ -26,11 +26,11 @@ import androidx.compose.ui.unit.dp
 import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.CryptoInfo
 
 @Composable
-fun TokenItem(token: CryptoInfo) {
+fun TokenItem(token: CryptoInfo, onCopyClick: () -> Unit = {}, onItemClick: () -> Unit = {}) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { /* TODO: Handle click */ }
+            .clickable { onItemClick() }
             .padding(horizontal = 12.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -62,7 +62,7 @@ fun TokenItem(token: CryptoInfo) {
         }
 
         // Copy Icon
-        IconButton(onClick = { /* TODO: Copy address */ }) {
+        IconButton(onClick = onCopyClick) {
             Icon(
                 imageVector = Icons.Default.ContentCopy,
                 contentDescription = "Copy"

@@ -1,4 +1,4 @@
-package com.softwarecleandevelopment.feature.wallet_home.presentation
+package com.softwarecleandevelopment.feature.wallet_home.presentation.receive
 
 
 import android.graphics.Bitmap

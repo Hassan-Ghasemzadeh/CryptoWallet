@@ -1,5 +1,6 @@
 package com.softwarecleandevelopment.crypto_chains.bitcoin.domain.usecase
 
+import com.softwarecleandevelopment.core.common.utils.AddressGenerator
 import com.softwarecleandevelopment.core.crypto.models.AddressParams
 import com.softwarecleandevelopment.core.common.utils.Resource
 import com.softwarecleandevelopment.core.common.utils.UseCase
@@ -10,13 +11,8 @@ import javax.inject.Inject
 
 class GenerateBitcoinAddressUseCase @Inject constructor(
     private val repository: BitcoinRepository,
-) : UseCase<Flow<Resource<String>>, AddressParams>() {
-    override suspend fun invoke(params: AddressParams): Flow<Resource<String>> = flow {
-        val result = repository.generateAddress(params)
-        when (result) {
-            is Resource.Success -> emit(Resource.Success(result.data))
-            is Resource.Error -> emit(Resource.Error(result.message, result.throwable))
-            is Resource.Loading -> emit(Resource.Loading)
-        }
+) : UseCase<Resource<String>, AddressParams>(), AddressGenerator {
+    override suspend fun invoke(params: AddressParams): Resource<String> {
+        return repository.generateAddress(params)
     }
 }

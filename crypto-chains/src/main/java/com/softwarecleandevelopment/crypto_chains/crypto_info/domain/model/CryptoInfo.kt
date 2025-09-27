@@ -1,5 +1,7 @@
 package com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model
 
+import com.softwarecleandevelopment.core.common.utils.AddressGenerator
+
 data class CryptoInfo(
     val id: String,
     val symbol: String,
@@ -8,4 +10,5 @@ data class CryptoInfo(
     val priceUsd: Double = 0.0,
     val changePrecent: Double = 0.0,
     val balance: Double = 0.0,
+    val generator: AddressGenerator,
 )

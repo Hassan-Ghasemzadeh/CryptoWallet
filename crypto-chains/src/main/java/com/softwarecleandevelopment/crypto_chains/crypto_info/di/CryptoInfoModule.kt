@@ -4,6 +4,7 @@ import com.softwarecleandevelopment.crypto_chains.crypto_info.data.datasource.Cr
 import com.softwarecleandevelopment.crypto_chains.crypto_info.data.datasource.CryptoInfoDataSourceImpl
 import com.softwarecleandevelopment.crypto_chains.crypto_info.data.datasource.CryptoInfoDatasource
 import com.softwarecleandevelopment.crypto_chains.crypto_info.data.repository.CryptoInfoRepositoryImpl
+import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.CryptoInfo
 import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.repository.CryptoInfoRepository
 import com.softwarecleandevelopment.crypto_chains.ethereum.data.datasource.EthDatasource
 import dagger.Module
@@ -26,9 +27,10 @@ object CryptoInfoModule {
     @Singleton
     fun provideCryptoInfoDataSource(
         api: CryptoApi,
-        ethRemoteDatasource: EthDatasource
+        ethRemoteDatasource: EthDatasource,
+        initialCrypto: List<CryptoInfo>
     ): CryptoInfoDatasource {
-        return CryptoInfoDataSourceImpl(api, ethRemoteDatasource)
+        return CryptoInfoDataSourceImpl(api, ethRemoteDatasource, initialCrypto)
     }
 
     @Provides

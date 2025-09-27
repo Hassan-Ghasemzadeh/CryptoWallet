@@ -9,8 +9,8 @@ import androidx.navigation.navigation
 import com.softwarecleandevelopment.core.common.navigation.app_graph.AppGraph
 import com.softwarecleandevelopment.core.common.navigation.screens.CreateWalletScreens
 import com.softwarecleandevelopment.feature.dashboard.presentation.DashboardScreen
-import com.softwarecleandevelopment.feature.wallet_home.presentation.ReceiveCoinScreen
-import com.softwarecleandevelopment.feature.wallet_home.presentation.SendCoinScreen
+import com.softwarecleandevelopment.feature.wallet_home.presentation.receive.ReceiveCoinScreen
+import com.softwarecleandevelopment.feature.wallet_home.presentation.send.SendCoinScreen
 import com.softwarecleandevelopment.feature.wallets.domain.models.UpdateWalletEvent
 import com.softwarecleandevelopment.feature.wallets.presentation.SecretPhraseScreen
 import com.softwarecleandevelopment.feature.wallets.presentation.WalletDetailScreen

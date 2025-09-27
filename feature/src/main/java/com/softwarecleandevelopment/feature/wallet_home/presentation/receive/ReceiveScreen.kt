@@ -84,7 +84,11 @@ fun ReceiveCoinScreen(
                     .heightIn(min = 280.dp),
                 contentAlignment = Alignment.Center
             ) {
-                state.qr?.let { QrImage(it) }
+                if (state.isLoadingQrCode) {
+                    CircularProgressIndicator()
+                } else {
+                    state.qr?.let { QrImage(it) }
+                }
             }
 
             Spacer(Modifier.height(20.dp))

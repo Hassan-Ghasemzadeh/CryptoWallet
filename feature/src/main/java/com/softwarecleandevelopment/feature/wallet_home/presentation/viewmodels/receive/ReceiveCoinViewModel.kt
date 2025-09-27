@@ -30,7 +30,8 @@ class ReceiveCoinViewModel @Inject constructor(
     private val _ui = MutableStateFlow(
         ReceiveCoinUiState(
             walletName = "",
-            address = ""
+            address = "",
+            isLoadingQrCode = true,
         )
     )
     val ui: StateFlow<ReceiveCoinUiState> = _ui
@@ -46,6 +47,7 @@ class ReceiveCoinViewModel @Inject constructor(
             _ui.value = ReceiveCoinUiState(
                 walletName = wallet?.name ?: "",
                 address = address,
+                isLoadingQrCode = true,
             )
             // CHECK: If the address is NOT empty, proceed with QR generation
             if (address.isNotEmpty()) {
@@ -53,10 +55,15 @@ class ReceiveCoinViewModel @Inject constructor(
                 val qrBitmap = generateQrBitmap(address)
 
                 // Update the UI state with the QR
-                _ui.update { it.copy(qr = qrBitmap) }
+                _ui.update { it.copy(qr = qrBitmap, isLoadingQrCode = false) }
             } else {
                 // Handle the failure where getAddress returned an empty string
-                _ui.update { it.copy(toastMessage = "Could not generate address.") }
+                _ui.update {
+                    it.copy(
+                        toastMessage = "Could not generate address.",
+                        isLoadingQrCode = false
+                    )
+                }
             }
         }
     }

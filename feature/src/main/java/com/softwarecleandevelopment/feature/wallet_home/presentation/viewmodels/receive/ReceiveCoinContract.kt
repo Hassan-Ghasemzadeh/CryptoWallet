@@ -7,7 +7,8 @@ data class ReceiveCoinUiState(
     val walletName: String = "",
     val address: String = "",
     val qr: Bitmap? = null,
-    val toastMessage: String? = null
+    val toastMessage: String? = null,
+    val isLoadingQrCode: Boolean,
 )
 
 sealed interface ReceiveCoinEvent {

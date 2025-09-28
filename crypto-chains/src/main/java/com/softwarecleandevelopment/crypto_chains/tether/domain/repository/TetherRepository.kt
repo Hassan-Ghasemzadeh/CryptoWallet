@@ -7,4 +7,6 @@ interface TetherRepository {
     suspend fun generateAddress(
         params: AddressParams
     ): Resource<String>
+
+    suspend fun getTetherBalance(address: String): Resource<String>
 }

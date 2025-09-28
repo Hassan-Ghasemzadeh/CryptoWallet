@@ -3,7 +3,7 @@ package com.softwarecleandevelopment.crypto_chains.crypto_info.di
 import com.softwarecleandevelopment.crypto_chains.R
 import com.softwarecleandevelopment.crypto_chains.bitcoin.domain.usecase.GenerateBitcoinAddressUseCase
 import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.CryptoInfo
-import com.softwarecleandevelopment.crypto_chains.dogecoin.domian.usecase.GenerateDogeCoinAddressUseCase
+import com.softwarecleandevelopment.crypto_chains.dogecoin.domain.usecase.GenerateDogeCoinAddressUseCase
 import com.softwarecleandevelopment.crypto_chains.ethereum.domain.usecases.GenerateEthAddressUseCase
 import com.softwarecleandevelopment.crypto_chains.tether.domain.usecase.GenerateTetherAddressUseCase
 import dagger.Module

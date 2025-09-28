@@ -1,12 +1,13 @@
 package com.softwarecleandevelopment.crypto_chains.crypto_info.di
 
+import com.softwarecleandevelopment.core.di.modules.CryptoInfoRetrofit
 import com.softwarecleandevelopment.crypto_chains.crypto_info.data.datasource.CryptoApi
 import com.softwarecleandevelopment.crypto_chains.crypto_info.data.datasource.CryptoInfoDataSourceImpl
 import com.softwarecleandevelopment.crypto_chains.crypto_info.data.datasource.CryptoInfoDatasource
 import com.softwarecleandevelopment.crypto_chains.crypto_info.data.repository.CryptoInfoRepositoryImpl
+import com.softwarecleandevelopment.crypto_chains.crypto_info.data.utils.BalanceManager
 import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.CryptoInfo
 import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.repository.CryptoInfoRepository
-import com.softwarecleandevelopment.crypto_chains.ethereum.data.datasource.EthDatasource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,7 +20,7 @@ import javax.inject.Singleton
 object CryptoInfoModule {
     @Provides
     @Singleton
-    fun provideEthCryptoApi(retrofit: Retrofit): CryptoApi {
+    fun provideEthCryptoApi(@CryptoInfoRetrofit retrofit: Retrofit): CryptoApi {
         return retrofit.create(CryptoApi::class.java)
     }
 
@@ -27,10 +28,10 @@ object CryptoInfoModule {
     @Singleton
     fun provideCryptoInfoDataSource(
         api: CryptoApi,
-        ethRemoteDatasource: EthDatasource,
+        manager: BalanceManager,
         initialCrypto: List<CryptoInfo>
     ): CryptoInfoDatasource {
-        return CryptoInfoDataSourceImpl(api, ethRemoteDatasource, initialCrypto)
+        return CryptoInfoDataSourceImpl(api, manager, initialCrypto)
     }
 
     @Provides

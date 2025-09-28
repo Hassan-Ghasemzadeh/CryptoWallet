@@ -4,5 +4,7 @@ import com.softwarecleandevelopment.core.crypto.models.AddressParams
 
 
 interface BitcoinDataSource {
-    fun generateAddress(params: AddressParams): String
+    suspend fun generateAddress(params: AddressParams): String
+    suspend fun getBitcoinBalance(address: String): Double
+
 }

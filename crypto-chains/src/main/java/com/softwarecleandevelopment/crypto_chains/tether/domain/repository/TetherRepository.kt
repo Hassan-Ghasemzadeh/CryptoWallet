@@ -8,5 +8,5 @@ interface TetherRepository {
         params: AddressParams
     ): Resource<String>
 
-    suspend fun getTetherBalance(address: String): Resource<String>
+    suspend fun getTetherBalance(address: String): Resource<Double>
 }

@@ -48,7 +48,7 @@ class TetherDataSourceImpl @Inject constructor() : TetherDataSource {
      * @param address The account to check the balance for.
      * @return The raw balance as a BigInteger (needs to be divided by token decimals).
      */
-    override suspend fun getTetherBalance(address: String): String = withContext(Dispatchers.IO) {
+    override suspend fun getTetherBalance(address: String): Double = withContext(Dispatchers.IO) {
         val web3: Web3j = Web3j.build(HttpService(Constants.rpcUrl))
         // Define the ERC-20 balanceOf function call
         val function = Function(
@@ -60,7 +60,7 @@ class TetherDataSourceImpl @Inject constructor() : TetherDataSource {
         //Encode the function call data
         val encodedFunction = FunctionEncoder.encode(function)
 
-       //Create the EthCall transaction object (read-only)
+        //Create the EthCall transaction object (read-only)
         val ethCall = Transaction.createEthCallTransaction(
             null, // No 'from' address needed for a read-only call
             TETHER_CONTRACT_ADDRESS_MAINNET,
@@ -80,7 +80,7 @@ class TetherDataSourceImpl @Inject constructor() : TetherDataSource {
             val divisor = BigInteger.TEN.pow(6)
             val balance = rawBalance.toBigDecimal().divide(divisor.toBigDecimal())
 
-            return@withContext balance.toPlainString()
+            return@withContext balance.toDouble()
         } else {
             throw IllegalStateException("Failed to retrieve or decode token balance.")
         }

@@ -9,11 +9,12 @@ import org.bitcoinj.crypto.HDKeyDerivation
 import org.bitcoinj.crypto.HDUtils
 import org.bitcoinj.params.MainNetParams
 import org.bitcoinj.wallet.DeterministicSeed
+import java.math.BigDecimal
 import java.util.Date
 import javax.inject.Inject
 
-class BitcoinDataSourceImpl @Inject constructor() : BitcoinDataSource {
-    override fun generateAddress(params: AddressParams): String {
+class BitcoinDataSourceImpl @Inject constructor(private val api: BitcoinApi) : BitcoinDataSource {
+    override suspend fun generateAddress(params: AddressParams): String {
         val networkParameters: NetworkParameters =
             MainNetParams.get()
 
@@ -30,7 +31,17 @@ class BitcoinDataSourceImpl @Inject constructor() : BitcoinDataSource {
         return segwitAddress
     }
 
-    fun deriveKeyFromMaster(
+    override suspend fun getBitcoinBalance(address: String): Double {
+        val response = api.getBitCoinBalance(address)
+        val btc = toBtc(response.finalBalance)
+        return btc.toDouble()
+    }
+
+    private fun toBtc(sats: Long): BigDecimal {
+        return BigDecimal(sats).movePointLeft(8)
+    }
+
+    private fun deriveKeyFromMaster(
         masterKey: DeterministicKey,
         path: List<ChildNumber>
     ): DeterministicKey {

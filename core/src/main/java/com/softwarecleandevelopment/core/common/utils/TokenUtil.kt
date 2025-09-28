@@ -1,10 +1,11 @@
 package com.softwarecleandevelopment.core.common.utils
 
 import org.bouncycastle.crypto.digests.RIPEMD160Digest
+import java.math.BigDecimal
 import java.math.BigInteger
 import java.security.MessageDigest
 
-const val BASE58_ALPHABET = "123456789ABCDEFGHIJKLMNOPQRSTUVWxYZabcdefghijklmnopqrstuvwxyz"
+const val BASE58_ALPHABET = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
 
 fun sha256(input: ByteArray): ByteArray = MessageDigest.getInstance("SHA-256").digest(input)
 
@@ -33,4 +34,14 @@ fun base58CheckEncode(versioned: ByteArray): String {
     }
 
     return sb.reverse().toString()
+}
+
+/**
+ * satoshis is smallest denomination of Bitcoin,
+ * and Koinu(or Dogecoin Satoshis ) is smallest denomination of dogecoin
+ * similar to how a cent is the smallest denomination
+ * of a dollar
+ */
+fun toCoin(amountInSmallestUnit: Long): BigDecimal {
+    return BigDecimal(amountInSmallestUnit).movePointLeft(8)
 }

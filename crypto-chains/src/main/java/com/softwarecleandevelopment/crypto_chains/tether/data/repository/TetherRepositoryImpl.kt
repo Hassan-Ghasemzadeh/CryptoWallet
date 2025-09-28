@@ -17,7 +17,7 @@ class TetherRepositoryImpl @Inject constructor(
         return safeCall { dataSource.generateAddress(params) }
     }
 
-    override suspend fun getTetherBalance(address: String): Resource<String> {
+    override suspend fun getTetherBalance(address: String): Resource<Double> {
         return safeCall { dataSource.getTetherBalance(address) }
     }
 }

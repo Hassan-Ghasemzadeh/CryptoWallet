@@ -2,11 +2,14 @@
   <dictionary name="project">
     <words>
       <w>hardeded</w>
+      <w>koinu</w>
       <w>ripemd</w>
+      <w>satoshis</w>
       <w>segwit</w>
       <w>usdt</w>
       <w>wpkh</w>
       <w>zabcdefghijklmnopqrstuvwxyz</w>
+      <w>zabcdefghijkmnopqrstuvwxyz</w>
     </words>
   </dictionary>
 </component>

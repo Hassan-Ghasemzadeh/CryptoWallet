@@ -7,6 +7,7 @@ import com.softwarecleandevelopment.core.common.utils.Resource
 import com.softwarecleandevelopment.core.crypto.models.AddressParams
 import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.CryptoInfo
 import com.softwarecleandevelopment.crypto_chains.ethereum.data.datasource.EthDatasource
+import com.softwarecleandevelopment.crypto_chains.ethereum.domain.usecases.GetEthBalanceUseCase
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
@@ -16,7 +17,7 @@ import javax.inject.Inject
 
 class CryptoInfoDataSourceImpl @Inject constructor(
     private val api: CryptoApi,
-    private val datasource: EthDatasource,
+    private val ethBalanceUseCase: GetEthBalanceUseCase,
     private val initialCryptos: List<CryptoInfo>
 ) : CryptoInfoDatasource {
     private val rpcUrl = Constants.rpcUrl
@@ -35,7 +36,7 @@ class CryptoInfoDataSourceImpl @Inject constructor(
         symbol: String, userAddress: String
     ): Double {
         return when (symbol) {
-            "ETH" -> datasource.getEthBalance(rpcUrl, userAddress)
+            "ETH" -> ethBalanceUseCase.invoke(userAddress)
             "BTC" -> 0.0
             "DOGE" -> 0.0
             "USDT" -> 0.0

@@ -7,8 +7,8 @@ import java.math.BigInteger
 import javax.inject.Inject
 
 class EstimateNetworkFeeUseCase @Inject constructor(val repository: EthRepository) :
-    UseCase<Resource<Pair<BigInteger /*gasPrice*/, BigInteger /*gasLimit*/>>, String?>() {
-    override suspend fun invoke(params: String?): Resource<Pair<BigInteger, BigInteger>> {
+    UseCase<Resource<Double>, String?>() {
+    override suspend fun invoke(params: String?): Resource<Double> {
         return repository.estimateNetworkFee(params)
     }
 }

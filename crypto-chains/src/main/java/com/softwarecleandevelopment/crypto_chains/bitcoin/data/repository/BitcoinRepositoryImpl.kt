@@ -17,4 +17,8 @@ class BitcoinRepositoryImpl @Inject constructor(private val dataSource: BitcoinD
     override suspend fun getBitCoinBalance(address: String): Resource<Double> {
         return safeCall { dataSource.getBitcoinBalance(address) }
     }
+
+    override suspend fun estimateFee(address: String): Resource<Double> {
+        return safeCall { dataSource.estimateFee(address) }
+    }
 }

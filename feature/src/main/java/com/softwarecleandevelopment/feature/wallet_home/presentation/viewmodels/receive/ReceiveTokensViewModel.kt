@@ -10,6 +10,7 @@ import com.softwarecleandevelopment.core.common.utils.Resource
 import com.softwarecleandevelopment.core.crypto.models.AddressParams
 import com.softwarecleandevelopment.core.crypto.security.CryptoStore
 import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.CryptoInfo
+import com.softwarecleandevelopment.feature.wallet_home.domain.models.ReceiveNavigationParams
 import com.softwarecleandevelopment.feature.wallet_home.domain.usecases.GetActiveWalletUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -37,8 +38,9 @@ class ReceiveTokensViewModel @Inject constructor(
     private val _searchQuery = MutableStateFlow("")
     val searchQuery: StateFlow<String> = _searchQuery
 
-    private val _navigateToAddress = MutableSharedFlow<String>()
+    private val _navigateToAddress = MutableSharedFlow<ReceiveNavigationParams>()
     val navigateToAddress = _navigateToAddress.asSharedFlow()
+
     init {
         onSearchQueryChanged("")
     }
@@ -48,12 +50,19 @@ class ReceiveTokensViewModel @Inject constructor(
         viewModelScope.launch {
             val generatedAddress = getAddress(coinId)
 
-            // A. Update the primary, persistent state IMMEDIATELY (for display if needed)
+            //Update the primary, persistent state IMMEDIATELY
             _address.value = generatedAddress
-
+            val coin = tokens.find {
+                it.id == coinId
+            }?.symbol ?: "Coin"
             // B. Emit the one-time event for navigation (if successful)
             if (generatedAddress.isNotEmpty()) {
-                _navigateToAddress.emit(generatedAddress)
+                _navigateToAddress.emit(
+                    ReceiveNavigationParams(
+                        address = generatedAddress,
+                        title = coin
+                    )
+                )
             }
         }
     }

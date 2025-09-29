@@ -9,4 +9,6 @@ sealed class HomeScreens(val route: String) {
     object ReceiveScreen : HomeScreens("receive_screen")
     object ReceiveTokensScreen : HomeScreens("receive_tokens_screen")
     object SendScreen : HomeScreens("Send_screen")
+    object SendTokensScreen : HomeScreens("send_tokens_screen")
+
 }

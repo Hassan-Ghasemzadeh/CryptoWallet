@@ -12,7 +12,7 @@ import com.softwarecleandevelopment.feature.dashboard.domain.models.items
 import com.softwarecleandevelopment.feature.dashboard.presentation.viewmodels.BottomNavigationViewModel
 import com.softwarecleandevelopment.feature.setting.presentation.SettingsScreen
 import com.softwarecleandevelopment.feature.transaction.presentation.TransactionsScreen
-import com.softwarecleandevelopment.feature.wallet_home.presentation.WalletHome
+ import com.softwarecleandevelopment.feature.wallet_home.presentation.WalletHome
 import com.softwarecleandevelopment.feature.wallet_home.presentation.components.wallet_home.WalletTopBar
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -21,7 +21,7 @@ import com.softwarecleandevelopment.feature.wallet_home.presentation.components.
 fun DashboardScreen(
     onTitleClicked: () -> Unit = {},
     onReceiveClick: () -> Unit = {},
-    onSendClick: (balance: Double) -> Unit = { }
+    onSendClick: () -> Unit = { }
 ) {
     val viewModel: BottomNavigationViewModel = hiltViewModel()
     val selectedIndex = viewModel.selectedIndex.value

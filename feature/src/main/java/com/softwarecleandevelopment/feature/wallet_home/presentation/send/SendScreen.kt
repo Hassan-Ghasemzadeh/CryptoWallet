@@ -25,15 +25,15 @@ import com.softwarecleandevelopment.feature.wallet_home.presentation.components.
 import com.softwarecleandevelopment.feature.wallet_home.presentation.viewmodels.scanner.ScannerViewModel
 import com.softwarecleandevelopment.feature.wallet_home.presentation.viewmodels.send.SendCoinViewModel
 import com.softwarecleandevelopment.feature.R
+import com.softwarecleandevelopment.feature.wallet_home.domain.models.SendNavigationParams
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SendCoinScreen(
     sendCoinViewModel: SendCoinViewModel = hiltViewModel<SendCoinViewModel>(),
     scannerViewModel: ScannerViewModel = hiltViewModel<ScannerViewModel>(),
-    balance: Double = 0.0,
+    params: SendNavigationParams?,
     onBack: () -> Unit = {},
-    onNext: () -> Unit = {}
 ) {
     val state by sendCoinViewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
@@ -67,7 +67,14 @@ fun SendCoinScreen(
         Scaffold(
             topBar = {
                 CenterAlignedTopAppBar(
-                    title = { Text(stringResource(R.string.send_token_title, "Eth")) },
+                    title = {
+                        Text(
+                            stringResource(
+                                R.string.send_token_title,
+                                params?.coin ?: "Coin"
+                            )
+                        )
+                    },
                     navigationIcon = {
                         IconButton(onClick = onBack) {
                             Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
@@ -119,14 +126,25 @@ fun SendCoinScreen(
                     value = state.amount,
                     onValueChange = sendCoinViewModel::onAmountChanged,
                     label = { Text(stringResource(R.string.send_token_amount_title)) },
-                    placeholder = { Text(stringResource(R.string.send_token_amount, "Eth")) },
+                    placeholder = {
+                        Text(
+                            stringResource(
+                                R.string.send_token_amount,
+                                params?.coin ?: 0.0
+                            )
+                        )
+                    },
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Number
                     ),
                     trailingIcon = {
-                        TextButton(onClick = { sendCoinViewModel.onMaxClicked(balance) }) {
+                        TextButton(onClick = {
+                            sendCoinViewModel.onMaxClicked(
+                                params?.balance ?: 0.0
+                            )
+                        }) {
                             Text(stringResource(R.string.send_token_max))
                         }
                     })
@@ -156,10 +174,4 @@ fun SendCoinScreen(
             }
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewSendScreen() {
-    SendCoinScreen(balance = 0.0)
 }

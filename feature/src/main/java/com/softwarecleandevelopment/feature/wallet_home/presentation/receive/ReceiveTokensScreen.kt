@@ -22,6 +22,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.softwarecleandevelopment.feature.wallet_home.domain.models.ReceiveNavigationParams
 import com.softwarecleandevelopment.feature.wallet_home.presentation.components.receive.TokenItem
 import com.softwarecleandevelopment.feature.wallet_home.presentation.viewmodels.receive.ReceiveTokensViewModel
 
@@ -29,14 +30,14 @@ import com.softwarecleandevelopment.feature.wallet_home.presentation.viewmodels.
 @Composable
 fun ReceiveTokensScreen(
     viewModel: ReceiveTokensViewModel = hiltViewModel<ReceiveTokensViewModel>(),
-    onItemClick: (address: String) -> Unit = {},
+    onItemClick: (params: ReceiveNavigationParams) -> Unit = {},
     onBackClick: () -> Unit = {},
 ) {
     val filteredTokens = viewModel.filteredTokens.collectAsState().value
 
     LaunchedEffect(Unit) {
-        viewModel.navigateToAddress.collect { address ->
-            onItemClick(address)
+        viewModel.navigateToAddress.collect { params ->
+            onItemClick(params)
         }
     }
     Scaffold(

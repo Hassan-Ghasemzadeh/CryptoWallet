@@ -60,7 +60,6 @@ class ReceiveCoinViewModel @Inject constructor(
                 // Handle the failure where getAddress returned an empty string
                 _ui.update {
                     it.copy(
-                        toastMessage = "Could not generate address.",
                         isLoadingQrCode = false
                     )
                 }
@@ -75,7 +74,7 @@ class ReceiveCoinViewModel @Inject constructor(
             }
 
             ReceiveCoinEvent.OnCopyClick -> {
-                copyToClipboard("ETH Address", _ui.value.address)
+                copyToClipboard("Coin Address", _ui.value.address)
                 consumeToast(toastMessage = "Address copied")
             }
 

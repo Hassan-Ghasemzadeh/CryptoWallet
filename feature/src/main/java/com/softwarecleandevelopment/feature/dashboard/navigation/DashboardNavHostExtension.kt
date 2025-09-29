@@ -9,9 +9,12 @@ import androidx.navigation.navigation
 import com.softwarecleandevelopment.core.common.navigation.app_graph.AppGraph
 import com.softwarecleandevelopment.core.common.navigation.screens.CreateWalletScreens
 import com.softwarecleandevelopment.feature.dashboard.presentation.DashboardScreen
+import com.softwarecleandevelopment.feature.wallet_home.domain.models.ReceiveNavigationParams
+import com.softwarecleandevelopment.feature.wallet_home.domain.models.SendNavigationParams
 import com.softwarecleandevelopment.feature.wallet_home.presentation.receive.ReceiveCoinScreen
 import com.softwarecleandevelopment.feature.wallet_home.presentation.receive.ReceiveTokensScreen
 import com.softwarecleandevelopment.feature.wallet_home.presentation.send.SendCoinScreen
+import com.softwarecleandevelopment.feature.wallet_home.presentation.send.SendTokensScreen
 import com.softwarecleandevelopment.feature.wallets.domain.models.UpdateWalletEvent
 import com.softwarecleandevelopment.feature.wallets.presentation.SecretPhraseScreen
 import com.softwarecleandevelopment.feature.wallets.presentation.WalletDetailScreen
@@ -39,13 +42,9 @@ object DashboardNavHostExtension {
                             HomeScreens.ReceiveTokensScreen.route
                         )
                     },
-                    onSendClick = { balance ->
-                        navController.currentBackStackEntry?.savedStateHandle?.set(
-                            "balance",
-                            balance,
-                        )
+                    onSendClick = {
                         navController.navigate(
-                            HomeScreens.SendScreen.route,
+                            HomeScreens.SendTokensScreen.route,
                         )
                     }
                 )
@@ -113,7 +112,7 @@ object DashboardNavHostExtension {
                 ReceiveTokensScreen(
                     onItemClick = {
                         navController.currentBackStackEntry?.savedStateHandle?.set(
-                            "coin_address",
+                            "coin_params",
                             it,
                         )
                         navController.navigate(
@@ -128,11 +127,13 @@ object DashboardNavHostExtension {
             composable(
                 route = HomeScreens.ReceiveScreen.route,
             ) {
-                val address =
-                    navController.previousBackStackEntry?.savedStateHandle?.get<String>("coin_address")
+                val params =
+                    navController.previousBackStackEntry?.savedStateHandle?.get<ReceiveNavigationParams>(
+                        "coin_params"
+                    )
 
                 ReceiveCoinScreen(
-                    address = address ?: "",
+                    params = params,
                     onNavigateBack = {
                         navController.popBackStack()
                     })
@@ -140,11 +141,32 @@ object DashboardNavHostExtension {
             composable(
                 route = HomeScreens.SendScreen.route,
             ) {
-                val balance =
-                    navController.previousBackStackEntry?.savedStateHandle?.get<Double>("balance")
+                val params =
+                    navController.previousBackStackEntry?.savedStateHandle?.get<SendNavigationParams>(
+                        "send_params"
+                    )
                 SendCoinScreen(
-                    balance = balance ?: 0.0,
+                    params = params,
                     onBack = {
+                        navController.popBackStack()
+                    },
+                )
+            }
+            composable(
+                route = HomeScreens.SendTokensScreen.route,
+            ) {
+                SendTokensScreen(
+                    onItemClick = {
+                        navController.currentBackStackEntry?.savedStateHandle?.set(
+                            "send_params",
+                            it,
+                        )
+
+                        navController.navigate(
+                            HomeScreens.SendScreen.route
+                        )
+                    },
+                    onBackClick = {
                         navController.popBackStack()
                     },
                 )

@@ -20,24 +20,24 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.softwarecleandevelopment.feature.wallet_home.presentation.viewmodels.receive.ReceiveCoinEvent
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.softwarecleandevelopment.feature.wallet_home.domain.models.ReceiveNavigationParams
 import com.softwarecleandevelopment.feature.wallet_home.presentation.viewmodels.receive.ReceiveCoinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ReceiveCoinScreen(
     viewModel: ReceiveCoinViewModel = hiltViewModel(),
-    address: String,
+    params: ReceiveNavigationParams?,
     onNavigateBack: () -> Unit = {},
 ) {
     val context = LocalContext.current
     val state = viewModel.ui.collectAsState().value
     val navigateBack = viewModel.navigateBack.collectAsState().value
-    LaunchedEffect(address) {
-        viewModel.generateQrCode(address)
+    LaunchedEffect(params?.address) {
+        viewModel.generateQrCode(params?.address ?: "")
     }
     // one-shot toast
     LaunchedEffect(state.toastMessage) {
@@ -54,7 +54,7 @@ fun ReceiveCoinScreen(
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text(state.title) },
+                title = { Text("Receive ${params?.title ?: ""}") },
                 navigationIcon = {
                     IconButton(onClick = { viewModel.onEvent(ReceiveCoinEvent.OnBackClick) }) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")

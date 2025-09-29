@@ -16,6 +16,6 @@ interface EthRepository {
 
     suspend fun estimateNetworkFee(
         tokenContractAddress: String? = null
-    ): Resource<Pair<BigInteger /*gasPrice*/, BigInteger /*gasLimit*/>>
+    ): Resource<Double>
 
 }

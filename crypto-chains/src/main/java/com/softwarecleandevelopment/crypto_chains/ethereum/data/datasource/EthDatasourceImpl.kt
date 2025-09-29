@@ -35,7 +35,10 @@ private const val ERC20_TRANSFER_GAS_LIMIT = 100_000L
 private const val RECEIPT_POLLING_ATTEMPTS = 15
 private const val RECEIPT_POLLING_DELAY_MS = 2000L
 
-class EthRemoteDatasourceImpl @Inject constructor(private val dao: WalletDao) :
+class EthRemoteDatasourceImpl @Inject constructor(
+    private val dao: WalletDao,
+    private val feeEstimator: EthFeeEstimator
+) :
     EthDatasource {
     val rpcUrl = Constants.rpcUrl
 
@@ -260,21 +263,9 @@ class EthRemoteDatasourceImpl @Inject constructor(private val dao: WalletDao) :
         return null
     }
 
-    override suspend fun estimateNetworkFee(tokenContractAddress: String?): Pair<BigInteger, BigInteger> =
+    override suspend fun estimateNetworkFee(tokenContractAddress: String?): Double =
         withContext(Dispatchers.IO) {
-            val web3j = Web3j.build(HttpService(rpcUrl))
-            val gasPrice = web3j.ethGasPrice().send().gasPrice
-            val gasLimit = getGasLimit(tokenContractAddress)
-            gasPrice to gasLimit
+            feeEstimator.estimateFee(tokenContractAddress ?: "")
         }
 
-    private fun getGasLimit(tokenContractAddress: String?): BigInteger {
-        val defaultGasLimit = BigInteger.valueOf(21_000L)
-        val tokenTransferGasLimit = BigInteger.valueOf(100_000L)
-        return if (tokenContractAddress.isNullOrEmpty()) {
-            defaultGasLimit
-        } else {
-            tokenTransferGasLimit
-        }
-    }
 }

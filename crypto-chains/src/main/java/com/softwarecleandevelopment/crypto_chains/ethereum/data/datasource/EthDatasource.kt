@@ -19,6 +19,6 @@ interface EthDatasource {
 
     suspend fun estimateNetworkFee(
         tokenContractAddress: String? = null
-    ): Pair<BigInteger /*gasPrice*/, BigInteger /*gasLimit*/>
+    ): Double
 
 }

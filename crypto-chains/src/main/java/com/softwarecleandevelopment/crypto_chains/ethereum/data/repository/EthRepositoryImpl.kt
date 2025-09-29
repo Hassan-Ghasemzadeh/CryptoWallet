@@ -23,7 +23,7 @@ class EthRepositoryImpl @Inject constructor(private val datasource: EthDatasourc
 
     override suspend fun estimateNetworkFee(
         tokenContractAddress: String?
-    ): Resource<Pair<BigInteger, BigInteger>> {
+    ): Resource<Double> {
         return safeCall { datasource.estimateNetworkFee(tokenContractAddress) }
     }
 }

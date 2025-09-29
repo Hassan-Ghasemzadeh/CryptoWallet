@@ -45,7 +45,7 @@ import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.Crypt
 import com.softwarecleandevelopment.feature.wallet_home.presentation.components.wallet_home.CoinRow
 import com.softwarecleandevelopment.feature.wallet_home.presentation.components.wallet_home.QuickAction
 import com.softwarecleandevelopment.feature.R
-import com.softwarecleandevelopment.feature.wallet_home.presentation.viewmodels.wallet_home.WalletHomeViewModel
+ import com.softwarecleandevelopment.feature.wallet_home.presentation.viewmodels.wallet_home.WalletHomeViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
@@ -54,7 +54,7 @@ fun WalletHome(
     modifier: Modifier = Modifier,
     viewModel: WalletHomeViewModel = hiltViewModel(),
     onReceiveClick: () -> Unit = {},
-    onSendClick: (balance: Double) -> Unit = {},
+    onSendClick: () -> Unit = {},
 ) {
     val isRefreshing by viewModel.isRefreshing.collectAsState()
     val pullRefreshState = rememberPullToRefreshState()
@@ -84,8 +84,8 @@ fun WalletHome(
             ) {
                 QuickAction(
                     icon = Icons.Outlined.KeyboardArrowUp,
-                    label = stringResource(R.string.home_send_brn)
-                ) { onSendClick(balance) }
+                    label = stringResource(R.string.home_send_brn),
+                ) { onSendClick() }
                 QuickAction(
                     icon = Icons.Outlined.KeyboardArrowDown,
                     label = stringResource(R.string.home_receive_brn)

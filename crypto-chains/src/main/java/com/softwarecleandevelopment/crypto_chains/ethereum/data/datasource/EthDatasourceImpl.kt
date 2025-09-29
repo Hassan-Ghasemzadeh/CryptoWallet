@@ -96,7 +96,7 @@ class EthRemoteDatasourceImpl @Inject constructor(
     /**
      * Retrieves the transaction count (nonce) for a given address.
      */
-    private suspend fun getTransactionCount(web3: Web3j, fromAddress: String): BigInteger {
+    private fun getTransactionCount(web3: Web3j, fromAddress: String): BigInteger {
         val ethGetTransactionCount = web3.ethGetTransactionCount(
             fromAddress,
             DefaultBlockParameterName.PENDING
@@ -265,7 +265,7 @@ class EthRemoteDatasourceImpl @Inject constructor(
 
     override suspend fun estimateNetworkFee(tokenContractAddress: String?): Double =
         withContext(Dispatchers.IO) {
-            feeEstimator.estimateFee(tokenContractAddress ?: "")
+            feeEstimator.estimateFee(0, tokenContractAddress ?: "")
         }
 
 }

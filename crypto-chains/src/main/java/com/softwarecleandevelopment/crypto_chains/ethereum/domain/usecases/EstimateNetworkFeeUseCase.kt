@@ -3,7 +3,6 @@ package com.softwarecleandevelopment.crypto_chains.ethereum.domain.usecases
 import com.softwarecleandevelopment.core.common.utils.Resource
 import com.softwarecleandevelopment.core.common.utils.UseCase
 import com.softwarecleandevelopment.crypto_chains.ethereum.domain.repository.EthRepository
-import java.math.BigInteger
 import javax.inject.Inject
 
 class EstimateNetworkFeeUseCase @Inject constructor(val repository: EthRepository) :

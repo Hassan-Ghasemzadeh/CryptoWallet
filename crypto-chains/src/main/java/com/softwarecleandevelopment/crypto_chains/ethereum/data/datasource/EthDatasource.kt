@@ -3,7 +3,6 @@ package com.softwarecleandevelopment.crypto_chains.ethereum.data.datasource
 import com.softwarecleandevelopment.crypto_chains.ethereum.domain.models.SendResult
 import com.softwarecleandevelopment.crypto_chains.ethereum.domain.models.SendTokenEvent
 import kotlinx.coroutines.flow.Flow
-import java.math.BigInteger
 
 
 interface EthDatasource {

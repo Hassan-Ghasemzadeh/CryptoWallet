@@ -8,7 +8,6 @@ import com.softwarecleandevelopment.crypto_chains.ethereum.domain.models.SendRes
 import com.softwarecleandevelopment.crypto_chains.ethereum.domain.models.SendTokenEvent
 import com.softwarecleandevelopment.crypto_chains.ethereum.domain.repository.EthRepository
 import kotlinx.coroutines.flow.Flow
-import java.math.BigInteger
 import javax.inject.Inject
 
 class EthRepositoryImpl @Inject constructor(private val datasource: EthDatasource,) :

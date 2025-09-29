@@ -20,9 +20,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import okio.Utf8
-import org.web3j.utils.Convert
-import java.math.BigInteger
 import java.math.RoundingMode
 import javax.inject.Inject
 

@@ -27,7 +27,12 @@ import androidx.compose.ui.unit.dp
 import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.CryptoInfo
 
 @Composable
-fun TokenItem(token: CryptoInfo, onCopyClick: () -> Unit = {}, onItemClick: () -> Unit = {}) {
+fun TokenItem(
+    token: CryptoInfo,
+    onCopyClick: () -> Unit = {},
+    onItemClick: () -> Unit = {},
+    diableCopy: Boolean = false
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -63,12 +68,13 @@ fun TokenItem(token: CryptoInfo, onCopyClick: () -> Unit = {}, onItemClick: () -
             )
         }
 
+        if (!diableCopy)
         // Copy Icon
-        IconButton(onClick = onCopyClick) {
-            Icon(
-                imageVector = Icons.Default.ContentCopy,
-                contentDescription = "Copy"
-            )
-        }
+            IconButton(onClick = onCopyClick) {
+                Icon(
+                    imageVector = Icons.Default.ContentCopy,
+                    contentDescription = "Copy"
+                )
+            }
     }
 }

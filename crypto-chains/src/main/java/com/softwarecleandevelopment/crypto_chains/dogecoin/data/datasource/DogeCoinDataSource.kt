@@ -5,5 +5,6 @@ import com.softwarecleandevelopment.core.crypto.models.AddressParams
 interface DogeCoinDataSource {
     suspend fun generateAddress(params: AddressParams): String
     suspend fun getDogeCoinBalance(address: String): Double
+    suspend fun estimateFee(address: String): Double
 
 }

@@ -4,6 +4,7 @@ import com.softwarecleandevelopment.core.di.modules.BlockCypherRetrofit
 import com.softwarecleandevelopment.crypto_chains.dogecoin.data.datasource.DogeCoinDataSource
 import com.softwarecleandevelopment.crypto_chains.dogecoin.data.datasource.DogeCoinDataSourceImpl
 import com.softwarecleandevelopment.crypto_chains.dogecoin.data.datasource.DogecoinApi
+import com.softwarecleandevelopment.crypto_chains.dogecoin.data.datasource.DogecoinFeeEstimator
 import com.softwarecleandevelopment.crypto_chains.dogecoin.data.repository.DogeCoinRepositoryImpl
 import com.softwarecleandevelopment.crypto_chains.dogecoin.domain.repository.DogeCoinRepository
 import dagger.Module
@@ -24,8 +25,17 @@ object DogeCoinModule {
 
     @Provides
     @Singleton
-    fun provideDogeCoinDataSource(api: DogecoinApi): DogeCoinDataSource {
-        return DogeCoinDataSourceImpl(api)
+    fun provideDogecoinFeeEstimator(): DogecoinFeeEstimator {
+        return DogecoinFeeEstimator()
+    }
+
+    @Provides
+    @Singleton
+    fun provideDogeCoinDataSource(
+        api: DogecoinApi,
+        estimator: DogecoinFeeEstimator
+    ): DogeCoinDataSource {
+        return DogeCoinDataSourceImpl(api, estimator)
     }
 
     @Provides

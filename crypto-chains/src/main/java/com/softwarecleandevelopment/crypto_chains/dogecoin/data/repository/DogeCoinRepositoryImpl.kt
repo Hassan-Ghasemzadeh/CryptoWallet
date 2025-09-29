@@ -19,4 +19,8 @@ class DogeCoinRepositoryImpl @Inject constructor(private val dataSource: DogeCoi
     override suspend fun getDogeCoinBalance(address: String): Resource<Double> {
         return safeCall { dataSource.getDogeCoinBalance(address) }
     }
+
+    override suspend fun estimateFee(address: String): Resource<Double> {
+        return safeCall { dataSource.estimateFee(address) }
+    }
 }

@@ -13,7 +13,10 @@ import java.math.BigDecimal
 import java.util.Date
 import javax.inject.Inject
 
-class BitcoinDataSourceImpl @Inject constructor(private val api: BitcoinApi) : BitcoinDataSource {
+class BitcoinDataSourceImpl @Inject constructor(
+    private val api: BitcoinApi,
+    private val estimator: BtcFeeEstimator,
+) : BitcoinDataSource {
     override suspend fun generateAddress(params: AddressParams): String {
         val networkParameters: NetworkParameters =
             MainNetParams.get()
@@ -35,6 +38,13 @@ class BitcoinDataSourceImpl @Inject constructor(private val api: BitcoinApi) : B
         val response = api.getBitCoinBalance(address)
         val btc = toBtc(response.finalBalance)
         return btc.toDouble()
+    }
+
+    override suspend fun estimateFee(address: String): Double {
+        val response = api.estimateFee(address)
+        val feeRate = response.mediumFeePerKb ?: 1000000L
+        val estimatedFee = estimator.estimateFee(feeRate, address)
+        return estimatedFee
     }
 
     private fun toBtc(sats: Long): BigDecimal {

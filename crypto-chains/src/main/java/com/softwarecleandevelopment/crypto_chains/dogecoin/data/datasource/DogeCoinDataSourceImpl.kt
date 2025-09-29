@@ -14,6 +14,7 @@ import javax.inject.Inject
 
 class DogeCoinDataSourceImpl @Inject constructor(
     private val api: DogecoinApi,
+    private val estimator: DogecoinFeeEstimator,
 ) : DogeCoinDataSource {
     override suspend fun generateAddress(
         params: AddressParams,
@@ -50,6 +51,13 @@ class DogeCoinDataSourceImpl @Inject constructor(
         val response = api.getDogeCoinBalance(address)
         val doge = response.finalBalance
         return toCoin(doge).toDouble()
+    }
+
+    override suspend fun estimateFee(address: String): Double {
+        val response = api.estimateFee(address)
+        val fee = response.mediumFeePerKb ?: 1000000L
+        val estimatedFee = estimator.estimateFee(fee, address)
+        return estimatedFee
     }
 
 }

@@ -104,14 +104,14 @@ class SendViewModel @Inject constructor(
     }
 
     private fun handleFeeEstimationSuccess(
-        feeData: Pair<BigInteger, BigInteger>,
+        feeData: Double,
         tokenContractAddress: String?
     ) {
-        val (gasPrice, gasLimit) = feeData
-        val feeInWei = gasPrice.multiply(gasLimit)
-        val feeInEther = Convert.fromWei(feeInWei.toBigDecimal(), Convert.Unit.ETHER)
+        val feeInEther = feeData
         val feeDisplayString =
-            "~${feeInEther.setScale(8, RoundingMode.HALF_UP)} ${if (tokenContractAddress.isNullOrEmpty()) "ETH/BNB" else "ETH/BNB (token)"}"
+            "~${
+                feeInEther.toBigDecimal().setScale(8, RoundingMode.HALF_UP)
+            } ${if (tokenContractAddress.isNullOrEmpty()) "ETH/BNB" else "ETH/BNB (token)"}"
         _state.update {
             it.copy(
                 isLoading = false,

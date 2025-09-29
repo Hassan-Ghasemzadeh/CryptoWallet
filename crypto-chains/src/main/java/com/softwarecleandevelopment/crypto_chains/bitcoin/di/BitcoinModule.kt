@@ -4,6 +4,7 @@ import com.softwarecleandevelopment.core.di.modules.BlockCypherRetrofit
 import com.softwarecleandevelopment.crypto_chains.bitcoin.data.datasource.BitcoinApi
 import com.softwarecleandevelopment.crypto_chains.bitcoin.data.datasource.BitcoinDataSource
 import com.softwarecleandevelopment.crypto_chains.bitcoin.data.datasource.BitcoinDataSourceImpl
+import com.softwarecleandevelopment.crypto_chains.bitcoin.data.datasource.BtcFeeEstimator
 import com.softwarecleandevelopment.crypto_chains.bitcoin.data.repository.BitcoinRepositoryImpl
 import com.softwarecleandevelopment.crypto_chains.bitcoin.domain.repository.BitcoinRepository
 import dagger.Module
@@ -25,8 +26,8 @@ object BitcoinModule {
 
     @Provides
     @Singleton
-    fun provideBitcoinDataSource(api: BitcoinApi): BitcoinDataSource {
-        return BitcoinDataSourceImpl(api)
+    fun provideBitcoinDataSource(api: BitcoinApi, estimator: BtcFeeEstimator): BitcoinDataSource {
+        return BitcoinDataSourceImpl(api, estimator)
     }
 
     @Provides

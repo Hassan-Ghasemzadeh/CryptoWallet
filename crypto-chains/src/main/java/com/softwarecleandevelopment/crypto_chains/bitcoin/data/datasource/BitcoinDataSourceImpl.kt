@@ -41,7 +41,7 @@ class BitcoinDataSourceImpl @Inject constructor(
     }
 
     override suspend fun estimateFee(address: String): Double {
-        val response = api.estimateFee(address)
+        val response = api.estimateFee()
         val feeRate = response.mediumFeePerKb ?: 1000000L
         val estimatedFee = estimator.estimateFee(feeRate, address)
         return estimatedFee

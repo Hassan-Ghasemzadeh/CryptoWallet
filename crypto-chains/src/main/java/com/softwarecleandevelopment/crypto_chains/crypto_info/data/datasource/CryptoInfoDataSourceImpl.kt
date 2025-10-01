@@ -3,9 +3,11 @@ package com.softwarecleandevelopment.crypto_chains.crypto_info.data.datasource
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.softwarecleandevelopment.core.common.utils.Resource
+import com.softwarecleandevelopment.core.common.utils.UseCase
 import com.softwarecleandevelopment.core.crypto.models.AddressParams
 import com.softwarecleandevelopment.crypto_chains.crypto_info.data.utils.BalanceManager
 import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.CryptoInfo
+import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.FeeEstimationParams
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
@@ -16,7 +18,8 @@ import javax.inject.Inject
 class CryptoInfoDataSourceImpl @Inject constructor(
     private val api: CryptoApi,
     private val manager: BalanceManager,
-    private val initialCryptos: List<CryptoInfo>
+    private val initialCryptos: List<CryptoInfo>,
+    private val estimators: Map<String, @JvmSuppressWildcards UseCase<Double, String>>
 ) : CryptoInfoDatasource {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun getCryptoInfo(
@@ -32,6 +35,11 @@ class CryptoInfoDataSourceImpl @Inject constructor(
         symbol: String, userAddress: String
     ): Double {
         return manager.getBalance(symbol, userAddress)
+    }
+
+    override suspend fun getFee(params: FeeEstimationParams): Double {
+        val estimator = estimators[params.symbol]
+        return estimator?.invoke(params.address) ?: 0.0
     }
 
     private suspend fun fetchAndUpdateCryptoData(

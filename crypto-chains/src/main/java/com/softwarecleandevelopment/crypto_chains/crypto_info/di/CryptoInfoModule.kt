@@ -1,5 +1,6 @@
 package com.softwarecleandevelopment.crypto_chains.crypto_info.di
 
+import com.softwarecleandevelopment.core.common.utils.UseCase
 import com.softwarecleandevelopment.core.di.modules.CryptoInfoRetrofit
 import com.softwarecleandevelopment.crypto_chains.crypto_info.data.datasource.CryptoApi
 import com.softwarecleandevelopment.crypto_chains.crypto_info.data.datasource.CryptoInfoDataSourceImpl
@@ -29,9 +30,10 @@ object CryptoInfoModule {
     fun provideCryptoInfoDataSource(
         api: CryptoApi,
         manager: BalanceManager,
-        initialCrypto: List<CryptoInfo>
+        initialCrypto: List<CryptoInfo>,
+        estimator: Map<String, @JvmSuppressWildcards UseCase<Double, String>>
     ): CryptoInfoDatasource {
-        return CryptoInfoDataSourceImpl(api, manager, initialCrypto)
+        return CryptoInfoDataSourceImpl(api, manager, initialCrypto, estimator)
     }
 
     @Provides

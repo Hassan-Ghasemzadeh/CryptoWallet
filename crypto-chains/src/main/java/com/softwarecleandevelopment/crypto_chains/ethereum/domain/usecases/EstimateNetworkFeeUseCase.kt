@@ -6,8 +6,13 @@ import com.softwarecleandevelopment.crypto_chains.ethereum.domain.repository.Eth
 import javax.inject.Inject
 
 class EstimateNetworkFeeUseCase @Inject constructor(val repository: EthRepository) :
-    UseCase<Resource<Double>, String?>() {
-    override suspend fun invoke(params: String?): Resource<Double> {
-        return repository.estimateNetworkFee(params)
+    UseCase<Double, String?>() {
+    override suspend fun invoke(params: String?): Double {
+        val result = repository.estimateNetworkFee(params)
+        return when (result) {
+            is Resource.Error -> -1.0
+            is Resource.Loading -> 0.0
+            is Resource.Success<Double> -> result.data
+        }
     }
 }

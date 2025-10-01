@@ -10,5 +10,5 @@ interface BitcoinApi {
     suspend fun getBitCoinBalance(@Path("address") address: String): BalanceResponse
 
     @GET("btc/main")
-    suspend fun estimateFee(address: String): NetworkFeeInfo
+    suspend fun estimateFee(): NetworkFeeInfo
 }

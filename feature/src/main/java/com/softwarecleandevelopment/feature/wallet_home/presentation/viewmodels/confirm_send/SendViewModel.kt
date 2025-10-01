@@ -6,10 +6,11 @@ import androidx.lifecycle.viewModelScope
 import com.softwarecleandevelopment.core.common.utils.Resource
 import com.softwarecleandevelopment.core.crypto.security.CryptoStore
 import com.softwarecleandevelopment.core.database.room.models.WalletEntity
+import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.FeeEstimationParams
+import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.usecase.EstimateFeeUseCase
 import com.softwarecleandevelopment.crypto_chains.ethereum.domain.models.SendResult
 import com.softwarecleandevelopment.crypto_chains.ethereum.domain.models.SendState
 import com.softwarecleandevelopment.crypto_chains.ethereum.domain.models.SendTokenEvent
-import com.softwarecleandevelopment.crypto_chains.ethereum.domain.usecases.EstimateNetworkFeeUseCase
 import com.softwarecleandevelopment.crypto_chains.ethereum.domain.usecases.SendTokenUseCase
 import com.softwarecleandevelopment.feature.wallet_home.domain.usecases.GetActiveWalletUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,7 +28,7 @@ import javax.inject.Inject
 class SendViewModel @Inject constructor(
     private val sendTokenUseCase: SendTokenUseCase,
     private val getActiveWalletUseCase: GetActiveWalletUseCase,
-    private val estimateNetworkFeeUseCase: EstimateNetworkFeeUseCase,
+    private val estimateFeeUseCase: EstimateFeeUseCase,
     private val cryptoStore: CryptoStore,
 ) : ViewModel() {
 
@@ -81,19 +82,21 @@ class SendViewModel @Inject constructor(
 
     //---------------------------------------------------------
 
-    fun estimateFee(tokenContractAddress: String? = null) {
+    fun estimateFee(tokenContractAddress: String? = null, tokenSymbol: String) {
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true, error = null) }
             try {
-                when (val result = estimateNetworkFeeUseCase.invoke(tokenContractAddress)) {
-                    is Resource.Success -> handleFeeEstimationSuccess(
-                        result.data,
-                        tokenContractAddress
+                val result = estimateFeeUseCase.invoke(
+                    FeeEstimationParams(
+                        address = tokenContractAddress ?: "",
+                        symbol = tokenSymbol,
                     )
-
-                    is Resource.Error -> handleFeeEstimationError(result.message)
-                    is Resource.Loading -> {} // Not handled here, but could be.
-                }
+                )
+                handleFeeEstimationSuccess(
+                    result,
+                    tokenContractAddress,
+                    tokenSymbol
+                )
             } catch (e: Exception) {
                 handleFeeEstimationError(e.message)
             }
@@ -102,13 +105,14 @@ class SendViewModel @Inject constructor(
 
     private fun handleFeeEstimationSuccess(
         feeData: Double,
-        tokenContractAddress: String?
+        tokenContractAddress: String?,
+        tokenSymbol: String,
     ) {
         val feeInEther = feeData
         val feeDisplayString =
             "~${
                 feeInEther.toBigDecimal().setScale(8, RoundingMode.HALF_UP)
-            } ${if (tokenContractAddress.isNullOrEmpty()) "ETH/BNB" else "ETH/BNB (token)"}"
+            } ${if (tokenContractAddress.isNullOrEmpty()) tokenSymbol else "$tokenSymbol (token)"}"
         _state.update {
             it.copy(
                 isLoading = false,

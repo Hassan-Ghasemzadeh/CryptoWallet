@@ -63,7 +63,7 @@ fun ConfirmSendBottomSheet(
 
     LaunchedEffect(Unit) {
         // estimate fee on open
-        viewModel.estimateFee(tokenContractAddress)
+        viewModel.estimateFee(toAddress, tokenSymbol)
         viewModel.getPrivateKey()
     }
 

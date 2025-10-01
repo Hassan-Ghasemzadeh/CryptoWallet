@@ -167,7 +167,7 @@ fun SendCoinScreen(
                     ConfirmSendBottomSheet(
                         tokenSymbol = params?.coin ?: "Coin",
                         toAddress = state.address,
-                        tokenAmount = state.amount
+                        tokenAmount = state.amount,
                     ) {
                         showSheet = false
                     }

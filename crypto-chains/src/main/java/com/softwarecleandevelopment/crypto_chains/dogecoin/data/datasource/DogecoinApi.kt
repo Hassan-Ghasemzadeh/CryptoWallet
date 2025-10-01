@@ -11,5 +11,5 @@ interface DogecoinApi {
     suspend fun getDogeCoinBalance(@Path("address") address: String): BalanceResponse
 
     @GET("doge/main/")
-    suspend fun estimateFee(address: String): NetworkFeeInfo
+    suspend fun estimateFee(): NetworkFeeInfo
 }

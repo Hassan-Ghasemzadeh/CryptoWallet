@@ -2,7 +2,6 @@ package com.softwarecleandevelopment.crypto_chains.crypto_info.data.repository
 
 import com.softwarecleandevelopment.core.common.utils.Resource
 import com.softwarecleandevelopment.core.common.utils.safeCall
-import com.softwarecleandevelopment.core.common.utils.safeFlow
 import com.softwarecleandevelopment.core.common.utils.safeFlowCall
 import com.softwarecleandevelopment.core.crypto.models.AddressParams
 import com.softwarecleandevelopment.crypto_chains.crypto_info.data.datasource.CryptoInfoDatasource

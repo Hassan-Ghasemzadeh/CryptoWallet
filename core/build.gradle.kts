@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.android.dagger.hilt)
     alias(libs.plugins.kapt)
     alias(libs.plugins.android.ksp)
+    alias(libs.plugins.kotlin.serializition)
 }
 
 android {
@@ -79,9 +80,11 @@ dependencies {
 
 
     //retrofit
-    api (libs.squareup.retrofit)
+    api(libs.squareup.retrofit)
     implementation(libs.squareup.gson)
     implementation(libs.logging.interceptor)
+    //kotlinx serialization json
+    implementation(libs.kotlinx.serialization.json)
 }
 
 

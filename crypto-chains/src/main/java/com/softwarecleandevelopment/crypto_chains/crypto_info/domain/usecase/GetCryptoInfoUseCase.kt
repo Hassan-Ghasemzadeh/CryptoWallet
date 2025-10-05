@@ -3,17 +3,21 @@ package com.softwarecleandevelopment.crypto_chains.crypto_info.domain.usecase
 import com.softwarecleandevelopment.core.common.utils.Resource
 import com.softwarecleandevelopment.core.common.utils.UseCase
 import com.softwarecleandevelopment.core.crypto.models.AddressParams
-import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.CoinInfo
+import com.softwarecleandevelopment.core.crypto.models.CoinInfo
+import com.softwarecleandevelopment.core.database.cache_datastore.CacheDataStore
 import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.repository.CryptoInfoRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class GetCryptoInfoUseCase @Inject constructor(val repository: CryptoInfoRepository) :
+class GetCryptoInfoUseCase @Inject constructor(
+    val repository: CryptoInfoRepository,
+) :
     UseCase<Flow<Resource<List<CoinInfo>>>, AddressParams>() {
     @OptIn(ExperimentalCoroutinesApi::class)
     override suspend fun invoke(params: AddressParams): Flow<Resource<List<CoinInfo>>> {

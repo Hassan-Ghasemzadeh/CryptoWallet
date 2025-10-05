@@ -6,21 +6,27 @@ import com.softwarecleandevelopment.core.common.utils.Resource
 import com.softwarecleandevelopment.core.common.utils.UseCase
 import com.softwarecleandevelopment.core.crypto.models.AddressParams
 import com.softwarecleandevelopment.crypto_chains.crypto_info.data.utils.BalanceManager
-import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.CoinInfo
+import com.softwarecleandevelopment.core.crypto.models.CoinInfo
+import com.softwarecleandevelopment.core.database.cache_datastore.CacheDataStore
 import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.FeeEstimationParams
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class CryptoInfoDataSourceImpl @Inject constructor(
     private val api: CryptoApi,
     private val manager: BalanceManager,
     private val initialCryptos: List<CoinInfo>,
-    private val estimators: Map<String, @JvmSuppressWildcards UseCase<Double, String>>
+    private val estimators: Map<String, @JvmSuppressWildcards UseCase<Double, String>>,
+    private val cache: CacheDataStore,
 ) : CryptoInfoDatasource {
+    private val cacheTTl: Long = 60_000L
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun getCryptoInfo(
         params: AddressParams,
@@ -49,33 +55,42 @@ class CryptoInfoDataSourceImpl @Inject constructor(
         val cryptoIds = cryptos.joinToString(",") { it.id }
         val prices = api.getPrice(cryptoIds)
 
-        return coroutineScope {
+        val deferredUpdates = coroutineScope {
             cryptos.map { crypto ->
-                val result = crypto.generator.invoke(params)
-                val address = when (result) {
-                    is Resource.Error -> {
-                        "Error generating address"
-                    }
-
-                    is Resource.Loading -> {
-                        "Loading address"
-                    }
-
-                    is Resource.Success<String> -> {
-                        result.data
-                    }
-                }
                 async {
-                    updateCryptoInfo(crypto, prices, address)
+                    val generatorResult = crypto.generator?.invoke(params)
+                    val cachedCoin = cache.getCoin(crypto.symbol)
+                    val now = System.currentTimeMillis()
+
+                    val address = if (generatorResult is Resource.Success<*>) {
+                        generatorResult.data.toString()
+                    } else {
+                        ""
+                    }
+
+                    val coinToUpdate =
+                        if (cachedCoin != null && now - cachedCoin.updatedAt < cacheTTl) {
+                            cachedCoin
+                        } else {
+                            crypto
+                        }
+
+                    val updatedCoin = updateCryptoInfo(coinToUpdate, prices, address)
+
+                    return@async updatedCoin
                 }
-            }.awaitAll()
+            }
         }
+
+        val finalUpdatedList = deferredUpdates.awaitAll()
+
+        finalUpdatedList.forEach { cache.saveCoin(it) }
+
+        return finalUpdatedList
     }
 
     private suspend fun updateCryptoInfo(
-        crypto: CoinInfo,
-        prices: Map<String, Map<String, Double>>,
-        userAddress: String
+        crypto: CoinInfo, prices: Map<String, Map<String, Double>>, userAddress: String
     ): CoinInfo {
         val priceData = prices[crypto.id] ?: emptyMap()
         val balance = getBalance(crypto.symbol, userAddress)

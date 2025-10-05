@@ -23,4 +23,5 @@
     <string name="send_token_amount">%1$s Token Amount</string>
     <string name="send_token_max">Max</string>
     <string name="send_token_next">Next</string>
+    <string name="no_assets_found">No assets found</string>
 </resources>

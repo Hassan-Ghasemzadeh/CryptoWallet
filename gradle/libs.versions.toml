@@ -12,6 +12,7 @@ coreKtx = "1.16.0"
 junit = "4.13.2"
 junitVersion = "1.1.5"
 espressoCore = "3.5.1"
+kotlinxSerilizationJson = "1.7.1"
 lifecycleRuntimeKtx = "2.6.1"
 activityCompose = "1.8.0"
 composeBom = "2024.09.00"
@@ -45,6 +46,7 @@ androidx-concurrent-futures-ktx = { module = "androidx.concurrent:concurrent-fut
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 barcode-scanning = { module = "com.google.mlkit:barcode-scanning", version.ref = "barcodeScanning" }
 camera-core = { module = "androidx.camera:camera-core", version.ref = "cameraCoreVersion" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerilizationJson" }
 zxing-core = { module = "com.google.zxing:core", version.ref = "core" }
 desugar_jdk_libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar_jdk_libs" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -104,3 +106,4 @@ android-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 kotlin_parcelable = { id = "kotlin-parcelize" }
 kapt = { id = "kotlin-kapt" }
+kotlin-serializition = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }

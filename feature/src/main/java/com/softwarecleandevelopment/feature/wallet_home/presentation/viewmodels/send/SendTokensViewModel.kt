@@ -2,7 +2,7 @@ package com.softwarecleandevelopment.feature.wallet_home.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.CoinInfo
+import com.softwarecleandevelopment.core.crypto.models.CoinInfo
 import com.softwarecleandevelopment.feature.wallet_home.domain.models.SendNavigationParams
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow

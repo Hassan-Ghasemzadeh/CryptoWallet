@@ -9,7 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.softwarecleandevelopment.core.common.utils.Resource
 import com.softwarecleandevelopment.core.crypto.models.AddressParams
 import com.softwarecleandevelopment.core.crypto.security.CryptoStore
-import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.CoinInfo
+import com.softwarecleandevelopment.core.crypto.models.CoinInfo
 import com.softwarecleandevelopment.feature.wallet_home.domain.models.ReceiveNavigationParams
 import com.softwarecleandevelopment.feature.wallet_home.domain.usecases.GetActiveWalletUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -9,7 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.softwarecleandevelopment.core.common.utils.Resource
 import com.softwarecleandevelopment.core.crypto.models.AddressParams
 import com.softwarecleandevelopment.core.crypto.security.CryptoStore
-import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.CryptoInfo
+import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.CoinInfo
 import com.softwarecleandevelopment.feature.wallet_home.domain.models.ReceiveNavigationParams
 import com.softwarecleandevelopment.feature.wallet_home.domain.usecases.GetActiveWalletUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,7 +24,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ReceiveTokensViewModel @Inject constructor(
-    val tokens: List<CryptoInfo>,
+    val tokens: List<CoinInfo>,
     private val getActiveWalletUseCase: GetActiveWalletUseCase,
     private val cryptoStore: CryptoStore,
     @ApplicationContext private val context: Context,
@@ -32,8 +32,8 @@ class ReceiveTokensViewModel @Inject constructor(
     private val _address: MutableStateFlow<String> = MutableStateFlow("")
     val address: StateFlow<String> = _address
 
-    private val _filteredTokens = MutableStateFlow<List<CryptoInfo>>(emptyList())
-    val filteredTokens: StateFlow<List<CryptoInfo>> = _filteredTokens
+    private val _filteredTokens = MutableStateFlow<List<CoinInfo>>(emptyList())
+    val filteredTokens: StateFlow<List<CoinInfo>> = _filteredTokens
 
     private val _searchQuery = MutableStateFlow("")
     val searchQuery: StateFlow<String> = _searchQuery

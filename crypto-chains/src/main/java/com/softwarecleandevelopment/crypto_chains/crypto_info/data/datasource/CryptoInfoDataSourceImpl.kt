@@ -6,7 +6,7 @@ import com.softwarecleandevelopment.core.common.utils.Resource
 import com.softwarecleandevelopment.core.common.utils.UseCase
 import com.softwarecleandevelopment.core.crypto.models.AddressParams
 import com.softwarecleandevelopment.crypto_chains.crypto_info.data.utils.BalanceManager
-import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.CryptoInfo
+import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.CoinInfo
 import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.FeeEstimationParams
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -18,13 +18,13 @@ import javax.inject.Inject
 class CryptoInfoDataSourceImpl @Inject constructor(
     private val api: CryptoApi,
     private val manager: BalanceManager,
-    private val initialCryptos: List<CryptoInfo>,
+    private val initialCryptos: List<CoinInfo>,
     private val estimators: Map<String, @JvmSuppressWildcards UseCase<Double, String>>
 ) : CryptoInfoDatasource {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun getCryptoInfo(
         params: AddressParams,
-    ): Flow<List<CryptoInfo>> {
+    ): Flow<List<CoinInfo>> {
         return flow {
             val updatedCryptos = fetchAndUpdateCryptoData(initialCryptos, params)
             emit(updatedCryptos)
@@ -43,9 +43,9 @@ class CryptoInfoDataSourceImpl @Inject constructor(
     }
 
     private suspend fun fetchAndUpdateCryptoData(
-        cryptos: List<CryptoInfo>,
+        cryptos: List<CoinInfo>,
         params: AddressParams,
-    ): List<CryptoInfo> {
+    ): List<CoinInfo> {
         val cryptoIds = cryptos.joinToString(",") { it.id }
         val prices = api.getPrice(cryptoIds)
 
@@ -73,10 +73,10 @@ class CryptoInfoDataSourceImpl @Inject constructor(
     }
 
     private suspend fun updateCryptoInfo(
-        crypto: CryptoInfo,
+        crypto: CoinInfo,
         prices: Map<String, Map<String, Double>>,
         userAddress: String
-    ): CryptoInfo {
+    ): CoinInfo {
         val priceData = prices[crypto.id] ?: emptyMap()
         val balance = getBalance(crypto.symbol, userAddress)
 

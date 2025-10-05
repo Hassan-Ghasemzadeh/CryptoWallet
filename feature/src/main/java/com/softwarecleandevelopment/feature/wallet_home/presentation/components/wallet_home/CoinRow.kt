@@ -26,12 +26,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.CryptoInfo
+import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.CoinInfo
 
 
 @SuppressLint("DefaultLocale")
 @Composable
-fun CoinRow(coin: CryptoInfo, onClick: () -> Unit) {
+fun CoinRow(coin: CoinInfo, onClick: () -> Unit) {
     ListItem(
         headlineContent = {
             Text(coin.name, maxLines = 1, overflow = TextOverflow.Ellipsis, fontSize = 18.sp)

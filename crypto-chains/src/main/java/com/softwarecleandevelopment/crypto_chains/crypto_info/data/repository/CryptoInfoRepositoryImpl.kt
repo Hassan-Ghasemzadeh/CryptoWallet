@@ -5,7 +5,7 @@ import com.softwarecleandevelopment.core.common.utils.safeCall
 import com.softwarecleandevelopment.core.common.utils.safeFlowCall
 import com.softwarecleandevelopment.core.crypto.models.AddressParams
 import com.softwarecleandevelopment.crypto_chains.crypto_info.data.datasource.CryptoInfoDatasource
-import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.CryptoInfo
+import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.CoinInfo
 import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.FeeEstimationParams
 import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.repository.CryptoInfoRepository
 import kotlinx.coroutines.flow.Flow
@@ -15,7 +15,7 @@ class CryptoInfoRepositoryImpl @Inject constructor(val datasource: CryptoInfoDat
     CryptoInfoRepository {
     override fun getCryptoInfo(
         params: AddressParams,
-    ): Resource<Flow<List<CryptoInfo>>> {
+    ): Resource<Flow<List<CoinInfo>>> {
         return safeFlowCall { datasource.getCryptoInfo(params = params) }
     }
 

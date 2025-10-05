@@ -41,11 +41,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.softwarecleandevelopment.core.common.utils.Resource
-import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.CryptoInfo
+import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.CoinInfo
 import com.softwarecleandevelopment.feature.wallet_home.presentation.components.wallet_home.CoinRow
 import com.softwarecleandevelopment.feature.wallet_home.presentation.components.wallet_home.QuickAction
 import com.softwarecleandevelopment.feature.R
- import com.softwarecleandevelopment.feature.wallet_home.presentation.viewmodels.wallet_home.WalletHomeViewModel
+import com.softwarecleandevelopment.feature.wallet_home.presentation.viewmodels.wallet_home.WalletHomeViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
@@ -131,8 +131,8 @@ fun WalletHome(
                         }
                     }
 
-                    is Resource.Success<List<CryptoInfo>> -> {
-                        items((uiState as Resource.Success<List<CryptoInfo>>).data) { coin ->
+                    is Resource.Success<List<CoinInfo>> -> {
+                        items((uiState as Resource.Success<List<CoinInfo>>).data) { coin ->
                             CoinRow(coin = coin, onClick = { /* open details */ })
                         }
                     }

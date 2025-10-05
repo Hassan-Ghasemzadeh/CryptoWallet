@@ -2,7 +2,7 @@ package com.softwarecleandevelopment.crypto_chains.crypto_info.di
 
 import com.softwarecleandevelopment.crypto_chains.R
 import com.softwarecleandevelopment.crypto_chains.bitcoin.domain.usecase.GenerateBitcoinAddressUseCase
-import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.CryptoInfo
+import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.CoinInfo
 import com.softwarecleandevelopment.crypto_chains.dogecoin.domain.usecase.GenerateDogeCoinAddressUseCase
 import com.softwarecleandevelopment.crypto_chains.ethereum.domain.usecases.GenerateEthAddressUseCase
 import com.softwarecleandevelopment.crypto_chains.tether.domain.usecase.GenerateTetherAddressUseCase
@@ -23,31 +23,31 @@ object CryptoListModule {
         bitcoinAddressUseCase: GenerateBitcoinAddressUseCase,
         dogeAddressUseCase: GenerateDogeCoinAddressUseCase,
         tetherAddressUseCase: GenerateTetherAddressUseCase
-    ): List<CryptoInfo> {
+    ): List<CoinInfo> {
 
         val initialCryptos = listOf(
-            CryptoInfo(
+            CoinInfo(
                 id = "ethereum",
                 symbol = "ETH",
                 name = "Ethereum",
                 iconRes = R.drawable.ic_eth,
                 generator = ethAddressUseCase
             ),
-            CryptoInfo(
+            CoinInfo(
                 id = "bitcoin",
                 symbol = "BTC",
                 name = "Bitcoin",
                 iconRes = R.drawable.ic_btc,
                 generator = bitcoinAddressUseCase
             ),
-            CryptoInfo(
+            CoinInfo(
                 id = "doge",
                 symbol = "DOGE",
                 name = "Dogecoin",
                 iconRes = R.drawable.ic_doge,
                 generator = dogeAddressUseCase
             ),
-            CryptoInfo(
+            CoinInfo(
                 id = "tether",
                 symbol = "USDT",
                 name = "Tether",

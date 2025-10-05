@@ -2,7 +2,7 @@ package com.softwarecleandevelopment.feature.wallet_home.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.CryptoInfo
+import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.CoinInfo
 import com.softwarecleandevelopment.feature.wallet_home.domain.models.SendNavigationParams
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -14,10 +14,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SendTokensViewModel @Inject constructor(
-    private val tokens: List<CryptoInfo>,
+    private val tokens: List<CoinInfo>,
 ) : ViewModel() {
-    private val _filteredTokens = MutableStateFlow<List<CryptoInfo>>(emptyList())
-    val filteredTokens: StateFlow<List<CryptoInfo>> = _filteredTokens
+    private val _filteredTokens = MutableStateFlow<List<CoinInfo>>(emptyList())
+    val filteredTokens: StateFlow<List<CoinInfo>> = _filteredTokens
 
     private val _searchQuery = MutableStateFlow("")
     val searchQuery: StateFlow<String> = _searchQuery

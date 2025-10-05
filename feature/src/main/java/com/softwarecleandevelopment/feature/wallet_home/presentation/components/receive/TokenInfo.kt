@@ -24,11 +24,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.CryptoInfo
+import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.CoinInfo
 
 @Composable
 fun TokenItem(
-    token: CryptoInfo,
+    token: CoinInfo,
     onCopyClick: () -> Unit = {},
     onItemClick: () -> Unit = {},
     diableCopy: Boolean = false

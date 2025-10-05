@@ -7,7 +7,7 @@ import com.softwarecleandevelopment.crypto_chains.crypto_info.data.datasource.Cr
 import com.softwarecleandevelopment.crypto_chains.crypto_info.data.datasource.CryptoInfoDatasource
 import com.softwarecleandevelopment.crypto_chains.crypto_info.data.repository.CryptoInfoRepositoryImpl
 import com.softwarecleandevelopment.crypto_chains.crypto_info.data.utils.BalanceManager
-import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.CryptoInfo
+import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.CoinInfo
 import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.repository.CryptoInfoRepository
 import dagger.Module
 import dagger.Provides
@@ -30,7 +30,7 @@ object CryptoInfoModule {
     fun provideCryptoInfoDataSource(
         api: CryptoApi,
         manager: BalanceManager,
-        initialCrypto: List<CryptoInfo>,
+        initialCrypto: List<CoinInfo>,
         estimator: Map<String, @JvmSuppressWildcards UseCase<Double, String>>
     ): CryptoInfoDatasource {
         return CryptoInfoDataSourceImpl(api, manager, initialCrypto, estimator)

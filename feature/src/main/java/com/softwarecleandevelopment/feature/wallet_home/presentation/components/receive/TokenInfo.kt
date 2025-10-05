@@ -24,7 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.CoinInfo
+import com.softwarecleandevelopment.core.crypto.models.CoinInfo
 
 @Composable
 fun TokenItem(

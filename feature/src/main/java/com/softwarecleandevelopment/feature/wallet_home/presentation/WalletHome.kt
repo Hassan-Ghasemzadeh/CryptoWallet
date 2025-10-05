@@ -12,21 +12,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.KeyboardArrowDown
 import androidx.compose.material.icons.outlined.KeyboardArrowUp
-import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
@@ -41,7 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.softwarecleandevelopment.core.common.utils.Resource
-import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.CoinInfo
+import com.softwarecleandevelopment.core.crypto.models.CoinInfo
 import com.softwarecleandevelopment.feature.wallet_home.presentation.components.wallet_home.CoinRow
 import com.softwarecleandevelopment.feature.wallet_home.presentation.components.wallet_home.QuickAction
 import com.softwarecleandevelopment.feature.R
@@ -60,6 +56,10 @@ fun WalletHome(
     val pullRefreshState = rememberPullToRefreshState()
     val uiState by viewModel.cryptos.collectAsState()
     val balance by viewModel.balance.collectAsState()
+
+    val currentData: List<CoinInfo> = viewModel.cacheList.collectAsState().value
+    val showInlineLoading = isRefreshing
+
     PullToRefreshBox(
         isRefreshing = isRefreshing,
         onRefresh = viewModel::loadCryptoInfo,
@@ -96,11 +96,19 @@ fun WalletHome(
             HorizontalDivider(Modifier, DividerDefaults.Thickness, DividerDefaults.color)
             Spacer(Modifier.height(8.dp))
 
+            if (showInlineLoading) {
+                LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+                Spacer(Modifier.height(8.dp))
+            }
+            // ---------------------------------------------
+
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
                 contentPadding = PaddingValues(bottom = 24.dp),
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
+
+
                 when (uiState) {
                     is Resource.Error -> {
                         item {
@@ -118,36 +126,29 @@ fun WalletHome(
                     }
 
                     is Resource.Loading -> {
-                        item {
-                            Box(
-                                modifier = Modifier.fillMaxWidth(),
-
-                                contentAlignment = Alignment.TopCenter
-                            ) {
-                                LinearProgressIndicator(
-                                    modifier = Modifier.fillMaxWidth(),
-                                )
-                            }
+                        items(currentData) { coin ->
+                            CoinRow(coin = coin, onClick = { /* open details */ })
                         }
                     }
 
                     is Resource.Success<List<CoinInfo>> -> {
-                        items((uiState as Resource.Success<List<CoinInfo>>).data) { coin ->
-                            CoinRow(coin = coin, onClick = { /* open details */ })
-                        }
-                    }
-                }
-                item {
-                    Spacer(Modifier.height(4.dp))
-                    Box(
-                        modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.TopCenter
-                    ) {
-                        TextButton(onClick = { /* manage tokens */ }) {
-                            Icon(
-                                imageVector = Icons.Outlined.Settings, contentDescription = null
-                            )
-                            Spacer(Modifier.width(8.dp))
-                            Text(stringResource(R.string.home_managetoken_brn))
+                        if (currentData.isEmpty() && !isRefreshing) {
+                            item {
+                                Text(
+                                    text = stringResource(R.string.no_assets_found),
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(top = 32.dp),
+                                    textAlign = TextAlign.Center,
+                                    style = MaterialTheme.typography.bodyLarge
+                                )
+                            }
+                        } else {
+                            if (currentData.isNotEmpty()) {
+                                items(currentData) { coin ->
+                                    CoinRow(coin = coin, onClick = { /* open details */ })
+                                }
+                            }
                         }
                     }
                 }

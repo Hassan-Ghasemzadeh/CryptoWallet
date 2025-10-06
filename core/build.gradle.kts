@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.kapt)
     alias(libs.plugins.android.ksp)
     alias(libs.plugins.kotlin.serializition)
+    alias(libs.plugins.kotlin.parcelable)
 }
 
 android {

@@ -28,8 +28,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.softwarecleandevelopment.core.crypto.models.CoinInfo
-import java.util.Locale
-
 
 @SuppressLint("DefaultLocale")
 @Composable

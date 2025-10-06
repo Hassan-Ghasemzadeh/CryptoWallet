@@ -3,6 +3,7 @@
 package com.softwarecleandevelopment.feature.wallet_home.presentation.coin
 
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.*
@@ -12,6 +13,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.softwarecleandevelopment.core.crypto.models.CoinInfo
@@ -24,7 +26,7 @@ import com.softwarecleandevelopment.feature.wallet_home.presentation.components.
 import com.softwarecleandevelopment.feature.wallet_home.presentation.components.coin.WalletInfo
 import com.softwarecleandevelopment.feature.wallet_home.presentation.components.coin.WalletTopBar
 import com.softwarecleandevelopment.feature.wallet_home.presentation.viewmodels.coin.CoinViewModel
-import com.softwarecleandevelopment.feature.wallet_home.presentation.viewmodels.receive.CoinNavigation
+import com.softwarecleandevelopment.feature.wallet_home.presentation.viewmodels.coin.CoinNavigation
 
 @Composable
 fun CoinScreen(
@@ -34,6 +36,7 @@ fun CoinScreen(
     onSendClicked: (SendNavigationParams) -> Unit = {},
     onReceiveClicked: (ReceiveNavigationParams) -> Unit = {},
 ) {
+    val context = LocalContext.current
     val transactions = viewModel.transactions.collectAsState().value
     val address = viewModel.address.collectAsState().value
     LaunchedEffect(Unit) {
@@ -48,6 +51,10 @@ fun CoinScreen(
 
                 is CoinNavigation.NavigateToSend -> {
                     onSendClicked(params.data)
+                }
+
+                CoinNavigation.OnSwapClicked -> {
+                    Toast.makeText(context, "Not implemented yet", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -76,6 +83,9 @@ fun CoinScreen(
                 },
                 onReceiveClicked = {
                     viewModel.onReceiveClicked(coin)
+                },
+                onSwapClicked = {
+                    viewModel.onSwapClicked()
                 }
             )
             Spacer(Modifier.height(32.dp))

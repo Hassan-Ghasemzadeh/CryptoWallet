@@ -13,7 +13,6 @@ import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.usecase.Get
 import com.softwarecleandevelopment.feature.wallet_home.domain.models.ReceiveNavigationParams
 import com.softwarecleandevelopment.feature.wallet_home.domain.models.SendNavigationParams
 import com.softwarecleandevelopment.feature.wallet_home.domain.usecases.GetActiveWalletUseCase
-import com.softwarecleandevelopment.feature.wallet_home.presentation.viewmodels.receive.CoinNavigation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -40,6 +39,16 @@ class CoinViewModel @Inject constructor(
     private val _navigationEvent = MutableSharedFlow<CoinNavigation>()
     val navigationEvent = _navigationEvent.asSharedFlow()
 
+    /**
+     * this function should be changed in future.do nothing for now
+     */
+    fun onSwapClicked() {
+        viewModelScope.launch {
+            _navigationEvent.emit(
+                CoinNavigation.OnSwapClicked
+            )
+        }
+    }
 
     fun onReceiveClicked(coin: CoinInfo?) {
         viewModelScope.launch {

@@ -27,14 +27,18 @@ import androidx.compose.ui.unit.sp
 
 
 @Composable
-fun WalletActions(onSendClicked: () -> Unit = {}, onReceiveClicked: () -> Unit = {}) {
+fun WalletActions(
+    onSendClicked: () -> Unit = {},
+    onReceiveClicked: () -> Unit = {},
+    onSwapClicked: () -> Unit = {}
+) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         ActionButton("Send", Icons.Filled.ArrowUpward, onClicked = onSendClicked)
         ActionButton("Receive", Icons.Filled.ArrowDownward, onClicked = onReceiveClicked)
-        ActionButton("Swap", Icons.Filled.SwapVert)
+        ActionButton("Swap", Icons.Filled.SwapVert, onClicked = onSwapClicked)
     }
 }
 

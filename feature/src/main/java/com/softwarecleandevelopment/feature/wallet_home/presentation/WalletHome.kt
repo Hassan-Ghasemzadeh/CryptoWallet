@@ -144,10 +144,8 @@ fun WalletHome(
                                 )
                             }
                         } else {
-                            if (currentData.isNotEmpty()) {
-                                items(currentData) { coin ->
-                                    CoinRow(coin = coin, onClick = { /* open details */ })
-                                }
+                            items(currentData) { coin ->
+                                CoinRow(coin = coin, onClick = { /* open details */ })
                             }
                         }
                     }

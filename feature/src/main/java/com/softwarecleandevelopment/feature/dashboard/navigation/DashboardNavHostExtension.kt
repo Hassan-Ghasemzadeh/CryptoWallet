@@ -8,9 +8,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.softwarecleandevelopment.core.common.navigation.app_graph.AppGraph
 import com.softwarecleandevelopment.core.common.navigation.screens.CreateWalletScreens
+import com.softwarecleandevelopment.core.crypto.models.CoinInfo
 import com.softwarecleandevelopment.feature.dashboard.presentation.DashboardScreen
 import com.softwarecleandevelopment.feature.wallet_home.domain.models.ReceiveNavigationParams
 import com.softwarecleandevelopment.feature.wallet_home.domain.models.SendNavigationParams
+import com.softwarecleandevelopment.feature.wallet_home.presentation.coin.CoinScreen
 import com.softwarecleandevelopment.feature.wallet_home.presentation.receive.ReceiveCoinScreen
 import com.softwarecleandevelopment.feature.wallet_home.presentation.receive.ReceiveTokensScreen
 import com.softwarecleandevelopment.feature.wallet_home.presentation.send.SendCoinScreen
@@ -46,7 +48,16 @@ object DashboardNavHostExtension {
                         navController.navigate(
                             HomeScreens.SendTokensScreen.route,
                         )
-                    }
+                    },
+                    onItemClick = { coin ->
+                        navController.currentBackStackEntry?.savedStateHandle?.set(
+                            "coin_screen_params",
+                            coin,
+                        )
+                        navController.navigate(
+                            HomeScreens.CoinScreen.route
+                        )
+                    },
                 )
             }
             composable(
@@ -109,20 +120,17 @@ object DashboardNavHostExtension {
             composable(
                 route = HomeScreens.ReceiveTokensScreen.route,
             ) {
-                ReceiveTokensScreen(
-                    onItemClick = {
-                        navController.currentBackStackEntry?.savedStateHandle?.set(
-                            "coin_params",
-                            it,
-                        )
-                        navController.navigate(
-                            HomeScreens.ReceiveScreen.route
-                        )
-                    },
-                    onBackClick = {
-                        navController.popBackStack()
-                    }
-                )
+                ReceiveTokensScreen(onItemClick = {
+                    navController.currentBackStackEntry?.savedStateHandle?.set(
+                        "coin_params",
+                        it,
+                    )
+                    navController.navigate(
+                        HomeScreens.ReceiveScreen.route
+                    )
+                }, onBackClick = {
+                    navController.popBackStack()
+                })
             }
             composable(
                 route = HomeScreens.ReceiveScreen.route,
@@ -133,8 +141,7 @@ object DashboardNavHostExtension {
                     )
 
                 ReceiveCoinScreen(
-                    params = params,
-                    onNavigateBack = {
+                    params = params, onNavigateBack = {
                         navController.popBackStack()
                     })
             }
@@ -168,6 +175,34 @@ object DashboardNavHostExtension {
                     },
                     onBackClick = {
                         navController.popBackStack()
+                    },
+                )
+            }
+            composable(route = HomeScreens.CoinScreen.route) {
+                val coin =
+                    navController.previousBackStackEntry?.savedStateHandle?.get<CoinInfo>("coin_screen_params")
+                CoinScreen(
+                    coin = coin,
+                    onBackClicked = {
+                        navController.popBackStack()
+                    },
+                    onReceiveClicked = {
+                        navController.currentBackStackEntry?.savedStateHandle?.set(
+                            "coin_params",
+                            it,
+                        )
+                        navController.navigate(
+                            HomeScreens.ReceiveScreen.route
+                        )
+                    },
+                    onSendClicked = {
+                        navController.currentBackStackEntry?.savedStateHandle?.set(
+                            "send_params",
+                            it,
+                        )
+                        navController.navigate(
+                            HomeScreens.SendScreen.route,
+                        )
                     },
                 )
             }

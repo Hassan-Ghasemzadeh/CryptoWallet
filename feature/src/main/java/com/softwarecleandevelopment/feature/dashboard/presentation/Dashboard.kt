@@ -7,12 +7,13 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.softwarecleandevelopment.core.crypto.models.CoinInfo
 import com.softwarecleandevelopment.feature.dashboard.domain.models.BottomNavigation
 import com.softwarecleandevelopment.feature.dashboard.domain.models.items
 import com.softwarecleandevelopment.feature.dashboard.presentation.viewmodels.BottomNavigationViewModel
 import com.softwarecleandevelopment.feature.setting.presentation.SettingsScreen
 import com.softwarecleandevelopment.feature.transaction.presentation.TransactionsScreen
- import com.softwarecleandevelopment.feature.wallet_home.presentation.home.WalletHome
+import com.softwarecleandevelopment.feature.wallet_home.presentation.home.WalletHome
 import com.softwarecleandevelopment.feature.wallet_home.presentation.components.wallet_home.WalletTopBar
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -21,7 +22,8 @@ import com.softwarecleandevelopment.feature.wallet_home.presentation.components.
 fun DashboardScreen(
     onTitleClicked: () -> Unit = {},
     onReceiveClick: () -> Unit = {},
-    onSendClick: () -> Unit = { }
+    onSendClick: () -> Unit = { },
+    onItemClick: (coin: CoinInfo) -> Unit = {},
 ) {
     val viewModel: BottomNavigationViewModel = hiltViewModel()
     val selectedIndex = viewModel.selectedIndex.value
@@ -49,7 +51,8 @@ fun DashboardScreen(
                     .padding(innerPadding)
                     .fillMaxSize(),
                 onReceiveClick = onReceiveClick,
-                onSendClick = onSendClick
+                onSendClick = onSendClick,
+                onItemClick = onItemClick,
             )
 
             BottomNavigation.TRANSACTION.ordinal -> TransactionsScreen(

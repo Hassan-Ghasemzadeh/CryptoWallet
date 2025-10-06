@@ -3,6 +3,7 @@ package com.softwarecleandevelopment.feature.wallet_home.presentation.components
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -27,6 +28,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.softwarecleandevelopment.core.crypto.models.CoinInfo
+import java.util.Locale
 
 
 @SuppressLint("DefaultLocale")
@@ -75,7 +77,11 @@ fun CoinRow(coin: CoinInfo, onClick: () -> Unit) {
         },
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color.Transparent),
+            .background(Color.Transparent)
+            .clickable(
+                true,
+                onClick = onClick,
+            ),
         overlineContent = null
     )
     HorizontalDivider(Modifier, DividerDefaults.Thickness, DividerDefaults.color)

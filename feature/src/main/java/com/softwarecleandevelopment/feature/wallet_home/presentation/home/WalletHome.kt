@@ -51,6 +51,7 @@ fun WalletHome(
     viewModel: WalletHomeViewModel = hiltViewModel(),
     onReceiveClick: () -> Unit = {},
     onSendClick: () -> Unit = {},
+    onItemClick: (coin: CoinInfo) -> Unit = {},
 ) {
     val isRefreshing by viewModel.isRefreshing.collectAsState()
     val pullRefreshState = rememberPullToRefreshState()
@@ -145,7 +146,7 @@ fun WalletHome(
                             }
                         } else {
                             items(currentData) { coin ->
-                                CoinRow(coin = coin, onClick = { /* open details */ })
+                                CoinRow(coin = coin, onClick = { onItemClick(coin) })
                             }
                         }
                     }

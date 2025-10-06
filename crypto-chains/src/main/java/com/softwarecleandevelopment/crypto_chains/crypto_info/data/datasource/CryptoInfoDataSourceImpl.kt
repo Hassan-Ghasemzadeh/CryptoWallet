@@ -8,18 +8,19 @@ import com.softwarecleandevelopment.core.crypto.models.AddressParams
 import com.softwarecleandevelopment.crypto_chains.crypto_info.data.utils.BalanceManager
 import com.softwarecleandevelopment.core.crypto.models.CoinInfo
 import com.softwarecleandevelopment.core.database.cache_datastore.CacheDataStore
+import com.softwarecleandevelopment.crypto_chains.crypto_info.data.model.Transaction
 import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.FeeEstimationParams
-import kotlinx.coroutines.Dispatchers
+import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.TransactionParams
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class CryptoInfoDataSourceImpl @Inject constructor(
-    private val api: CryptoApi,
+    private val cryptoApi: CryptoApi,
+    private val transactionApi: TransactionApi,
     private val manager: BalanceManager,
     private val initialCryptos: List<CoinInfo>,
     private val estimators: Map<String, @JvmSuppressWildcards UseCase<Double, String>>,
@@ -48,12 +49,18 @@ class CryptoInfoDataSourceImpl @Inject constructor(
         return estimator?.invoke(params.address) ?: 0.0
     }
 
+    override suspend fun getTransactions(params: TransactionParams): List<Transaction> {
+        val response = transactionApi.getTransactions(coin = params.coin, address = params.address)
+        val transactions = response.txs
+        return transactions
+    }
+
     private suspend fun fetchAndUpdateCryptoData(
         cryptos: List<CoinInfo>,
         params: AddressParams,
     ): List<CoinInfo> {
         val cryptoIds = cryptos.joinToString(",") { it.id }
-        val prices = api.getPrice(cryptoIds)
+        val prices = cryptoApi.getPrice(cryptoIds)
 
         val deferredUpdates = coroutineScope {
             cryptos.map { crypto ->

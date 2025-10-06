@@ -9,6 +9,8 @@ import com.softwarecleandevelopment.crypto_chains.crypto_info.data.repository.Cr
 import com.softwarecleandevelopment.crypto_chains.crypto_info.data.utils.BalanceManager
 import com.softwarecleandevelopment.core.crypto.models.CoinInfo
 import com.softwarecleandevelopment.core.database.cache_datastore.CacheDataStore
+import com.softwarecleandevelopment.core.di.modules.BlockCypherRetrofit
+import com.softwarecleandevelopment.crypto_chains.crypto_info.data.datasource.TransactionApi
 import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.repository.CryptoInfoRepository
 import dagger.Module
 import dagger.Provides
@@ -22,8 +24,14 @@ import javax.inject.Singleton
 object CryptoInfoModule {
     @Provides
     @Singleton
-    fun provideEthCryptoApi(@CryptoInfoRetrofit retrofit: Retrofit): CryptoApi {
+    fun provideCryptoApi(@CryptoInfoRetrofit retrofit: Retrofit): CryptoApi {
         return retrofit.create(CryptoApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideTransactionApi(@BlockCypherRetrofit retrofit: Retrofit): TransactionApi {
+        return retrofit.create(TransactionApi::class.java)
     }
 
     @Provides
@@ -34,8 +42,16 @@ object CryptoInfoModule {
         initialCrypto: List<CoinInfo>,
         estimator: Map<String, @JvmSuppressWildcards UseCase<Double, String>>,
         cacheDataStore: CacheDataStore,
+        transactionApi: TransactionApi,
     ): CryptoInfoDatasource {
-        return CryptoInfoDataSourceImpl(api, manager, initialCrypto, estimator, cacheDataStore)
+        return CryptoInfoDataSourceImpl(
+            api,
+            transactionApi,
+            manager,
+            initialCrypto,
+            estimator,
+            cacheDataStore
+        )
     }
 
     @Provides

@@ -6,7 +6,9 @@ import com.softwarecleandevelopment.core.common.utils.safeFlowCall
 import com.softwarecleandevelopment.core.crypto.models.AddressParams
 import com.softwarecleandevelopment.crypto_chains.crypto_info.data.datasource.CryptoInfoDatasource
 import com.softwarecleandevelopment.core.crypto.models.CoinInfo
+import com.softwarecleandevelopment.crypto_chains.crypto_info.data.model.Transaction
 import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.FeeEstimationParams
+import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.TransactionParams
 import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.repository.CryptoInfoRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -23,4 +25,9 @@ class CryptoInfoRepositoryImpl @Inject constructor(val datasource: CryptoInfoDat
         return safeCall { datasource.getFee(params) }
     }
 
+    override suspend fun getTransactions(
+        params: TransactionParams
+    ): Resource<List<Transaction>> {
+        return safeCall { datasource.getTransactions(params) }
+    }
 }

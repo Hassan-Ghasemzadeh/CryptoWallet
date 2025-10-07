@@ -63,6 +63,8 @@ dependencies {
 
     implementation(project(":core"))
     api(project(":crypto-chains"))
+
+    implementation(libs.gson)
     //data store
     implementation(libs.androidx.datastore)
     //dagger-hilt
@@ -84,9 +86,16 @@ dependencies {
     implementation(libs.androidx.camera.lifecycle)
     implementation(libs.androidx.camera.view)
     //web3j
-    implementation(libs.web3j.core){
+    implementation(libs.web3j.core) {
         exclude("org.bouncycastle", "bcprov-jdk15on")
     }
+
+    //coroutine
+    implementation(libs.androidx.coroutine.android)
+    implementation(libs.androidx.coroutine.core)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+
     implementation(libs.androidx.concurrent.futures)
     implementation(libs.androidx.concurrent.futures.ktx)
 }

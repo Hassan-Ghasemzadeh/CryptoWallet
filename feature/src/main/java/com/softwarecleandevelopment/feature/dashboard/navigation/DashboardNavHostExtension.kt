@@ -10,8 +10,10 @@ import com.softwarecleandevelopment.core.common.navigation.app_graph.AppGraph
 import com.softwarecleandevelopment.core.common.navigation.screens.CreateWalletScreens
 import com.softwarecleandevelopment.core.crypto.models.CoinInfo
 import com.softwarecleandevelopment.feature.dashboard.presentation.DashboardScreen
+import com.softwarecleandevelopment.feature.wallet_home.domain.models.ChartDetailParams
 import com.softwarecleandevelopment.feature.wallet_home.domain.models.ReceiveNavigationParams
 import com.softwarecleandevelopment.feature.wallet_home.domain.models.SendNavigationParams
+import com.softwarecleandevelopment.feature.wallet_home.presentation.coin.ChartCoinDetailScreen
 import com.softwarecleandevelopment.feature.wallet_home.presentation.coin.CoinScreen
 import com.softwarecleandevelopment.feature.wallet_home.presentation.receive.ReceiveCoinScreen
 import com.softwarecleandevelopment.feature.wallet_home.presentation.receive.ReceiveTokensScreen
@@ -204,6 +206,28 @@ object DashboardNavHostExtension {
                             HomeScreens.SendScreen.route,
                         )
                     },
+                    onDetailClicked = { id, name ->
+                        navController.currentBackStackEntry?.savedStateHandle?.set(
+                            "coin_detail_params",
+                            ChartDetailParams(
+                                id, name.lowercase(),
+                            ),
+                        )
+                        navController.navigate(
+                            HomeScreens.CoinDetailScreen.route
+                        )
+                    }
+                )
+            }
+            composable(HomeScreens.CoinDetailScreen.route) {
+                val params =
+                    navController.previousBackStackEntry?.savedStateHandle?.get<ChartDetailParams>("coin_detail_params")
+
+                ChartCoinDetailScreen(
+                    params = params,
+                    onBack = {
+                        navController.popBackStack()
+                    }
                 )
             }
         }

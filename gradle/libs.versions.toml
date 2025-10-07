@@ -7,6 +7,7 @@ concurrentFuturesKtx = "1.1.0"
 concurrentFutures = "1.1.0"
 core = "3.5.3"
 desugar_jdk_libs = "2.0.4"
+gson = "2.10.1"
 kotlin = "2.1.20"
 coreKtx = "1.16.0"
 junit = "4.13.2"
@@ -46,6 +47,7 @@ androidx-concurrent-futures-ktx = { module = "androidx.concurrent:concurrent-fut
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 barcode-scanning = { module = "com.google.mlkit:barcode-scanning", version.ref = "barcodeScanning" }
 camera-core = { module = "androidx.camera:camera-core", version.ref = "cameraCoreVersion" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerilizationJson" }
 zxing-core = { module = "com.google.zxing:core", version.ref = "core" }
 desugar_jdk_libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar_jdk_libs" }

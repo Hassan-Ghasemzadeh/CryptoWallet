@@ -27,6 +27,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.softwarecleandevelopment.core.common.utils.formatToUSD
 import com.softwarecleandevelopment.core.crypto.models.CoinInfo
 
 @SuppressLint("DefaultLocale")
@@ -39,7 +40,7 @@ fun CoinRow(coin: CoinInfo, onClick: () -> Unit) {
         supportingContent = {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    "$${coin.priceUsd}",
+                    formatToUSD(coin.priceUsd, 2),
                     style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.onSurfaceVariant)
                 )
                 Spacer(Modifier.width(8.dp))

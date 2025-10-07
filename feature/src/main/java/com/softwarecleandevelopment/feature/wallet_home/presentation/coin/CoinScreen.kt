@@ -35,6 +35,7 @@ fun CoinScreen(
     onBackClicked: () -> Unit = {},
     onSendClicked: (SendNavigationParams) -> Unit = {},
     onReceiveClicked: (ReceiveNavigationParams) -> Unit = {},
+    onDetailClicked: (id: String, name: String) -> Unit = { id, name -> }
 ) {
     val context = LocalContext.current
     val transactions = viewModel.transactions.collectAsState().value
@@ -90,7 +91,10 @@ fun CoinScreen(
             )
             Spacer(Modifier.height(32.dp))
             WalletInfo(
-                price = (coin?.priceUsd ?: 0.0).toString(), change = coin?.changePrecent ?: 0.0
+                price = (coin?.priceUsd ?: 0.0).toString(), change = coin?.changePrecent ?: 0.0,
+                onDetailClicked = {
+                    onDetailClicked(coin?.id ?: "", coin?.name ?: "")
+                }
             )
             Spacer(Modifier.height(32.dp))
             HorizontalDivider(

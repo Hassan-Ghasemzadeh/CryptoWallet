@@ -12,5 +12,6 @@ sealed class HomeScreens(val route: String) {
     data object SendScreen : HomeScreens("Send_screen")
     data object SendTokensScreen : HomeScreens("send_tokens_screen")
     data object CoinScreen : HomeScreens("coin_screen")
+    data object CoinDetailScreen : HomeScreens("coin_detail_screen")
 
 }

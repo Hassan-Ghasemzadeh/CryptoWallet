@@ -41,7 +41,7 @@ object CryptoListModule {
                 generator = bitcoinAddressUseCase
             ),
             CoinInfo(
-                id = "doge",
+                id = "dogecoin",
                 symbol = "DOGE",
                 name = "Dogecoin",
                 iconRes = R.drawable.ic_doge,

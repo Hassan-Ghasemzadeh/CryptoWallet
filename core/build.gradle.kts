@@ -84,6 +84,7 @@ dependencies {
     api(libs.squareup.retrofit)
     implementation(libs.squareup.gson)
     implementation(libs.logging.interceptor)
+    implementation(libs.gson)
     //kotlinx serialization json
     implementation(libs.kotlinx.serialization.json)
 }

@@ -10,8 +10,10 @@ import com.softwarecleandevelopment.crypto_chains.crypto_info.data.model.Transac
 import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.model.TransactionParams
 import com.softwarecleandevelopment.crypto_chains.crypto_info.domain.repository.CryptoInfoRepository
 import com.softwarecleandevelopment.feature.wallet_home.domain.usecases.GetActiveWalletUseCase
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.seconds
 
 class GetAllTransactionsUseCase @Inject constructor(
     private val repository: CryptoInfoRepository,
@@ -19,14 +21,15 @@ class GetAllTransactionsUseCase @Inject constructor(
     private val getActiveWalletUseCase: GetActiveWalletUseCase,
     private val cryptoStore: CryptoStore,
 ) : UseCase<List<Transaction>, Unit>() {
+
     override suspend fun invoke(params: Unit): List<Transaction> {
+        delay(1.seconds)
         val allTransactions = mutableListOf<Transaction>()
 
         for (coin in coins) {
             val result = repository.getTransactions(
                 TransactionParams(
-                    getAddress(coin.id),
-                    coin.name.lowercase()
+                    getAddress(coin.id), coin.name.lowercase()
                 )
             )
 

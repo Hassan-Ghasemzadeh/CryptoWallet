@@ -3,6 +3,8 @@ package com.softwarecleandevelopment.feature.dashboard.presentation
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -13,6 +15,7 @@ import com.softwarecleandevelopment.feature.dashboard.domain.models.items
 import com.softwarecleandevelopment.feature.dashboard.presentation.viewmodels.BottomNavigationViewModel
 import com.softwarecleandevelopment.feature.setting.presentation.SettingsScreen
 import com.softwarecleandevelopment.feature.transaction.presentation.TransactionsScreen
+import com.softwarecleandevelopment.feature.transaction.presentation.viewmodel.TransactionViewModel
 import com.softwarecleandevelopment.feature.wallet_home.presentation.home.WalletHome
 import com.softwarecleandevelopment.feature.wallet_home.presentation.components.wallet_home.WalletTopBar
 
@@ -24,27 +27,38 @@ fun DashboardScreen(
     onReceiveClick: () -> Unit = {},
     onSendClick: () -> Unit = { },
     onItemClick: (coin: CoinInfo) -> Unit = {},
+    transactionViewModel: TransactionViewModel = hiltViewModel(),
 ) {
     val viewModel: BottomNavigationViewModel = hiltViewModel()
     val selectedIndex = viewModel.selectedIndex.value
 
-    Scaffold(topBar = {
-        if (selectedIndex == BottomNavigation.HOME.index) WalletTopBar({
-            onTitleClicked()
-        })
-        else CenterAlignedTopAppBar(
-            title = { Text(items[selectedIndex].label) })
-    }, bottomBar = {
-        NavigationBar {
-            items.forEachIndexed { index, item ->
-                NavigationBarItem(
-                    selected = viewModel.isSelected(index),
-                    onClick = { viewModel.navigate(index) },
-                    icon = { Icon(item.icon, contentDescription = item.label) },
-                    label = { Text(item.label) })
+    Scaffold(
+        topBar = {
+            if (selectedIndex == BottomNavigation.HOME.index) WalletTopBar({
+                onTitleClicked()
+            })
+            else CenterAlignedTopAppBar(
+                title = { Text(items[selectedIndex].label) },
+                actions = {
+                    if (selectedIndex == BottomNavigation.TRANSACTION.index)
+                        IconButton(onClick = transactionViewModel::fetchTransactions) {
+                            Icon(Icons.Filled.Refresh, contentDescription = "Refresh Data")
+                        }
+                }
+            )
+        },
+        bottomBar = {
+            NavigationBar {
+                items.forEachIndexed { index, item ->
+                    NavigationBarItem(
+                        selected = viewModel.isSelected(index),
+                        onClick = { viewModel.navigate(index) },
+                        icon = { Icon(item.icon, contentDescription = item.label) },
+                        label = { Text(item.label) })
+                }
             }
-        }
-    }) { innerPadding ->
+        },
+    ) { innerPadding ->
         when (selectedIndex) {
             BottomNavigation.HOME.ordinal -> WalletHome(
                 modifier = Modifier
@@ -58,7 +72,8 @@ fun DashboardScreen(
             BottomNavigation.TRANSACTION.ordinal -> TransactionsScreen(
                 modifier = Modifier
                     .padding(innerPadding)
-                    .fillMaxSize()
+                    .fillMaxSize(),
+                viewModel = transactionViewModel
             )
 
             BottomNavigation.SETTING.ordinal -> SettingsScreen(

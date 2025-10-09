@@ -33,7 +33,6 @@ fun TransactionsScreen(
     val isRefreshing = viewModel.isRefreshing.collectAsState().value
     val refreshState = rememberPullToRefreshState()
     PullToRefreshBox(
-        modifier = modifier.fillMaxSize(),
         isRefreshing = isRefreshing,
         state = refreshState,
         onRefresh = viewModel::fetchTransactions,

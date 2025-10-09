@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -30,9 +31,11 @@ fun TransactionsScreen(
 ) {
     val transactions = viewModel.transaction.collectAsState().value
     val isRefreshing = viewModel.isRefreshing.collectAsState().value
+    val refreshState = rememberPullToRefreshState()
     PullToRefreshBox(
         modifier = modifier.fillMaxSize(),
         isRefreshing = isRefreshing,
+        state = refreshState,
         onRefresh = viewModel::fetchTransactions,
         contentAlignment = Alignment.TopCenter
     ) {
@@ -58,7 +61,7 @@ fun TransactionsScreen(
                         modifier = Modifier.fillMaxWidth(),
                         contentAlignment = Alignment.Center
                     ) {
-                         //skipping empty for now
+                        //skipping empty for now
                     }
                 }
 

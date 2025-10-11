@@ -1,71 +1,81 @@
 package com.softwarecleandevelopment.core.database.setting_datastore
 
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.booleanPreferencesKey
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.emptyPreferences
-import androidx.datastore.preferences.core.stringPreferencesKey
-import com.softwarecleandevelopment.core.common.model.Settings
-import com.softwarecleandevelopment.core.di.modules.SettingsDataStore
+import android.content.Context
+import com.softwarecleandevelopment.core.common.utils.DataStoreManager
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
-import java.io.IOException
 import javax.inject.Inject
 
 class SettingsDatastore @Inject constructor(
-    @SettingsDataStore private val dataStore: DataStore<Preferences>,
+    @ApplicationContext private val context: Context,
 ) {
-    private val isNotificationEnabled = booleanPreferencesKey("is_notification_enabled")
-    private fun keyFor(name: Any) = stringPreferencesKey("${name}_Setting")
+    suspend fun getSetting(option: SettingsOption) = withContext(Dispatchers.IO) {
+        when (option) {
+            is SettingsOption.Currency -> DataStoreManager.get<String>(
+                context,
+                option.name,
+                option.code
+            )
 
-    /**
-     * Exposes a Flow of the application's settings model.
-     * This is what the Repository/Use Case will collect from.
-     */
-    val settingsFlow: Flow<Settings> = dataStore.data.catch { exception ->
-        // Handle I/O errors and emit an empty Preferences object if needed
-        if (exception is IOException) {
-            emit(emptyPreferences())
-        } else {
-            throw exception
+            is SettingsOption.DarkMode -> DataStoreManager.get<Boolean>(
+                context,
+                option.name,
+                option.isEnabled
+            )
+
+            is SettingsOption.Language -> DataStoreManager.get<String>(
+                context,
+                option.name,
+                option.language
+            )
+
+            is SettingsOption.Notification -> DataStoreManager.get<Boolean>(
+                context,
+                option.name,
+                option.isEnabled
+            )
         }
-    }.map { preferences ->
-        // Map the Preferences to your Domain/Data Model
-        Settings(
-            isNotificationsEnabled = preferences[isNotificationEnabled] ?: false,
-            preferredCurrency = preferences[keyFor("currency_setting")] ?: "USD",
-            preferredLanguage = preferences[keyFor("language_setting")] ?: "EN"
-        )
     }
 
     suspend fun updateSettings(option: SettingsOption) = withContext(Dispatchers.IO) {
-        dataStore.edit { preferences ->
-            when (option) {
-                is SettingsOption.Notification -> {
-                    preferences[isNotificationEnabled] = option.isEnabled
-                }
+        when (option) {
+            is SettingsOption.Notification -> {
+                DataStoreManager.put<Boolean>(
+                    context,
+                    option.name,
+                    option.isEnabled,
+                )
+            }
 
-                is SettingsOption.Currency -> {
-                    preferences[keyFor(option.name)] = option.code
-                }
+            is SettingsOption.Currency -> {
+                DataStoreManager.put<String>(
+                    context,
+                    option.name,
+                    option.code,
+                )
+            }
 
-                is SettingsOption.Language -> {
-                    preferences[keyFor(option.name)] = option.language
-                }
+            is SettingsOption.Language -> {
+                DataStoreManager.put<String>(
+                    context,
+                    option.name,
+                    option.language,
+                )
+            }
+
+            is SettingsOption.DarkMode -> {
+                DataStoreManager.put<Boolean>(
+                    context,
+                    option.name,
+                    option.isEnabled,
+                )
             }
         }
     }
 
 
     suspend fun clearAll() {
-        withContext(Dispatchers.IO) {
-            dataStore.edit {
-                it.clear()
-            }
-        }
+        DataStoreManager.clearAll(context = context)
     }
 }

@@ -36,22 +36,24 @@ fun ChartCoinDetailScreen(
 
     // State for Time Period Tabs
     var selectedTab by remember { mutableStateOf("24H") }
-    val tabs = listOf("24H",)
+    val tabs = listOf("24H")
 
     LaunchedEffect(Unit) {
         viewModel.load(
-            params?.coinId ?: "",
-            params?.asset ?: ""
+            params?.coinId ?: "", params?.asset ?: ""
         )
     }
     // Main Scaffold structure
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text(coin?.name ?: "Loading...") }, navigationIcon = {
-                IconButton(onClick = onBack) {
-                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Go back")
-                }
-            })
+            CenterAlignedTopAppBar(
+                title = { Text(coin?.name ?: "Loading...", fontWeight = FontWeight.Bold) },
+                navigationIcon = {
+                    IconButton(onClick = onBack) {
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Go back")
+                    }
+                },
+            )
         }) { padding ->
 
         // 4. Loading/Content Switching
@@ -168,8 +170,7 @@ fun ChartCoinDetailScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 // Assuming you want the whole row clickable:
-                                .clickable { /* launch URL logic here */ }
-                        ) {
+                                .clickable { /* launch URL logic here */ }) {
                             Column(
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -188,9 +189,7 @@ fun ChartCoinDetailScreen(
                             }
                         }
                         HorizontalDivider(
-                            Modifier,
-                            DividerDefaults.Thickness,
-                            DividerDefaults.color
+                            Modifier, DividerDefaults.Thickness, DividerDefaults.color
                         )
                         // Separator after each link item
                     }

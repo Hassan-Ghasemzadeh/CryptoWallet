@@ -65,7 +65,7 @@ fun CoinScreen(
     Scaffold(
         topBar = {
             WalletTopBar(
-                coin?.symbol ?: "", onBackClicked = { onBackClicked() }
+                coin?.name ?: "", onBackClicked = { onBackClicked() }
             )
         }) { innerPadding ->
         Column(

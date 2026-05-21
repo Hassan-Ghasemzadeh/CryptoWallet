@@ -69,8 +69,6 @@ Hilt for dependency injection
 
 All private keys are encrypted and stored locally only.
 
-Never commit secrets, mnemonics, or API keys to Git.
-
 
 
 ---
